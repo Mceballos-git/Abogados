@@ -20,5 +20,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Route::get('')
 Route::get('/posts', 'PostsController@index');
+
+
+/** ------ Authentication ---------- */
 Route::post('/auth/login', 'AuthenticationController@login');
 Route::middleware('auth:api')->get('/auth/logout', 'AuthenticationController@logout');
+
+
+/** ------------ User Security  ------------ **/
+
+Route::middleware('auth:api')->post('/user-security/change-password', 'UserSecurityController@changePassword'); // Change Password.
+Route::post('/user-security/forgot-password', 'UserSecurityController@forgotPassword'); // Forgot Password.
+Route::post('/user-security/reset-password', 'UserSecurityController@resetPassword'); // Forgot Password.
+
+
+
+
+
