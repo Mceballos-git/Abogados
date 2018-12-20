@@ -1,0 +1,47 @@
+
+<mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Sassani Alvarez</mat-card-title>
+      <mat-card-subtitle>Iniciar Sesión</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="login-container" [formGroup]="forma" (ngSubmit)="login()">
+        <mat-form-field>
+          <input matInput
+             placeholder="Usuario" 
+             name="username"
+             formControlName="user">             
+        </mat-form-field>
+
+        <div
+          class="error"
+          *ngIf="forma.get('user').hasError('required') && forma.get('user').touched">
+          Usuario requerido
+        </div>        
+    
+        <mat-form-field>
+          <input matInput 
+            placeholder="Contraseña" 
+            type="password"
+            name="password"
+            formControlName="pass">            
+        </mat-form-field>
+
+        <div
+          class="error"
+          *ngIf="forma.get('pass').hasError('required') && forma.get('pass').touched">
+          Contraseña requerida
+        </div>
+  
+        <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+        
+        <button mat-raised-button 
+          color="accent" 
+          type="submit"
+          >Ingresar</button>
+        <!-- [disabled]="forma.invalid" -->
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  {{forma.valid}}

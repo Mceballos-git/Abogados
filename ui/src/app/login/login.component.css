@@ -1,0 +1,18 @@
+.login-card{
+    max-width: 400px;    
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    border: 1px solid;
+    border-color: blueviolet;
+}
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.error{
+    color: red;
+    margin-bottom: 10px;
+}
