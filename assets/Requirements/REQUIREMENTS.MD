@@ -10,7 +10,7 @@ Autenticación:
 Calendario de turnos
 
 -	Vista diaria, semanal, mensual del calendario
--	Filtro de turno por operador12312312
+-	Filtro de turno por operador
 -	Agregar turno
 -	Modificar turno
 -	Borrar turno
