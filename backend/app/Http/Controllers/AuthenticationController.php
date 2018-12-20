@@ -20,12 +20,7 @@ class AuthenticationController extends Controller
      */
     public function __construct()
     {
-//        UserModel::create([
-//            'username' => 'ezequiel',
-//            'email' => 'ezequiel.carrizo.ac@gmail.com',
-//            'password' => Hash::make('shikaka'),
-//            'active' => 1
-//        ]);
+
     }
 
     /**

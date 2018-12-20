@@ -1,0 +1,69 @@
+Create migrations scripts:
+
+*** users (Add columns)***
+
+-- first_name -> string
+-- last_name -> string
+-- degree -> string (titulo)
+-- position -> string (cargo)
+-- shift_start -> timestamp (horario desde)
+-- shift_end -> timestamp (horario hasta)
+
+*** clients ***
+
+- id - increments
+- active -> boolean (tinyint)
+- created_at -> timestamps
+- updated_at -> timestamps
+- deleted -> (soft detele) //
+- deleted_at -> (soft delete)
+- deleted_by -> integer (unsgined) // Indicate user that has deleted the client.
+
+- first_name -> string
+- last_name -> string
+- Nacionalidad (?)
+- identification_type -> string  (tipo de documento)
+- identification_number -> string (dni)
+- tin_number -> string (cuit)
+- date_of_birth -> timestamp // fecha nacimiento
+- phone_number
+- email (?)
+- observations
+- extra
+
+
+// Resolver vista y ver que necsitamos para el address.
+- domicilio calle
+- domicilio numero
+- domicilio piso
+- domicilio depto
+- pais
+- provincia
+- ciudad
+
+
+*** movement_categories ***
+
+-- id -> increments
+-- name -> string
+
+*** movements table ****
+
+-- id -> increments
+-- datetime -> movement date
+-- amount -> float
+-- concept -> text
+-- user_id -> integer (unsiged) Indicate which one was the user that has created the movement.
+-- movement_category_id -> integer (unsigned) relate with categories, Indicate the category
+-- client_id -> integer (unsigned) relate with clients, Indicate if movement related to a client.
+-- created_at -> use migration timestamps
+-- updated_at -> use migration timestamps
+-- deleted -> use migration/Model soft delete / Indicates if the movements was deleted.
+-- deleted_at -> se migration/Model soft delete / Indicate movement deletion time.
+-- deleted_by -> indicate which was the user that has deleted the movement.
+
+
+
+
+
+turnos................
