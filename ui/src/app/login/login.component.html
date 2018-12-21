@@ -5,43 +5,42 @@
       <mat-card-subtitle>Iniciar Sesión</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <form class="login-container" [formGroup]="forma" (ngSubmit)="login()">
+      <form class="login-container" [formGroup]="loginForm" (ngSubmit)="login()">
         <mat-form-field>
           <input matInput
-             placeholder="Usuario" 
+             placeholder="Usuario"
              name="username"
-             formControlName="user">             
+             formControlName="user">
         </mat-form-field>
 
         <div
           class="error"
-          *ngIf="forma.get('user').hasError('required') && forma.get('user').touched">
+          *ngIf="loginForm.get('user').hasError('required') && loginForm.get('user').touched">
           Usuario requerido
-        </div>        
-    
+        </div>
+
         <mat-form-field>
-          <input matInput 
-            placeholder="Contraseña" 
+          <input matInput
+            placeholder="Contraseña"
             type="password"
             name="password"
-            formControlName="pass">            
+            formControlName="pass">
         </mat-form-field>
 
         <div
           class="error"
-          *ngIf="forma.get('pass').hasError('required') && forma.get('pass').touched">
+          *ngIf="loginForm.get('pass').hasError('required') && loginForm.get('pass').touched">
           Contraseña requerida
         </div>
-  
+
         <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-        
-        <button mat-raised-button 
-          color="accent" 
+
+        <button mat-raised-button
+          color="accent"
           type="submit"
-          >Ingresar</button>
-        <!-- [disabled]="forma.invalid" -->
+          [disabled]="loginForm.invalid"
+        >Ingresar</button>
+        <!--  -->
       </form>
     </mat-card-content>
   </mat-card>
-
-  {{forma.valid}}

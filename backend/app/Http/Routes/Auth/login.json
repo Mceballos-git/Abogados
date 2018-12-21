@@ -1,0 +1,8 @@
+{
+  "identifier": "login",
+  "requestType": "POST",
+  "endpoint": "/login",
+  "controller": "App\\Http\\Controllers\\AuthenticationController",
+  "action": "login",
+  "authenticationMiddleware": "false"
+}

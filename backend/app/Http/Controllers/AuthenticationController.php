@@ -31,6 +31,7 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request)
     {
+
         // Obtain Request posted values.
         $email = $request->input('username');
         $password = $request->input('password');

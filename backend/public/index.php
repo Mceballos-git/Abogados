@@ -3,8 +3,6 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-header('Access-Control-Allow-Origin: *');  
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
 
 /**
@@ -56,14 +54,17 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+$router = $app->make(\Illuminate\Routing\Router::class);
+$fileLoader = new \App\Services\FileAccessService($app->basePath());
+$routeLoader = new \App\Services\RouteLoaderService($fileLoader, $router);
+$routeLoader->loadRoutes();
 
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
 
 $response->send();
-
 $kernel->terminate($request, $response);
 
 

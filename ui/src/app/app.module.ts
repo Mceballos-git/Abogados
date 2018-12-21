@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { LoginComponent } from './login/login.component';
-import { LoginService } from './services/login.service';
+import { AuthService } from './services/auth.service';
 import { MenuprinComponent } from './menuprin/menuprin.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule } from '@angular/common/http';
@@ -35,7 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
    
   ],
-  providers: [LoginService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 
