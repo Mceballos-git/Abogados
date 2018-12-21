@@ -11,7 +11,7 @@ export class AuthService {
 
     login (loginData) {
         let requestBody = {username: loginData.user, password: loginData.pass};
-        return this.http.post('http://local.abogados.com/auth/login', requestBody);
+        return this.http.post('http://local.sassani.com/auth/login', requestBody);
     }
 
     logut() {
