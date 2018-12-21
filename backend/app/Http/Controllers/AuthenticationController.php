@@ -32,9 +32,9 @@ class AuthenticationController extends Controller
     public function login(Request $request)
     {
         // Obtain Request posted values.
-        $email = $request->input('email');
+        $email = $request->input('username');
         $password = $request->input('password');
-        $token = Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1]);
+        $token = Auth::attempt(['username' => $email, 'password' => $password, 'active' => 1]);
 
         // There was an authentication Failure.
         if (!$token) {

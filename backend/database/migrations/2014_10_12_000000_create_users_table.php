@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
         // Create admin user for test proposes
         \App\Models\UserModel::create([
             'username' => 'admin',
-            'email' => '',
+            'email' => 'dsf@dfsdf.com',
             'password' => Hash::make('password'),
             'active' => 1
         ]);

@@ -26,7 +26,7 @@ export class LoginComponent {
 
 
   login(){
-
+    this._loginService.login().subscribe((data: any) => {console.log(data)});
     console.log(this.forma.value);
     this.router.navigate(['menuprin']);
     this.forma.reset();

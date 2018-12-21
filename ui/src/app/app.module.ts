@@ -14,7 +14,8 @@ import { LoginComponent } from './login/login.component';
 import { LoginService } from './services/login.service';
 import { MenuprinComponent } from './menuprin/menuprin.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -31,11 +32,8 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule
+    HttpClientModule
+   
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]

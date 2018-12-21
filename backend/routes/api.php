@@ -23,7 +23,10 @@ Route::get('/posts', 'PostsController@index');
 
 
 /** ------ Authentication ---------- */
-Route::post('/auth/login', 'AuthenticationController@login');
+
+Route::post('/auth/login', array('middleware' => 'CorsMiddleware', 'uses' => 'AuthenticationController@login'));
+
+//Route::post('/auth/login', 'AuthenticationController@login');
 Route::middleware('auth:api')->get('/auth/logout', 'AuthenticationController@logout');
 
 
