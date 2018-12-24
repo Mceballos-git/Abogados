@@ -38,4 +38,8 @@ Clientes
 -	Activar/desactivar cliente
 -	Ver cuenta de cliente (solo usuarios autorizados: Luis - Alejandra)
 
-
+Operadores
+-   Listado de operadores
+-   Agregar cliente
+-   Editar cliente
+-   Borrar cliente
