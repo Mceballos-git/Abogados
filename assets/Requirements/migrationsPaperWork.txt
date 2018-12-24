@@ -2,44 +2,44 @@ Create migrations scripts:
 
 *** users (Add columns)***
 
--- first_name -> string
--- last_name -> string
--- degree -> string (titulo)
--- position -> string (cargo)
--- shift_start -> timestamp (horario desde)
--- shift_end -> timestamp (horario hasta)
+-- first_name -> string                     - Done
+-- last_name -> string                      - Done
+-- degree -> string (titulo)                - Done
+-- position -> string (cargo)               - Done
+-- shift_start -> timestamp (horario desde) - Done
+-- shift_end -> timestamp (horario hasta)   - Done
 
 *** clients ***
 
-- id - increments
-- active -> boolean (tinyint)
-- created_at -> timestamps
-- updated_at -> timestamps
-- deleted -> (soft detele) //
-- deleted_at -> (soft delete)
-- deleted_by -> integer (unsgined) // Indicate user that has deleted the client.
+- id - increments                           - Done
+- active -> boolean (tinyint)               - Done
+- created_at -> timestamps                  - Done
+- updated_at -> timestamps                  - Done
+- deleted -> (soft detele)                  - Done
+- deleted_at -> (soft delete)               - Done
+- deleted_by -> integer (unsgined) // Indicate user that has deleted the client.    - Done
 
-- first_name -> string
-- last_name -> string
-- Nacionalidad (?)
-- identification_type -> string  (tipo de documento)
-- identification_number -> string (dni)
-- tin_number -> string (cuit)
-- date_of_birth -> timestamp // fecha nacimiento
-- phone_number
-- email (?)
-- observations
-- extra
+- first_name -> string                      - Done
+- last_name -> string                       - Done
+- Nationality (string)                      - Done
+- identification_type -> string  (tipo de documento)    - Done
+- identification_number -> string (dni)     - Done
+- tin_number -> string (cuit)               - Done
+- date_of_birth -> timestamp                - Done
+- phone_number                              - Done
+- email (string)                            - Done
+- observations                              - Done
+- extra                                     - Done
 
 
-// Resolver vista y ver que necsitamos para el address.
-- domicilio calle
-- domicilio numero
-- domicilio piso
-- domicilio depto
-- pais
-- provincia
-- ciudad
+// Resolver vista y ver que necesitamos para el address.
+- domicilio calle                           - Done
+- domicilio numero                          - Done
+- domicilio piso                            - Done
+- domicilio depto                           - Done
+- pais                                      - Done
+- provincia                                 - Done
+- ciudad                                    - Done
 
 
 *** movement_categories ***
