@@ -48,17 +48,6 @@ class CreateClientsTables extends Migration
      */
     public function down()
     {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->dropColumn([
-                'id', 'active', 'deleted_by', 'first_name', 'last_name',
-                'nationality', 'identification_type', 'identification_number',
-                'tin_number', 'date_of_birth', 'phone_number', 'email',
-                'domicilio_calle', 'domicilio_numero', 'domicilio_piso',
-                'domicilio_depto', 'pais', 'provincia', 'ciudad',
-                'observations', 'extra']);
-            $table->dropTimestamps();
-            $table->dropSoftDeletes();
-
-        });
+        Schema::dropIfExists('clients');
     }
 }
