@@ -18,6 +18,7 @@ class CreateMovementsTable extends Migration
             $table->date('datetime');
             $table->float('amount');
             $table->text('concept');
+            $table->integer('movement_type_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('movement_category_id')->unsigned();
             $table->integer('client_id')->unsigned();

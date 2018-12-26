@@ -9,7 +9,7 @@ class CreateMovementsCategories extends Migration
 
     public function up()
     {
-        Schema::create('movements_categories', function (Blueprint $table) {
+        Schema::create('movement_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
 
@@ -19,7 +19,7 @@ class CreateMovementsCategories extends Migration
 
     public function down()
     {
-        Schema::create('movements_categories', function (Blueprint $table) {
+        Schema::create('movement_categories', function (Blueprint $table) {
             $table->dropColumn(['id', 'name']);
         });
     }
