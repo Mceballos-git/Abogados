@@ -15,7 +15,8 @@ class CreateMovementsTable extends Migration
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('datetime');
+            $table->date('datetime');
+            $table->float('amount');
             $table->text('concept');
             $table->integer('user_id')->unsigned();
             $table->integer('movement_category_id')->unsigned();
@@ -24,6 +25,7 @@ class CreateMovementsTable extends Migration
             $table->softDeletes('deleted');
             $table->softDeletes('deleted_at');
             $table->integer('deleted_by')->unsigned();
+
 
 
 
