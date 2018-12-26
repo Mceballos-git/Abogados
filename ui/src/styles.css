@@ -3,3 +3,17 @@
 body {
   margin: 0;
 }
+
+.main-container{
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.red-snackbar{
+  background: #F44336;
+}
+
+.bg-success {
+  background-color: #26c6da;
+}
+

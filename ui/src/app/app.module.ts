@@ -15,13 +15,14 @@ import { AuthService } from './services/auth.service';
 import { MenuprinComponent } from './menuprin/menuprin.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule } from '@angular/common/http';
+import { CashComponent } from './cash/cash.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,    
-    MenuprinComponent,
+    MenuprinComponent, CashComponent,
   ],
   imports: [
     BrowserModule,
