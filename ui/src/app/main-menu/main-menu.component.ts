@@ -1,16 +1,14 @@
-import { Component, OnInit,  Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-menuprin',
-  templateUrl: './menuprin.component.html',
-  styleUrls: ['./menuprin.component.css'],
+  selector: 'app-main-menu',
+  templateUrl: './main-menu.component.html',
+  styleUrls: ['./main-menu.component.css'],
 })
-export class MenuprinComponent implements OnInit{
-
-  @Input() userName:any;
+export class MainMenuComponent {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -18,9 +16,5 @@ export class MenuprinComponent implements OnInit{
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
-
-  ngOnInit(){
-    
-  }
 
 }

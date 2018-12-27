@@ -46,5 +46,11 @@
           type="submit"
           [disabled]="loginForm.invalid">Ingresar</button>        
       </form>
+      <div class="main-container">
+        <label class="lbl-reset">Olvido su contraseña?</label>
+        <button mat-raised-button 
+          class="btn-reset"
+          [routerLink]="['/resetPass']">Click aquí para recuperar</button>
+      </div>
     </mat-card-content>
   </mat-card>

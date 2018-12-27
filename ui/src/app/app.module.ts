@@ -12,17 +12,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
-import { MenuprinComponent } from './menuprin/menuprin.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule } from '@angular/common/http';
 import { CashComponent } from './cash/cash.component';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,    
-    MenuprinComponent, CashComponent,
+    LoginComponent, CashComponent, MainMenuComponent, ResetPassComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,12 @@ import { CashComponent } from './cash/cash.component';
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
-    HttpClientModule
+    HttpClientModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
    
   ],
   providers: [AuthService],

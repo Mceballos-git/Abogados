@@ -3,7 +3,7 @@
 }
 
 .sidenav {
-  width: 200px;  
+  width: 200px;
 }
 
 .sidenav .mat-toolbar {
@@ -13,8 +13,13 @@
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
-  z-index: 1;}
+  z-index: 1;
+}
 
 mat-nav-list{
-  margin-left: 5px;
+  margin-left: 10px;
+}
+
+.prueba{
+  background-color: blueviolet;
 }
