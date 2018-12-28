@@ -1,0 +1,8 @@
+{
+  "identifier": "getone",
+  "requestType": "GET",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\MovementCategoryController",
+  "action": "getOne",
+  "authenticationMiddleware": "false"
+}

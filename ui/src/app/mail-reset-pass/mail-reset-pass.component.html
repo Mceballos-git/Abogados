@@ -1,0 +1,38 @@
+<mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Sassani Alvarez</mat-card-title>
+      <mat-card-subtitle>Recuperar contraseña</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="login-container" [formGroup]="resetForm" (ngSubmit)="reset()">
+        <mat-form-field>
+          <input matInput
+            placeholder="Correo electrónico"
+            type="email"
+            name="email"
+            formControlName="email">
+        </mat-form-field>
+  
+        <div
+          class="error"
+          *ngIf="(resetForm.get('email').hasError('required') && resetForm.get('email').touched) || (resetForm.get('email').hasError('pattern') && resetForm.get('email').touched) ">
+          Correo inválido
+        </div>
+  
+        <div *ngIf="isLoading" class="spinner">
+          <mat-progress-spinner 
+            color="primary" 
+            mode="indeterminate"
+            [diameter]="40">
+          </mat-progress-spinner>
+        </div> 
+  
+        <button mat-raised-button
+          color="accent"
+          type="submit"
+          [disabled]="resetForm.invalid">Recuperar contraseña</button>        
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  

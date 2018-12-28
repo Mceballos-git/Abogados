@@ -13,6 +13,10 @@ body {
   background: #F44336;
 }
 
+.green-snackbar{
+  background: green;
+}
+
 .bg-success {
   background-color: #26c6da;
 }

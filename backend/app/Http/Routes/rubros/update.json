@@ -1,0 +1,11 @@
+{
+  "identifier": "update",
+  "requestType": "PUT",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\MovementCategoryController",
+  "action": "update",
+  "authenticationMiddleware": "false",
+  "validationRules": [
+
+  ]
+}
