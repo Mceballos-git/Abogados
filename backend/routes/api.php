@@ -33,8 +33,8 @@ use Illuminate\Http\Request;
 ///** ------------ User Security  ------------ **/
 //
 //Route::middleware('auth:api')->post('/user-security/change-password', 'UserSecurityController@changePassword'); // Change Password.
-Route::post('/user-security/forgot-password', 'UserSecurityController@forgotPassword'); // Forgot Password.
-Route::post('/user-security/reset-password', 'UserSecurityController@resetPassword'); // Forgot Password.
+//Route::post('/user-security/forgot-password', 'UserSecurityController@forgotPassword'); // Forgot Password.
+//Route::post('/user-security/reset-password', 'UserSecurityController@resetPassword'); // Forgot Password.
 
 
 
