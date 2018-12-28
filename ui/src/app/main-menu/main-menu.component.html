@@ -1,0 +1,56 @@
+<mat-sidenav-container class="sidenav-container">
+  
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="!(isHandset$ | async)">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <button mat-button [matMenuTriggerFor]="menuCaja">Caja</button>
+      <mat-menu #menuCaja>
+        <button mat-menu-item>Caja</button>
+        <button mat-menu-item>Rubros de caja</button>
+      </mat-menu>
+    </mat-nav-list>
+    <mat-nav-list>
+      <button mat-button [matMenuTriggerFor]="menuCli">Clientes</button>
+      <mat-menu #menuCli>
+        <button mat-menu-item>Listado de clientes</button>
+        <button mat-menu-item>Nuevo cliente</button>
+      </mat-menu>
+    </mat-nav-list> 
+    <mat-nav-list>
+      <button mat-button [matMenuTriggerFor]="menuTur">Turnos</button>
+      <mat-menu #menuTur>
+        <button mat-menu-item>Calendario de turnos</button>
+      </mat-menu>
+    </mat-nav-list>  
+    <mat-nav-list> 
+      <button mat-button [matMenuTriggerFor]="menuOp">Operadores</button>
+      <mat-menu #menuOp>
+        <button mat-menu-item>Listado operadores</button>
+        <button mat-menu-item>Nuevo operador</button>
+      </mat-menu>
+    </mat-nav-list>  
+    <mat-nav-list>  
+      <button mat-button [matMenuTriggerFor]="menuPw">Gestión de claves</button>
+      <mat-menu #menuPw>
+        <button mat-menu-item>Cambiar contraseña</button>
+      </mat-menu>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Sassani Alvarez</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

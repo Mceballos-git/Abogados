@@ -9,15 +9,15 @@ import {
   MatToolbarModule,
 } from '@angular/material';
 
-import { MenuprinComponent } from './menuprin.component';
+import { MainMenuComponent } from './main-menu.component';
 
-describe('MenuprinComponent', () => {
-  let component: MenuprinComponent;
-  let fixture: ComponentFixture<MenuprinComponent>;
+describe('MainMenuComponent', () => {
+  let component: MainMenuComponent;
+  let fixture: ComponentFixture<MainMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MenuprinComponent],
+      declarations: [MainMenuComponent],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -31,7 +31,7 @@ describe('MenuprinComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MenuprinComponent);
+    fixture = TestBed.createComponent(MainMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
