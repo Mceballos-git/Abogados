@@ -17,13 +17,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { CashComponent } from './cash/cash.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
-import { ResetPassComponent } from './reset-pass/reset-pass.component';
+
+import { MailResetPassComponent } from './mail-reset-pass/mail-reset-pass.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent, CashComponent, MainMenuComponent, ResetPassComponent,
+    LoginComponent, CashComponent, MainMenuComponent, MailResetPassComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +41,7 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule
+    
    
   ],
   providers: [AuthService],

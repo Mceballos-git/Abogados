@@ -17,4 +17,9 @@ export class AuthService {
     logut() {
 
     }
+
+    resetPassMail(resetData){
+        let requestBody = {email: resetData.email};
+        return this.http.post('http://local.sassani.com/user-security/forgot-password', requestBody);
+    }
 }
