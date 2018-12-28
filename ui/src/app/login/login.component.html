@@ -33,14 +33,25 @@
           Contraseña requerida
         </div>
 
-        <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+        <div *ngIf="isLoading" class="spinner">
+          <mat-progress-spinner 
+            color="primary" 
+            mode="indeterminate"
+            [diameter]="40">
+          </mat-progress-spinner>
+        </div> 
 
         <button mat-raised-button
           color="accent"
           type="submit"
-          [disabled]="loginForm.invalid"
-        >Ingresar</button>
-        <!--  -->
+          [disabled]="loginForm.invalid">Ingresar</button>        
       </form>
+      <div class="main-container">
+        <label class="lbl-reset">Olvido su contraseña?</label>
+        <button mat-raised-button 
+          class="btn-reset"
+          [routerLink]="['/resetpassmail']">Click aquí para recuperar</button>
+      </div>
     </mat-card-content>
   </mat-card>
+  

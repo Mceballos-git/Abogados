@@ -23,20 +23,3 @@
     align-items: center;
     padding: 10px;
 }
-
-.btn-reset{    
-    border-color: dimgrey;
-    border-radius: 6px;
-    text-align: center;    
-    background: transparent;
-    margin-left: 20px;
-    
-}
-
-.btn-reset:hover{
-    opacity: 0.6;
-}
-
-.lbl-reset{
-    margin-left: 20px;
-}
