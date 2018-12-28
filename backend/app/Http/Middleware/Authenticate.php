@@ -21,12 +21,7 @@ class Authenticate extends Middleware
      */
     public function handle($request, Closure $next)
     {
-
-        var_dump('tu puta madre');
-        die();
-
         $this->authenticate($request);
-
         return $next($request);
     }
 

@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->text('roles')->nullable();
+            $table->text('role_list')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('key')->nullable();
@@ -31,7 +31,14 @@ class CreateUsersTable extends Migration
             'username' => 'admin',
             'email' => 'dsf@dfsdf.com',
             'password' => Hash::make('password'),
-            'active' => 1
+            'active' => 1,
+            'role_list' => json_encode(array('admin')),
+            'first_name' => 'Admin',
+            'last_name' => 'Nanapu',
+            'degree' => '',
+            'position' => 'Testing Software',
+            'shift_start' => '00:00:00.0000',
+            'shift_end' => '23:59:59.9999'
         ]);
     }
 

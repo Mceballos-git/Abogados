@@ -98,6 +98,8 @@
       <path value="$PROJECT_DIR$/backend/vendor/sebastian/environment" />
       <path value="$PROJECT_DIR$/backend/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/backend/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/backend/vendor/mews/purifier" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

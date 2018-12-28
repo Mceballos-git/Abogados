@@ -19,7 +19,7 @@ class UserModel extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'active'
+        'name', 'email', 'password', 'username', 'active', 'role_list'
     ];
 
     /**
@@ -57,5 +57,11 @@ class UserModel extends Authenticatable implements JWTSubject
         ];
     }
 
-
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return json_decode($this->role_list);
+    }
 }

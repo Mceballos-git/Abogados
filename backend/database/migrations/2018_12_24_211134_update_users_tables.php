@@ -19,8 +19,8 @@ class UpdateUsersTables extends Migration
             $table->string('last_name');
             $table->string('degree');
             $table->string('position');
-            $table->timestamp('shift_start');
-            $table->timestamp('shift_end');
+            $table->string('shift_start');
+            $table->string('shift_end');
 
         });
     }

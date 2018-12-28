@@ -26,7 +26,7 @@ class CreateClientsTables extends Migration
             $table->string('identification_type');
             $table->string('identification_number');
             $table->string('tin_number');
-            $table->timestamp('date_of_birth');
+            $table->timestamp('date_of_birth')->nullable();
             $table->string('phone_number');
             $table->string('email');
             $table->string('domicilio_calle');

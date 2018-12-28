@@ -118,7 +118,7 @@ class UserSecurityController extends Controller
         }
 
         // Create new Reset Password Request
-        $passwordResetModel = PasswordResetModel::create([
+        PasswordResetModel::create([
             'user_id' => $user->id,
             'token' => $token = bin2hex(random_bytes(72))
         ]);
@@ -186,6 +186,10 @@ class UserSecurityController extends Controller
      */
     public function activateUser(Request $request)
     {
+
+        print_r(123);
+        die();
+
         // input example: {"user_id" : 1}}
 
         // Declare Request Parameters Validation Rules

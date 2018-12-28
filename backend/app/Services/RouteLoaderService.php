@@ -58,7 +58,7 @@ class RouteLoaderService
                 continue;
             }
 
-            $this->_loadRouteGroup($routeDivision, $prefix);
+            $this->loadRouteGroup($routeDivision, $prefix);
         }
     }
 
@@ -68,7 +68,7 @@ class RouteLoaderService
      * @param $prefix
      * @return bool
      */
-    private function _loadRouteGroup($routeGroup, $prefix)
+    private function loadRouteGroup($routeGroup, $prefix)
     {
         if (!count($routeGroup)) {
             return false;
@@ -77,12 +77,12 @@ class RouteLoaderService
         foreach ($routeGroup as $route) {
             $endpointConfig = array(
                 'as' => $prefix . '/' . $route->identifier,
-                'middleware' => $this->_getMiddleWare($route),
+                'middleware' => $this->getMiddleware($route),
                 'uses' => "{$route->controller}@{$route->action}"
             );
 
             $endpoint = '/' . strtolower($prefix) . $route->endpoint;
-            $methods = $this->_getMethods($route->requestType);
+            $methods = $this->getMethods($route->requestType);
             $this->router->addRoute($methods, $endpoint, $endpointConfig);
         }
         return true;
@@ -93,7 +93,7 @@ class RouteLoaderService
      * @param $requestTypeValue
      * @return array
      */
-    private function _getMethods($requestTypeValue)
+    private function getMethods($requestTypeValue)
     {
         $methods = array('OPTIONS');
         if (is_array($requestTypeValue)) {
@@ -108,25 +108,31 @@ class RouteLoaderService
      * @param $routeConfig
      * @return array
      */
-    private function _getMiddleware($routeConfig)
+    private function getMiddleware($routeConfig)
     {
-
         // Define default middlewares.
+
         $middleware = array(
             'App\\Http\\Middleware\\CorsMiddleware:1'
         );
 
         // Add Authentication middleware.
-        if ($routeConfig->authenticationMiddleware === 'true') {
+        if (isset($routeConfig->authenticationMiddleware) && $routeConfig->authenticationMiddleware === 'true') {
             array_push($middleware, 'App\\Http\\Middleware\\Authenticate:1');
         }
+
+        // Add Authentication middleware.
+        if (isset($routeConfig->authorizationMiddleware) && $routeConfig->authorizationMiddleware === 'true') {
+            $roles = isset($routeConfig->roles) ? implode('.', $routeConfig->roles) : '';
+            array_push($middleware, "App\\Http\\Middleware\\AuthorizationMiddleware:{$roles}");
+        }
+
+        // Add Validation middleware.
+        if (isset($routeConfig->validationMiddleware) && $routeConfig->validationMiddleware === 'true') {
+            $purifyValues = isset($routeConfig->purifyValues) ? $routeConfig->purifyValues : "false";
+            array_push($middleware, "App\\Http\\Middleware\\ValidationMiddleware:{$purifyValues}");
+        }
+
         return $middleware;
-//        $purifyValues = isset($routeConfig->purifyValues) ? $routeConfig->purifyValues : "false";
-//        return array(
-//            "cors:1",
-//            "authentication:{$routeConfig->authenticationMiddleware}",
-//            "authorization:{$routeConfig->authorizationMiddleware}",
-//            "validation:{$routeConfig->validationMiddleware},{$purifyValues}"
-//        );
     }
 }

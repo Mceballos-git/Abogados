@@ -1,0 +1,14 @@
+{
+  "identifier": "activate",
+  "requestType": "POST",
+  "endpoint": "/activate",
+  "controller": "App\\Http\\Controllers\\UserSecurityController",
+  "action": "activateUser",
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "true", "roles" : ["admin"],
+  "validationMiddleware": "true",
+  "validationRules": {
+    "user_id": "int|required"
+  },
+  "purifyValues" : 1
+}
