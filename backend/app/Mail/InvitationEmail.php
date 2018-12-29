@@ -7,7 +7,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ForgotPassword extends Mailable
+/**
+ * Class invitationEmail
+ * @package App\Mail
+ */
+class InvitationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -39,10 +43,9 @@ class ForgotPassword extends Mailable
             'lastName' => $userModel->last_name,
             'token' => $this->passwordResetModel->token
         ];
-
         return $this->from('ezequiel.carrizo.ac@gmail.com')
-            ->subject('Sassani-Soft Restablecer Contraseña')
-            ->view('emails.forgotPassword')
+            ->subject('Sassani-Soft Nueva Cuenta')
+            ->view('emails.invitationEmail')
             ->with($data);
     }
 }

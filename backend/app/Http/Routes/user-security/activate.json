@@ -6,9 +6,8 @@
   "action": "activateUser",
   "authenticationMiddleware": "true",
   "authorizationMiddleware" : "true", "roles" : ["admin"],
-  "validationMiddleware": "true",
+  "validationMiddleware": "true", "purifyValues" : 1,
   "validationRules": {
     "user_id": "int|required"
-  },
-  "purifyValues" : 1
+  }
 }

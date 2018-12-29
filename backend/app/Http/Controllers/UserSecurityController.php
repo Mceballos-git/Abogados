@@ -117,13 +117,8 @@ class UserSecurityController extends Controller
             return $this->badRequestResponse(self::FORGOT_PASSWORD_INVALID_EMAIL);
         }
 
-        // Create new Reset Password Request
-        PasswordResetModel::create([
-            'user_id' => $user->id,
-            'token' => $token = bin2hex(random_bytes(72))
-        ]);
-
-        // Todo: Send An email
+        // Send email
+        $this->userService->sendPasswordResetEmail($user);
 
         // Send Response back to client
         $response = new \stdClass();

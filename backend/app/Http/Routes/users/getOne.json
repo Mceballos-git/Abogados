@@ -1,0 +1,13 @@
+{
+  "identifier": "getOne",
+  "requestType": "GET",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\UserController",
+  "action": "getOne",
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "true",
+  "roles" : ["admin"],
+  "validationMiddleware": "false",
+  "validationRules": {},
+  "purifyValues" : 1
+}

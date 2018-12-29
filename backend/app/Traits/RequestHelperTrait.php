@@ -68,7 +68,8 @@ trait RequestHelperTrait
      */
     protected function getRequestRouteParams()
     {
-        return $this->request->route()[2];
+        $route = $this->getRequestRoute();
+        return $route->parameters;
     }
 
     /**

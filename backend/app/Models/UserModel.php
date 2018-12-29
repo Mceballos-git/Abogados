@@ -8,6 +8,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class UserModel extends Authenticatable implements JWTSubject
 {
+    const DEFAULT_PASSWORD = 'password_not_defined_yet';
+
     use Notifiable;
 
 
@@ -19,7 +21,17 @@ class UserModel extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'active', 'role_list'
+        'password',
+        'username',
+        "email",
+        "role_list",
+        "active",
+        "first_name",
+        "last_name",
+        "degree",
+        "position",
+        "shift_start",
+        "shift_end",
     ];
 
     /**
@@ -28,10 +40,9 @@ class UserModel extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'username'
     ];
 
-//    public function
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -53,7 +64,7 @@ class UserModel extends Authenticatable implements JWTSubject
         return [
             'user' => [
                 'id' => $this->id
-             ]
+            ]
         ];
     }
 

@@ -1,0 +1,35 @@
+{
+  "identifier": "create",
+  "requestType": "POST",
+  "endpoint": "/",
+  "controller": "App\\Http\\Controllers\\UserController",
+  "action": "create",
+  "purifyValues" : 1,
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "true",
+  "roles" : ["admin"],
+  "validationMiddleware": "true",
+  "validationRules": {
+    "email" : "email|unique:users|required",
+    "role_list": "array|required",
+    "role_list.*": "string|in:admin, operator",
+    "active" : "int|required",
+    "first_name" : "string|required",
+    "last_name" : "string|required",
+    "degree" : "string|sometimes",
+    "position": "string|sometimes",
+    "shift_start": "string|sometimes",
+    "shift_ends": "string|sometimes"
+  },
+  "requestExample" : {
+    "email": "ezequiel.carrizo.ac@gmail.com",
+    "role_list": ["admin"],
+    "active": 1,
+    "first_name": "Ezequiel",
+    "last_name": "Carrizo",
+    "degree": "Software Developer",
+    "position": "Technical Leader",
+    "shift_start": "00:00:00.000",
+    "shift_end": "23:59:59.999"
+  }
+}

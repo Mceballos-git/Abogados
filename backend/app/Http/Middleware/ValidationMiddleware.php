@@ -7,11 +7,12 @@ use App\Traits\RequestHelperTrait;
 use App\Traits\ResponseHandlerTrait;
 use \Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\Request;
-
-
-
 use Mews\Purifier\Purifier;
 
+/**
+ * Class ValidationMiddleware
+ * @package App\Http\Middleware
+ */
 class ValidationMiddleware
 {
     use ResponseHandlerTrait;
@@ -49,8 +50,6 @@ class ValidationMiddleware
      */
     public function handle($request, $next, $purifyvalues = false)
     {
-
-        // Get Validation Rules
         $this->setRequest($request);
         $routeIdentifier = $this->getRouteIdentifier();
         $config = $this->fileAccessService->getFromCache(
@@ -60,7 +59,8 @@ class ValidationMiddleware
         );
 
         // Execute validation
-        $validationResult = $this->validate($config->validationRules);
+        $validationRules = $this->getDecoratedValidationRules($config->validationRules);
+        $validationResult = $this->validate($validationRules);
 
         // Validation is successful continue execution!
         if ($validationResult['result'] === true) {
@@ -70,6 +70,24 @@ class ValidationMiddleware
 
         // Validation failed. Inform about bad request.
         return $this->badRequestResponse($validationResult['errors']);
+    }
+
+    /**
+     * Get decorated Validation Rule
+     *
+     * @param $validationRules
+     * @return mixed
+     */
+    private function getDecoratedValidationRules($validationRules)
+    {
+        $routeParams = $this->getRequestRouteParams();
+        foreach((array) $validationRules as $key => $validationRule) {
+            if (strpos($validationRule, '{id}') !== false) {
+                $id = $routeParams['id'];
+                $validationRules->{$key} = str_replace('{id}', $id, $validationRule);
+            }
+        }
+        return $validationRules;
     }
 
     /**

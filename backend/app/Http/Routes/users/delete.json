@@ -1,0 +1,17 @@
+{
+  "identifier": "delete",
+  "description" : "Delete an user.",
+  "requestType": "DELETE",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\UserController",
+  "action": "delete",
+  "purifyValues" : 1,
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "true",
+  "roles" : ["admin"],
+  "validationMiddleware": "false",
+  "validationRules": {
+  },
+  "requestExample" : {
+  }
+}

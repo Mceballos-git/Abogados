@@ -1,0 +1,13 @@
+{
+  "identifier": "getList",
+  "requestType": "GET",
+  "endpoint": "/",
+  "controller": "App\\Http\\Controllers\\UserController",
+  "action": "getList",
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "true",
+  "roles" : ["admin"],
+  "validationMiddleware": "false",
+  "validationRules": {},
+  "purifyValues" : 1
+}
