@@ -38,7 +38,7 @@ and edit it according to your needs.
 * *requestType* : Define  Method of the request Valid values are "GET, POST, 
     PUT, PATCH and DELETE"
     
-* *endpoint* : Define the route endpoint, valid values are any valid Lumen route value.
+* *endpoint* : Define the route endpoint, valid values are any valid Lumen route value. (https://lumen.laravel.com/docs/5.4/routing)
 
 * *controller* : Define Which will be the controller that will be the responsible to handle request against this endpoint/route. 
 
