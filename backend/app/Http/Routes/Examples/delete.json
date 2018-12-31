@@ -1,0 +1,10 @@
+{
+  "identifier": "delete",
+  "requestType": "DELETE",
+  "endpoint": "/{id}",
+  "controller": "ExamplesController",
+  "action": "delete",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "false"
+}

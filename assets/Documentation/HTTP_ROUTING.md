@@ -18,9 +18,9 @@ documentation
 # How To Create a Route:  
 
 Routes are added according to its module,
-for example, for creating a new route for the 
-Clinician Create action, you should create a 
-configuration file on app/Http/Routes/Clinician
+for example, to create a new route for the 
+MovementCategories Create action, you should create a 
+configuration file on app/Http/Routes/Movement-Categories
 Folder.
 
 You can start the configuration file from scratch and complete it 
@@ -83,8 +83,8 @@ A controller that handle the routing action
 and the code to retrieve / work with the request
 in each different case, Try to use those examples as a guide of Good practices to implement when working with the request object.
 
-See [Routing Configuration Files Examples](./app/Http/Routes/Examples).
+See [Routing Configuration Files Examples](./../../backend/app/Http/Routes/Examples).
 
-See [Example Controller](./app/Http/Controllers/ExamplesController.php).
+See [Example Controller](./../../backend//app/Http/Controllers/ExamplesController.php).
 
 Check it out!

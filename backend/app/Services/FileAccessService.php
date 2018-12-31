@@ -61,6 +61,14 @@ class FileAccessService
     }
 
     /**
+     * @return array
+     */
+    public function getFileCache()
+    {
+        return self::$fileCache;
+    }
+
+    /**
      * Get List of Files for provided File Category.
      * @param $category - Indicate a Category of files to be fetch.
      * @return array

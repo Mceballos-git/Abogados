@@ -1,0 +1,14 @@
+{
+  "identifier" : "create",
+  "requestType": "POST",
+  "endpoint": "/",
+  "controller": "ExamplesController",
+  "action": "create",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "type" : "required|string",
+    "example": "required|string"
+  }
+}
