@@ -1,8 +1,10 @@
 {
-  "identifier": "create",
+  "identifier" : "create",
   "requestType": "POST",
   "endpoint": "/",
   "controller": "App\\Http\\Controllers\\TurnsController",
   "action": "create",
-  "authenticationMiddleware": "false"
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware": "false",
+  "validationMiddleware": "false"
 }
