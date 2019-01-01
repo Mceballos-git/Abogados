@@ -2,7 +2,7 @@
   "identifier": "getList",
   "requestType": "GET",
   "endpoint": "/",
-  "controller": "TurnsController",
+  "controller": "App\\Http\\Controllers\\TurnsController",
   "action": "getList",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",

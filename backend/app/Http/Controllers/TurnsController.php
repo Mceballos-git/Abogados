@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\TurnsModel;
-use App\Services\UserService;
-use App\Traits\ResponseHandlerTrait;
 use Illuminate\Http\Request;
+use App\Traits\ResponseHandlerTrait;
 
 class TurnsController extends Controller
 {
-    const MESSAGE_RESOURCE_DELETED = 'Resource deleted successfully.';
-
+    /**
+     * Add Responses methods
+     */
+    use ResponseHandlerTrait;
 
     /**
      * @param Request $request
@@ -20,7 +20,7 @@ class TurnsController extends Controller
     public function create(Request $request)
     {
         // Obtain Request Information from POST
-        $requestData = $request->only(array(
+        $requestData = $request->only(
             "client_id",
             "given_operator_id",
             "attention_operator_id",
@@ -28,14 +28,12 @@ class TurnsController extends Controller
             "turn_date",
             "turn_time_start",
             "turn_time_end",
-            "shift_start",
-            "shift_end",
             'phone_number_ref',
             'priority',
             'comments',
             'title',
             'active'
-        ));
+        );
 
         $result = TurnsModel::create([
             'client_id' => $requestData['client_id'],

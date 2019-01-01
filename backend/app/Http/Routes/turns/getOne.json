@@ -2,7 +2,7 @@
   "identifier": "getOne",
   "requestType": "GET",
   "endpoint": "/{id}",
-  "controller": "TurnsController",
+  "controller": "App\\Http\\Controllers\\TurnsController",
   "action": "getOne",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",

@@ -5,7 +5,5 @@
   "controller": "App\\Http\\Controllers\\MovementCategoryController",
   "action": "update",
   "authenticationMiddleware": "false",
-  "validationRules": [
-
-  ]
+  "validationRules": []
 }

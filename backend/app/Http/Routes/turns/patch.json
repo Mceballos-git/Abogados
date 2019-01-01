@@ -2,7 +2,7 @@
   "identifier": "patch",
   "requestType": "PATCH",
   "endpoint": "/{id}",
-  "controller": "TurnsController",
+  "controller": "App\\Http\\Controllers\\TurnsController",
   "action": "patch",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",
