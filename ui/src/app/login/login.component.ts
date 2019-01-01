@@ -15,6 +15,7 @@ export class LoginComponent {
 
     loginForm: FormGroup;
     isLoading = false;
+    loginOk:boolean=true;
 
     /**
      * Class constructor definition.
@@ -59,6 +60,7 @@ export class LoginComponent {
      */
     handleLoginSuccess (response) {
         this.isLoading = false;
+        this.loginOk=true;
         console.log('logged in sucesfully, redirect to main menu');
         this.router.navigate(['menuprin']);
     }
@@ -72,10 +74,7 @@ export class LoginComponent {
         this.isLoading = false;
         this.loginForm.reset();
         console.log('There was an error while trying to login, Reset form (done) and show error message (done)');
-        this.snackBar.open('Usuario o contraseña inválidos','', {
-            duration:2000,
-            panelClass:['red-snackbar']
-        });
+        this.loginOk = false;
     }
 
 }
