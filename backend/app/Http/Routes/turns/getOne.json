@@ -1,0 +1,10 @@
+{
+  "identifier": "getOne",
+  "requestType": "GET",
+  "endpoint": "/{id}",
+  "controller": "TurnsController",
+  "action": "getOne",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "false"
+}

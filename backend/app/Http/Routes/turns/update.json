@@ -1,0 +1,14 @@
+{
+  "identifier": "update",
+  "requestType": "PUT",
+  "endpoint": "/{id}",
+  "controller": "TurnsController",
+  "action": "update",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "type": "required|string",
+    "example": "required|string"
+  }
+}

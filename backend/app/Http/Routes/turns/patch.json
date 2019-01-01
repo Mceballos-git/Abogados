@@ -1,0 +1,13 @@
+{
+  "identifier": "patch",
+  "requestType": "PATCH",
+  "endpoint": "/{id}",
+  "controller": "TurnsController",
+  "action": "patch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules" : {
+    "example" : "required|string"
+  }
+}
