@@ -83,7 +83,7 @@ A controller that handle the routing action
 and the code to retrieve / work with the request
 in each different case, Try to use those examples as a guide of Good practices to implement when working with the request object.
 
-See [Routing Configuration Files Examples](./../../backend/app/Http/Routes/Examples).
+See [Routing Configuration Files Examples](../app/Http/Routes/Examples).
 
 See [Example Controller](./../../backend//app/Http/Controllers/ExamplesController.php).
 
