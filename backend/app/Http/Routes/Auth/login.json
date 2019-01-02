@@ -1,0 +1,30 @@
+{
+  "identifier": "login",
+  "requestType": "POST",
+  "endpoint": "/login",
+  "controller": "App\\Http\\Controllers\\AuthenticationController",
+  "action": "login",
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware": "false",
+  "validationMiddleware" : "true",
+  "validationRules": {
+    "username" : "string|required",
+    "password" : "string|required"
+  },
+  "documentationData" : {
+    "name" : "Login",
+    "description": "Genera y devuelve un Bearer Token para ser utilizado en futuros request enviados a la API los cuales requieran authenticacion.",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "requestBodyExample": {
+      "username" : "string|required",
+      "password" : "string|required"
+    },
+    "responseExample": {
+      "message" : "Logged in successfully",
+      "result" : true,
+      "token" : "EPyba0r03424- 0wj i=wiej902-343230nqewadsjdkmf fn09k-sd3-04-4j0qw-rj4j-0j"
+    }
+  }
+}
