@@ -8,23 +8,24 @@ import {MaterialModule} from './material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { DataTablesModule } from 'angular-datatables';
 
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule } from '@angular/common/http';
-import { CashComponent } from './cash/cash.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 
 import { MailResetPassComponent } from './mail-reset-pass/mail-reset-pass.component';
+import { ResetPassComponent } from './reset-pass/reset-pass.component';
+import { CashItemsComponent } from './cash-items/cash-items.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent, CashComponent, MainMenuComponent, MailResetPassComponent,
+    LoginComponent, MainMenuComponent, MailResetPassComponent, ResetPassComponent, CashItemsComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +37,7 @@ import { MailResetPassComponent } from './mail-reset-pass/mail-reset-pass.compon
     ReactiveFormsModule,
     LayoutModule,
     HttpClientModule,
+    DataTablesModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

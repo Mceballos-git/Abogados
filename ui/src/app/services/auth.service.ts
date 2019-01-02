@@ -5,6 +5,8 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class AuthService {
 
+    public token:any;
+
     constructor (private http: HttpClient) {
 
     }
@@ -22,4 +24,5 @@ export class AuthService {
         let requestBody = {email: resetData.email};
         return this.http.post('http://local.sassani.com/user-security/forgot-password', requestBody);
     }
+
 }

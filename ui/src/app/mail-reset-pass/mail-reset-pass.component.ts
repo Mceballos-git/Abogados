@@ -49,9 +49,9 @@ export class MailResetPassComponent {
     handleResetSuccess (response) {
       this.isLoading = false;
       this.resetForm.reset();
-      console.log('send mail sucesfully, redirect to main menu');
       this.mailOk=true;
       this.mailNotOk=false;
+      console.log('send mail sucesfully, redirect to login');
       this.router.navigate(['login']);
   }
 
@@ -61,11 +61,11 @@ export class MailResetPassComponent {
    * @param response
    */
   handleResetError (response) {
-      this.isLoading = false;
-      this.resetForm.reset();
+      this.isLoading = false;      
       console.log('There was an error while trying to send email to reset pass');
       this.mailOk=false;
       this.mailNotOk=true;
+      this.resetForm.reset();
   }
   
 
