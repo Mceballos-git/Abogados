@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TurnsModel extends Model
 {
-    //Sino pongo esto, intenta insertar timestamps en la tabla
-    //y como no existe la columna en la tabla, da error.
-    public $timestamps = false;
-
     protected $table = 'turns';
 
     protected $fillable = [

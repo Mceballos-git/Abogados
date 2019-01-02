@@ -62,7 +62,7 @@ class TurnsController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            $result = TurnsModel::get()
+            TurnsModel::get()
         );
     }
 

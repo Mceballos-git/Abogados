@@ -28,6 +28,7 @@ class CreateTurnsTable extends Migration
             $table->text('comments');
             $table->char('title',100);
             $table->boolean('active');
+            $table->timestamps();
 
 
         });
