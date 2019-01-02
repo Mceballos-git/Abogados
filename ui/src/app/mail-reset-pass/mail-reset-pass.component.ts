@@ -13,6 +13,8 @@ export class MailResetPassComponent {
 
   resetForm: FormGroup;
   isLoading = false;
+  mailOk=false;
+  mailNotOk=false;
 
   constructor(private router: Router, 
     private authService: AuthService,
@@ -48,11 +50,9 @@ export class MailResetPassComponent {
       this.isLoading = false;
       this.resetForm.reset();
       console.log('send mail sucesfully, redirect to main menu');
-      this.snackBar.open('Se ha enviado un correo a su casilla.','', {
-        duration:2500,
-        panelClass:['green-snackbar']
-      });
-      //this.router.navigate(['login']);
+      this.mailOk=true;
+      this.mailNotOk=false;
+      this.router.navigate(['login']);
   }
 
   /**
@@ -64,10 +64,8 @@ export class MailResetPassComponent {
       this.isLoading = false;
       this.resetForm.reset();
       console.log('There was an error while trying to send email to reset pass');
-      this.snackBar.open('Correo electrónico inválido.','', {
-          duration:2000,
-          panelClass:['red-snackbar']
-      });
+      this.mailOk=false;
+      this.mailNotOk=true;
   }
   
 

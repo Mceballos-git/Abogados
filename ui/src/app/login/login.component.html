@@ -1,57 +1,50 @@
-
-<mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Sassani Alvarez</mat-card-title>
-      <mat-card-subtitle>Iniciar Sesión</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <form class="login-container" [formGroup]="loginForm" (ngSubmit)="login()">
-        <mat-form-field>
-          <input matInput
-             placeholder="Usuario"
-             name="username"
-             formControlName="user">
-        </mat-form-field>
-
-        <div
-          class="error"
-          *ngIf="loginForm.get('user').hasError('required') && loginForm.get('user').touched">
-          Usuario requerido
+<div id="LoginForm">
+  <div class="container">   
+    <div class="login-form">
+      <div class="main-div">
+        <div class="panel">
+          <h2>Sassani Alvarez</h2>
+          <p>Iniciar Sesión</p>
         </div>
+        <form id="Login" [formGroup]="loginForm" (ngSubmit)="login()">    
+          <div class="form-group" [ngClass]="{'border border-danger': !loginForm.get('user').valid && loginForm.get('user').touched}">    
+            <input type=text class="form-control" id="inputEmail" placeholder="Usuario"
+            name="username"
+            formControlName="user">    
+          </div>   
+          <div class="form-group text-danger"
+            *ngIf="loginForm.get('user').hasError('required') && loginForm.get('user').touched">
+            Usuario requerido
+          </div>   
+          <div class="form-group" [ngClass]="{'border border-danger': !loginForm.get('pass').valid && loginForm.get('pass').touched}">    
+            <input class="form-control" id="inputPassword"placeholder="Contraseña"
+              type="password"
+              name="password"
+              formControlName="pass">    
+          </div>
+          <div class="form-group text-danger"
+            *ngIf="loginForm.get('pass').hasError('required') && loginForm.get('pass').touched">
+            Contraseña requerida
+          </div>
+          <div class="forgot">
+            <a [routerLink]="['/resetpassmail']">Olvido su contraseña?</a>
+          </div>
+          <div *ngIf="isLoading" class="form-group">
+            <img src="../../assets/img/spinner.gif">
+          </div>
+          <button type="submit" 
+            class="btn btn-primary"            
+            [disabled]="loginForm.invalid">Ingresar</button>   
 
-        <mat-form-field>
-          <input matInput
-            placeholder="Contraseña"
-            type="password"
-            name="password"
-            formControlName="pass">
-        </mat-form-field>
+        </form>
 
-        <div
-          class="error"
-          *ngIf="loginForm.get('pass').hasError('required') && loginForm.get('pass').touched">
-          Contraseña requerida
+        <div *ngIf="!loginOk"
+          class="main-container alert alert-danger" role="alert">
+          Usuario o contraseña inválidos
         </div>
-
-        <div *ngIf="isLoading" class="spinner">
-          <mat-progress-spinner 
-            color="primary" 
-            mode="indeterminate"
-            [diameter]="40">
-          </mat-progress-spinner>
-        </div> 
-
-        <button mat-raised-button
-          color="accent"
-          type="submit"
-          [disabled]="loginForm.invalid">Ingresar</button>        
-      </form>
-      <div class="main-container">
-        <label class="lbl-reset">Olvido su contraseña?</label>
-        <button mat-raised-button 
-          class="btn-reset"
-          [routerLink]="['/resetpassmail']">Click aquí para recuperar</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  
+       
+      </div>      
+    </div>   
+    
+  </div>  
+</div>
