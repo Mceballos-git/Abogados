@@ -91,7 +91,11 @@ class UserController extends Controller
         $newUser = UserModel::create($requestData);
 
         // Send Invitation Email
-        $this->userService->sendInvitationEmail($newUser);
+        try {
+            $this->userService->sendInvitationEmail($newUser);
+        } catch(\Exception $e) {
+            // el mail no se envio.
+        }
 
         // Send Message back to UI.
         return $this->successResponse($newUser);

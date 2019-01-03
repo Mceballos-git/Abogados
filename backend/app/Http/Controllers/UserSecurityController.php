@@ -118,7 +118,11 @@ class UserSecurityController extends Controller
         }
 
         // Send email
-        $this->userService->sendPasswordResetEmail($user);
+        try {
+            $this->userService->sendPasswordResetEmail($user);
+        } catch(\Exception $e) {
+            // el mail no se envio.
+        }
 
         // Send Response back to client
         $response = new \stdClass();
