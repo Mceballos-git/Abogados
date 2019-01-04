@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material'
+
 
 @Component({
   selector: 'app-mail-reset-pass',
@@ -17,8 +17,7 @@ export class MailResetPassComponent {
   mailNotOk=false;
 
   constructor(private router: Router, 
-    private authService: AuthService,
-    public snackBar:MatSnackBar) {
+    private authService: AuthService) {
 
     this.resetForm = new FormGroup({
       'email': new FormControl('', [Validators.required, Validators.pattern("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$")])

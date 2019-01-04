@@ -34,6 +34,8 @@ export class MovementCategoriesComponent implements OnInit {
   ngOnInit(): void {
       this.movCategoriesService.getMovementsCategoriesList().subscribe(response => {
           this.categories=response;
+          console.log(response);
+          
           this.buildDtOptions(response)
           this.loaded = true;
           this.dtTrigger.next();
