@@ -26,7 +26,7 @@ export class MailResetPassComponent {
   }
 
 
-  reset(){  
+  forgotPassword(){  
     this.isLoading = true;
     
     if (!this.resetForm.valid) {
@@ -35,7 +35,7 @@ export class MailResetPassComponent {
     }
 
     // Do send mail Request
-    this.authService.resetPassMail(this.resetForm.value).subscribe(
+    this.authService.forgotPassword(this.resetForm.value).subscribe(
       (response) => { this.handleResetSuccess(response) },
       (response) => { this.handleResetError(response) }
     );
@@ -52,7 +52,7 @@ export class MailResetPassComponent {
       this.mailOk=true;
       this.mailNotOk=false;
       console.log('send mail sucesfully, redirect to login');
-      this.router.navigate(['login']);
+      //this.router.navigate(['login']);
   }
 
   /**
@@ -68,6 +68,17 @@ export class MailResetPassComponent {
       this.resetForm.reset();
   }
   
+  resetError(){
+    this.mailNotOk=false;
+    this.mailOk=false;
+    console.log("reserterror");
+    
+  }
+ 
 
+
+
+
+  
  
 }

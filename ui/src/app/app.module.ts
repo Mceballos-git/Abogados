@@ -23,13 +23,17 @@ import { MovementsService } from './services/movements.service';
 import { LoginComponent } from './login/login.component';
 import { MailResetPassComponent } from './mail-reset-pass/mail-reset-pass.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
-import { CashItemsComponent } from './cash-items/cash-items.component';
+import { MovementCategoriesComponent } from './movement-categories/movement-categories.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent, MainMenuComponent, MailResetPassComponent, ResetPassComponent, CashItemsComponent,
+    LoginComponent, 
+    MainMenuComponent, 
+    MailResetPassComponent, 
+    ResetPassComponent, 
+    MovementCategoriesComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,8 +7,6 @@ import {HttpClient} from '@angular/common/http';
 )
 export class AuthService {
 
-    public token:any;
-
     constructor (private http: HttpClient) {
 
     }
@@ -22,9 +20,14 @@ export class AuthService {
 
     }
 
-    resetPassMail(resetData){
+    forgotPassword(resetData){
         let requestBody = {email: resetData.email};
         return this.http.post('http://local.sassani.com/user-security/forgot-password', requestBody);
+    }
+
+    resetPassword(data){
+        let requestBody = {reset_token: data.token, new_password:data.newPassword, new_password_confirmation:data.newPassConfirm};
+        return this.http.post('http://local.sassani.com/user-security/reset-password', requestBody);
     }
 
 }
