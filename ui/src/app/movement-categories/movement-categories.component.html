@@ -9,12 +9,12 @@
           </tr>
         </thead>
         <tbody *ngIf="categories?.length != 0">
-          <tr *ngFor="let category of categories">
+          <tr *ngFor="let category of categories; let i = index" [attr.data-index]="i">
               <td>{{ category.id }}</td>
               <td>{{ category.name }}</td>
               <td>
                 <button>Editar</button>
-                <button type="button" 
+                <button (click)="setItemToDelete(i, category.id)" type="button"
                   class="btn btn-primary" 
                   data-toggle="modal" 
                   data-target="#deleteModal">Borrar</button>
@@ -44,7 +44,7 @@
           Esta seguro que desea eliminar el elemento seleccionado?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="delete(category.id)" data-dismiss="modal">Aceptar</button>
+          <button type="button" class="btn btn-primary" (click)="delete()" data-dismiss="modal">Aceptar</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
         </div>
       </div>
