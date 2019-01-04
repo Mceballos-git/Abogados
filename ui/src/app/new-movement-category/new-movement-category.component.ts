@@ -33,7 +33,9 @@ export class NewMovementCategoryComponent {
     console.log(this.movementForm.value);
     
     this.movCategoryService.create(this.movementForm.value).subscribe(
-      (response) => { console.log(response) },
+      (response) => { 
+        console.log(response)
+        this.routes.navigate(['movements-categories']) },
       (error) => { console.log(error) }
     );
   }

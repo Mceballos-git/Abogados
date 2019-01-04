@@ -16,13 +16,14 @@
         </thead>
         <tbody *ngIf="categories?.length != 0">
 
-          <tr *ngFor="let category of categories; let i = index" [attr.data-index]="i">
+          <tr *ngFor="let category of categories" [attr.data-index]="i">
               <td>{{ category.id }}</td>
               <td>{{ category.name }}</td>
               <td>
-                  <button type="button" 
-                  class="btn btn-primary"
-                  [routerLink]="['/edit-movement-category', i]">Editar</button>
+                <button type="button" 
+                class="btn btn-primary"
+                [routerLink]="['/edit-movement-category', category.name]">Editar</button>
+
                 <button (click)="setItemToDelete(i, category.id)" type="button"
                   class="btn btn-primary" 
                   data-toggle="modal" 

@@ -98,7 +98,7 @@ export class MovementCategoriesComponent implements OnInit {
 
         this.categories.splice(deletedItem.index, 1);
         console.log('Delete category successfuly');
-
+        
     }
 
 
