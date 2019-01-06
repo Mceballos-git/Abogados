@@ -2,12 +2,33 @@
   "identifier": "patch",
   "requestType": "PATCH",
   "endpoint": "/{id}",
-  "controller": "App\\Http\\Controllers\\ClientsController",
+  "controller": "App\\Http\\Controllers\\ClientController",
   "action": "patch",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",
   "validationMiddleware": "true",
-  "validationRules" : {
-    "example" : "required|string"
+  "validationRules": {
+    "active": "required|integer",
+    "deleted": "required|date_format:Y-m-d H:i:s",
+    "deleted_at": "required|date_format:Y-m-d H:i:s",
+    "deleted_by": "required|integer",
+    "first_name": "required|string",
+    "last_name": "required|string",
+    "nationality": "required|string",
+    "identification_type": "required|string",
+    "identification_number": "required|string",
+    "tin_number": "required|string",
+    "date_of_birth": "required|date_format:Y-m-d",
+    "phone_number": "required|string",
+    "email": "required|string",
+    "street_address": "required|string",
+    "number_address": "required|integer",
+    "floor_address": "required|string",
+    "department_address": "required|string",
+    "country": "required|string",
+    "state": "required|string",
+    "city": "required|string",
+    "observations": "required|string",
+    "extra": "required|string"
   }
 }

@@ -1,9 +1,9 @@
 {
-  "identifier": "getList",
+  "identifier": "getOne",
   "requestType": "GET",
-  "endpoint": "/",
-  "controller": "App\\Http\\Controllers\\ClientController",
-  "action": "getList",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\MovementTypeController",
+  "action": "getOne",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",
   "validationMiddleware": "false"

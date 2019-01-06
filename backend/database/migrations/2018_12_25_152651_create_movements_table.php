@@ -22,10 +22,15 @@ class CreateMovementsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('movement_category_id')->unsigned();
             $table->integer('client_id')->unsigned();
-            $table->timestamps();
             $table->softDeletes('deleted');
             $table->softDeletes('deleted_at');
             $table->integer('deleted_by')->unsigned();
+            $table->timestamps();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
 
 
 

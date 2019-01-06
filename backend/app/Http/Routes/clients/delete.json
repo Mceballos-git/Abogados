@@ -2,7 +2,7 @@
   "identifier": "delete",
   "requestType": "DELETE",
   "endpoint": "/{id}",
-  "controller": "App\\Http\\Controllers\\TurnsController",
+  "controller": "App\\Http\\Controllers\\ClientController",
   "action": "delete",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",

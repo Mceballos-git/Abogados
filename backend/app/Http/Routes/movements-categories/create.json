@@ -1,0 +1,13 @@
+{
+  "identifier": "create",
+  "requestType": "POST",
+  "endpoint": "/",
+  "controller": "App\\Http\\Controllers\\MovementCategoryController",
+  "action": "create",
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "name": "required|string"
+  }
+}

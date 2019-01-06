@@ -15,23 +15,23 @@ class CreateClientsTables extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('active');
+            $table->boolean('active')->default(0);
             $table->timestamps();
             $table->softDeletes('deleted');
             $table->softDeletes('deleted_at');
-            $table->integer('deleted_by')->unsigned();
+            $table->integer('deleted_by');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('nationality');
             $table->string('identification_type');
             $table->string('identification_number');
             $table->string('tin_number');
-            $table->timestamp('date_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('phone_number');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('street_address');
             $table->integer('number_address');
-            $table->integer('floor_address');
+            $table->string('floor_address');
             $table->string('department_address');
             $table->string('country');
             $table->string('state');

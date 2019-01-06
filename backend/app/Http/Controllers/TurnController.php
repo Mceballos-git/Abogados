@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TurnsModel;
+use App\Models\TurnModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 
-class TurnsController extends Controller
+class TurnController extends Controller
 {
     /**
      * Add Responses methods
@@ -22,8 +22,8 @@ class TurnsController extends Controller
         // Obtain Request Information from POST
         $requestData = $request->only(
             'client_id',
-            'given_operator_id',
-            'attention_operator_id',
+            'given_user_id',
+            'attention_user_id',
             'office_id',
             'register_date',
             'turn_date',
@@ -36,10 +36,12 @@ class TurnsController extends Controller
             'active'
         );
 
-        $result = TurnsModel::create([
+
+
+        $result = TurnModel::create([
             'client_id' => $requestData['client_id'],
-            'given_operator_id' => $requestData['given_operator_id'],
-            'attention_operator_id' => $requestData['attention_operator_id'],
+            'given_user_id' => $requestData['given_user_id'],
+            'attention_user_id' => $requestData['attention_user_id'],
             'office_id' => $requestData['office_id'],
             'register_date' => $requestData['register_date'],
             'turn_date' => $requestData['turn_date'],
@@ -62,7 +64,7 @@ class TurnsController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            TurnsModel::get()
+            TurnModel::get()
         );
     }
 
@@ -73,7 +75,7 @@ class TurnsController extends Controller
      */
     public function getOne($id)
     {
-        $entry = TurnsModel::where('id', $id)->first();
+        $entry = TurnModel::where('id', $id)->first();
         return $this->successResponse($entry);
     }
 
@@ -85,23 +87,24 @@ class TurnsController extends Controller
     public function update(Request $request, $id)
     {
         $requestData = $request->only(array(
-            "client_id",
-            "given_operator_id",
-            "attention_operator_id",
-            "office_id",
-            "turn_date",
-            "turn_time_start",
-            "turn_time_end",
-            "shift_start",
-            "shift_end",
+            'client_id',
+            'given_user_id',
+            'attention_user_id',
+            'office_id',
+            'register_date',
+            'turn_date',
+            'turn_time_start',
+            'turn_time_end',
+            'shift_start',
+            'shift_end',
             'phone_number_ref',
             'priority',
             'comments',
             'title',
             'active'
         ));
-        TurnsModel::where('id', $id)->update($requestData);
-        return $this->successResponse(TurnsModel::where('id', $id)->first());
+        TurnModel::where('id', $id)->update($requestData);
+        return $this->successResponse(TurnModel::where('id', $id)->first());
     }
 
     /**
@@ -111,7 +114,7 @@ class TurnsController extends Controller
      */
     public function delete($id)
     {
-        return $this->successResponse(array('id' => TurnsModel::where('id', $id)->delete()));
+        return $this->successResponse(array('id' => TurnModel::where('id', $id)->delete()));
 
     }
 }

@@ -2,7 +2,7 @@
   "identifier": "getList",
   "requestType": "GET",
   "endpoint": "/",
-  "controller": "App\\Http\\Controllers\\ClientController",
+  "controller": "App\\Http\\Controllers\\MovementCategoryController",
   "action": "getList",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",
