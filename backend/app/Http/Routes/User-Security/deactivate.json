@@ -4,8 +4,8 @@
   "endpoint": "/deactivate",
   "controller": "App\\Http\\Controllers\\UserSecurityController",
   "action": "deactivateUser",
-  "authenticationMiddleware": "true",
-  "authorizationMiddleware" : "true", "roles" : ["admin"],
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware" : "false", "roles" : ["admin"],
   "validationMiddleware": "true",
   "validationRules": {
     "user_id": "int|required"

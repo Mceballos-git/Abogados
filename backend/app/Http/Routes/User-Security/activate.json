@@ -4,8 +4,8 @@
   "endpoint": "/activate",
   "controller": "App\\Http\\Controllers\\UserSecurityController",
   "action": "activateUser",
-  "authenticationMiddleware": "true",
-  "authorizationMiddleware" : "true", "roles" : ["admin"],
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware" : "false", "roles" : ["admin"],
   "validationMiddleware": "true", "purifyValues" : 1,
   "validationRules": {
     "user_id": "int|required"
