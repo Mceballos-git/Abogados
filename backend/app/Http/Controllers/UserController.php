@@ -80,11 +80,11 @@ class UserController extends Controller
             "position",
             "shift_start",
             "shift_end",
+            "username"
         ));
 
         // Transform Data or add additional parameters.
         $requestData['role_list'] = json_encode($requestData['role_list']);
-        $requestData['username'] =  uniqid();
         $requestData['password'] = UserModel::DEFAULT_PASSWORD;
 
         // Create new User.
