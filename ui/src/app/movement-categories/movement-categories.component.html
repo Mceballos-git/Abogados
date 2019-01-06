@@ -1,4 +1,10 @@
-<div class="container table-responsive-sm">
+<div class="container d-flex justify-content-end mt-2">
+  <button type="submit" 
+    class="btn btn-primary btn-lg"
+    [routerLink]="['/new-movement-category']">Nuevo Rubro</button>
+  
+</div>
+<div class="container table-responsive-sm mt-3">
   <div *ngIf="loaded;else loading">
       <table datatable [dtOptions]="dtOptions" class="row-border hover">
         <thead>
@@ -9,11 +15,15 @@
           </tr>
         </thead>
         <tbody *ngIf="categories?.length != 0">
-          <tr *ngFor="let category of categories; let i = index" [attr.data-index]="i">
+
+          <tr *ngFor="let category of categories" [attr.data-index]="i">
               <td>{{ category.id }}</td>
               <td>{{ category.name }}</td>
               <td>
-                <button>Editar</button>
+                <button type="button" 
+                class="btn btn-primary"
+                [routerLink]="['/edit-movement-category', category.name]">Editar</button>
+
                 <button (click)="setItemToDelete(i, category.id)" type="button"
                   class="btn btn-primary" 
                   data-toggle="modal" 

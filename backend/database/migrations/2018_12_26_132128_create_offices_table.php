@@ -18,6 +18,7 @@ class CreateOfficesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->text('comments');
+            $table->timestamps();
         });
     }
 

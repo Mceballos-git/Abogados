@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TurnsModel extends Model
+class TurnModel extends Model
 {
     protected $table = 'turns';
 
     protected $fillable = [
         'client_id',
-        'given_operator_id',
-        'attention_operator_id',
+        'given_user_id',
+        'attention_user_id',
         'office_id',
         'register_date',
         'turn_date',
@@ -24,3 +24,4 @@ class TurnsModel extends Model
         'active'
     ];
 }
+

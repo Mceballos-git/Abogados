@@ -1,0 +1,13 @@
+{
+  "identifier": "patch",
+  "requestType": "PATCH",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\MovementTypeController",
+  "action": "patch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "name": "required|string"
+  }
+}

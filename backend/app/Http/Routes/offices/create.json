@@ -1,0 +1,15 @@
+{
+  "identifier": "create",
+  "requestType": "POST",
+  "endpoint": "/",
+  "controller": "App\\Http\\Controllers\\OfficeController",
+  "action": "create",
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "name": "required|string",
+    "address": "required|string",
+    "comments": "required|string"
+  }
+}

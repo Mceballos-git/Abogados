@@ -1,0 +1,22 @@
+{
+  "identifier": "patch",
+  "requestType": "PATCH",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\MovementController",
+  "action": "patch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "datetime": "required|date_format:Y-m-d",
+    "amount": "required|integer",
+    "concept": "required|string",
+    "movement_type_id": "required|integer",
+    "user_id": "required|integer",
+    "movement_category_id": "required|integer",
+    "client_id": "required|integer",
+    "deleted": "required|date_format:Y-m-d H:i:s",
+    "deleted_at": "required|date_format:Y-m-d H:i:s",
+    "deleted_by": "required|integer"
+  }
+}

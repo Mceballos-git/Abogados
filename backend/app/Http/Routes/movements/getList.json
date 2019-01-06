@@ -1,0 +1,10 @@
+{
+  "identifier": "getList",
+  "requestType": "GET",
+  "endpoint": "/",
+  "controller": "App\\Http\\Controllers\\MovementController",
+  "action": "getList",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "false"
+}

@@ -16,14 +16,14 @@ class CreateTurnsTable extends Migration
         Schema::create('turns', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client_id');
-            $table->integer('given_operator_id');
-            $table->integer('attention_operator_id');
+            $table->integer('given_user_id');
+            $table->integer('attention_user_id');
             $table->integer('office_id');
             $table->date('register_date');
             $table->date('turn_date');
             $table->time('turn_time_start');
             $table->time('turn_time_end');
-            $table->integer('phone_number_ref');
+            $table->string('phone_number_ref');
             $table->text('priority');
             $table->text('comments');
             $table->char('title',100);

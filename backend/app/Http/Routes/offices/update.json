@@ -1,0 +1,16 @@
+{
+  "identifier": "update",
+  "requestType": "PUT",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\OfficeController",
+  "action": "update",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+    "name": "required|string",
+    "address": "required|string",
+    "comments": "required|string"
+    }
+  }
+
