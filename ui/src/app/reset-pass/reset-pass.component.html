@@ -6,7 +6,7 @@
           <h2>Sassani Alvarez</h2>
           <p>Iniciar Sesión</p>
         </div>
-        <form [formGroup]="resetForm" (ngSubmit)="newPass()">    
+        <form [formGroup]="resetForm" (ngSubmit)="resetPassword()">    
           
           <div class="form-group" [ngClass]="{'border border-danger': !resetForm.get('newPassword').valid && resetForm.get('newPassword').touched}">    
             <input class="form-control" placeholder="Nueva contraseña"
@@ -34,8 +34,10 @@
             Las contraseñas deben coincidir.
           </div>
           
-          <div *ngIf="isLoading" class="form-group">
-            <img src="../../assets/img/spinner.gif">
+          <div *ngIf="isLoading" class="form-group d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
           <button type="submit" 
             class="btn btn-primary"            

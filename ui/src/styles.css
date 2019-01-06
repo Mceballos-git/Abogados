@@ -22,3 +22,6 @@ body {
   background-color: #26c6da;
 }
 
+.dataTables_empty {
+  display: none;
+}

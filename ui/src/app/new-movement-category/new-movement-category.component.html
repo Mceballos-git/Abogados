@@ -1,0 +1,23 @@
+<div class="container mt-2">
+  <h4>Nuevo Rubro</h4>
+  <form [formGroup]="movementForm" (ngSubmit)="newMovementCategory()">
+      <div class="form-group" [ngClass]="{'border border-danger': !movementForm.get('new_mov_category').valid && movementForm.get('new_mov_category').touched}">    
+        <label class="my-1 mr-2" for="inlineFormInputName">Ingrese nombre</label>
+        <input type="text" 
+          class="form-control my-1 mr-sm-2" 
+          id="inlineFormInputName"
+          formControlName="new_mov_category">
+      </div>  
+      <div class="form-group text-danger"
+        *ngIf="(movementForm.get('new_mov_category').hasError('required') && movementForm.get('new_mov_category').touched)">
+        Debe ingresar un nombre.
+      </div> 
+      <div class="d-flex justify-content-end mt-2">
+        <button type="submit" class="btn btn-primary mr-2" [disabled]="movementForm.invalid">Guardar</button>
+        <button type="submit" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
+
+</div>
+
+

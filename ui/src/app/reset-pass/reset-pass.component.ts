@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import { formControlBinding } from '@angular/forms/src/directives/reactive_directives/form_control_directive';
+
 
 @Component({
   selector: 'app-reset-pass',
@@ -20,11 +20,15 @@ export class ResetPassComponent {
    * @param {Router} router
    * @param {AuthService} authService
    */
-  constructor(private router: Router, 
+  constructor(private router: Router,
+      private activatedRoute: ActivatedRoute,       
       private authService: AuthService,) {
 
+      console.log(this.activatedRoute.snapshot.paramMap.get('token'));
+        
+
       this.resetForm = new FormGroup({
-          'token': new FormControl(this.authService.token),
+          'token': new FormControl(this.activatedRoute.snapshot.paramMap.get('token')),
           'newPassword': new FormControl('', Validators.required),
           'newPassConfirm': new FormControl()
       })
@@ -49,8 +53,43 @@ export class ResetPassComponent {
     return null;
   }
 
-  newPass(){
+  resetPassword(){   
+    this.isLoading = true;
+    
+    if (!this.resetForm.valid) {
+        this.isLoading = false;
+        return false;
+    }
 
+    // Do send mail Request
+    this.authService.resetPassword(this.resetForm.value).subscribe(
+      (response) => { this.handleResetSuccess(response) },
+      (response) => { this.handleResetError(response) }
+    );
+  }
+
+  handleResetSuccess (response) {
+    this.isLoading = false;
+    this.resetForm.reset();
+    console.log('reset password sucesfully, redirect to login');
+    this.router.navigate(['login']);
+  }
+
+  /**
+   * Handle reset request Response Failure.
+   *
+   * @param response
+   */
+  handleResetError (response) {
+      this.isLoading = false;      
+      console.log('There was an error while trying to reset pass');
+      /**
+     * Poner mensaje de error!!
+     *
+     * 
+     */
+
+      this.resetForm.reset();
   }
 
 }

@@ -27,11 +27,15 @@
             Contraseña requerida
           </div>
           <div class="forgot">
-            <a [routerLink]="['/resetpassmail']">Olvido su contraseña?</a>
+            <a [routerLink]="['/forgot-password']">Olvido su contraseña?</a>
           </div>
-          <div *ngIf="isLoading" class="form-group">
-            <img src="../../assets/img/spinner.gif">
+          
+          <div *ngIf="isLoading" class="form-group d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
+          
           <button type="submit" 
             class="btn btn-primary"            
             [disabled]="loginForm.invalid">Ingresar</button>   
@@ -41,10 +45,11 @@
         <div *ngIf="!loginOk"
           class="main-container alert alert-danger" role="alert">
           Usuario o contraseña inválidos
-        </div>
+        </div>        
        
-      </div>      
+      </div>    
     </div>   
     
   </div>  
+  
 </div>
