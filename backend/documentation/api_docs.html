@@ -1,0 +1,3621 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Sassani-soft Api Documentation!</title>
+</head>
+<body>
+<div class="container">
+    
+    <h1 class="display-4">Api endpoints documentation</h1>
+    <p> En las siguientes lineas se encontrara documentation detallada acerca de como consumir Sassani-Soft API.</p>
+    <p>- Dominio por defecto Server Desarrollo: local.sassani.com</p>
+    <p>- Dominio por defecto Server Produccion: ssani-soft-com (TODO: cambiar por vedadero)</p>
+
+    <h3><u>Codigos De Estado HTTP (HTTP Status Codes):</u></h3>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-ok-tab" data-toggle="tab" href="#nav-ok" role="tab"
+               aria-controls="nav-ok" aria-selected="true">200</a>
+            <a class="nav-item nav-link" id="nav-badRequest-tab" data-toggle="tab" href="#nav-badRequest" role="tab"
+               aria-controls="nav-badRequest" aria-selected="false">400</a>
+            <a class="nav-item nav-link" id="nav-unauthorized-tab" data-toggle="tab" href="#nav-unauthorized" role="tab"
+               aria-controls="nav-unauthorized" aria-selected="false">401</a>
+            <a class="nav-item nav-link" id="nav-forbidden-tab" data-toggle="tab" href="#nav-forbidden" role="tab"
+               aria-controls="nav-forbidden" aria-selected="false">403</a>
+            <a class="nav-item nav-link" id="nav-notFound-tab" data-toggle="tab" href="#nav-notFound" role="tab"
+               aria-controls="nav-notFound" aria-selected="false">404</a>
+            <a class="nav-item nav-link" id="nav-notAllowed-tab" data-toggle="tab" href="#nav-notAllowed" role="tab"
+               aria-controls="nav-notAllowed" aria-selected="false">405</a>
+            <a class="nav-item nav-link" id="nav-internalError-tab" data-toggle="tab" href="#nav-internalError"
+               role="tab" aria-controls="nav-internalError" aria-selected="false">405</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-ok" role="tabpanel" aria-labelledby="nav-ok-tab">
+            <div style="padding:30px">
+                <p><b>200 - Ok:</b></p>
+                <p>La Peticion se proceso correctaente. </p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-badRequest" role="tabpanel" aria-labelledby="nav-badRequest-tab">
+            <div style="padding:30px">
+                <p><b>400 - Bad Request:</b></p>
+                <p>Api retornara un error 400 cuando los datos enviados por el consumidor no sean
+                    los correctos para ejecutar la accion, como ejemplo: el campo requrido "username" no se
+                    encontro </p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-unauthorized" role="tabpanel" aria-labelledby="nav-unathorized-tab">
+            <div style="padding:30px">
+                <p><b>401 - Unauthroized:</b></p>
+                <p>Api retornara un error 401 cuando el Request a ejecutar Necesita un token de
+                    authenticacion y el mismo no es provisto y/o sea invalido o haya expirado. </p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-forbidden" role="tabpanel" aria-labelledby="nav-forbidden-tab">
+            <div style="padding:30px">
+                <p><b>403 - Forbidden: </b></p>
+                <p>Api Retornara un error 403 cuando el Request a ejecutar necesita que el usuario
+                    tenga ciertos privilegios (Ej: admin) y el mismo no los posea. </p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-notFound" role="tabpanel" aria-labelledby="nav-notFound-tab">
+            <div style="padding:30px">
+                <p><b>404 - Not Found:</b></p>
+                <p>Api retornara un error 404 cuando la routa que se intenta acceder no exista.</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-notAllowed" role="tabpanel" aria-labelledby="nav-notAllowed-tab">
+            <div style="padding:30px">
+                <p><b>405 - Method not allowed:</b></p>
+                <p>El metodo HTTP utilizado en la peticion no es admitido.</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-internalError" role="tabpanel" aria-labelledby="nav-internalError-tab">
+            <div style="padding:30px">
+                <p><b>500 - Internal Error</b></p>
+                <p>Api Retornara un error 500 cuando se detecte un error interno de codigo en el
+                    servidor y el request no se pueda procesar correctamnete.</p>
+            </div>
+        </div>
+    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>Auth</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="auth-login">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-auth-login"
+                                    aria-controls="collapse-auth-login">
+                                Login
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-auth-login" class="collapse show"
+                         aria-labelledby="auth-login"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Login </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/auth/login
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>login</b>
+                                del
+                                controlador <b>App\Http\Controllers\AuthenticationController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;username&quot;: &quot;string|required&quot;,
+    &quot;password&quot;: &quot;string|required&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>Examples</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="examples-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-examples-create"
+                                    aria-controls="collapse-examples-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-examples-create" class="collapse show"
+                         aria-labelledby="examples-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/examples
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>ExamplesController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;type&quot;: &quot;required|string&quot;,
+    &quot;example&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="examples-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-examples-delete"
+                                    aria-controls="collapse-examples-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-examples-delete" class="collapse "
+                         aria-labelledby="examples-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/examples/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>ExamplesController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="examples-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-examples-getList"
+                                    aria-controls="collapse-examples-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-examples-getList" class="collapse "
+                         aria-labelledby="examples-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/examples
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>ExamplesController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="examples-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-examples-getOne"
+                                    aria-controls="collapse-examples-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-examples-getOne" class="collapse "
+                         aria-labelledby="examples-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/examples/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>ExamplesController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="examples-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-examples-patch"
+                                    aria-controls="collapse-examples-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-examples-patch" class="collapse "
+                         aria-labelledby="examples-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/examples/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>ExamplesController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;example&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="examples-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-examples-update"
+                                    aria-controls="collapse-examples-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-examples-update" class="collapse "
+                         aria-labelledby="examples-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/examples/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>ExamplesController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;type&quot;: &quot;required|string&quot;,
+    &quot;example&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>User-Security</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="user-security-activate">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-user-security-activate"
+                                    aria-controls="collapse-user-security-activate">
+                                Activate
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-user-security-activate" class="collapse show"
+                         aria-labelledby="user-security-activate"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Activate </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/user-security/activate
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>activateUser</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserSecurityController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;user_id&quot;: &quot;int|required&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="user-security-activate">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-user-security-activate"
+                                    aria-controls="collapse-user-security-activate">
+                                Activate
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-user-security-activate" class="collapse "
+                         aria-labelledby="user-security-activate"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Activate </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/user-security/deactivate
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>deactivateUser</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserSecurityController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;user_id&quot;: &quot;int|required&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="user-security-forgotPassword">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-user-security-forgotPassword"
+                                    aria-controls="collapse-user-security-forgotPassword">
+                                ForgotPassword
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-user-security-forgotPassword" class="collapse "
+                         aria-labelledby="user-security-forgotPassword"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> ForgotPassword </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/user-security/forgot-password
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>forgotPassword</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserSecurityController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="user-security-resetPassword">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-user-security-resetPassword"
+                                    aria-controls="collapse-user-security-resetPassword">
+                                ResetPassword
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-user-security-resetPassword" class="collapse "
+                         aria-labelledby="user-security-resetPassword"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> ResetPassword </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/user-security/reset-password
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>resetPassword</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserSecurityController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>Users</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="users-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-users-create"
+                                    aria-controls="collapse-users-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-users-create" class="collapse show"
+                         aria-labelledby="users-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/users
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;username&quot;: &quot;string|unique:users|required&quot;,
+    &quot;email&quot;: &quot;email|unique:users|required&quot;,
+    &quot;role_list&quot;: &quot;array|required&quot;,
+    &quot;role_list.*&quot;: &quot;string|in:admin, operator&quot;,
+    &quot;active&quot;: &quot;int|required&quot;,
+    &quot;first_name&quot;: &quot;string|required&quot;,
+    &quot;last_name&quot;: &quot;string|required&quot;,
+    &quot;degree&quot;: &quot;string|sometimes&quot;,
+    &quot;position&quot;: &quot;string|sometimes&quot;,
+    &quot;shift_start&quot;: &quot;string|sometimes&quot;,
+    &quot;shift_ends&quot;: &quot;string|sometimes&quot;
+}</pre>
+                            
+                                                            <p><b>Request Example</b></p>
+                                <pre>{
+    &quot;email&quot;: &quot;ezequiel.carrizo.ac@gmail.com&quot;,
+    &quot;role_list&quot;: [
+        &quot;admin&quot;
+    ],
+    &quot;active&quot;: 1,
+    &quot;first_name&quot;: &quot;Ezequiel&quot;,
+    &quot;last_name&quot;: &quot;Carrizo&quot;,
+    &quot;degree&quot;: &quot;Software Developer&quot;,
+    &quot;position&quot;: &quot;Technical Leader&quot;,
+    &quot;shift_start&quot;: &quot;00:00:00.000&quot;,
+    &quot;shift_end&quot;: &quot;23:59:59.999&quot;
+}</pre>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="users-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-users-delete"
+                                    aria-controls="collapse-users-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-users-delete" class="collapse "
+                         aria-labelledby="users-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                            <p> Delete an user. </p>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/users/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{}</pre>
+                            
+                                                            <p><b>Request Example</b></p>
+                                <pre>{}</pre>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="users-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-users-getList"
+                                    aria-controls="collapse-users-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-users-getList" class="collapse "
+                         aria-labelledby="users-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/users
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="users-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-users-getOne"
+                                    aria-controls="collapse-users-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-users-getOne" class="collapse "
+                         aria-labelledby="users-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/users/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="users-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-users-update"
+                                    aria-controls="collapse-users-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-users-update" class="collapse "
+                         aria-labelledby="users-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/users/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\UserController</b>
+                            </p>
+
+
+                            
+                                                            <p><b>Roles Que pueden ejecutar esta accion: </b> admin</p>
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;username&quot;: &quot;string|required|unique:users,username,{id}&quot;,
+    &quot;email&quot;: &quot;email|required|unique:users,email,{id}&quot;,
+    &quot;role_list&quot;: &quot;array|required&quot;,
+    &quot;active&quot;: &quot;int|required&quot;,
+    &quot;first_name&quot;: &quot;string|required&quot;,
+    &quot;last_name&quot;: &quot;string|required&quot;,
+    &quot;degree&quot;: &quot;string|sometimes&quot;,
+    &quot;position&quot;: &quot;string|sometimes&quot;,
+    &quot;shift_start&quot;: &quot;string|sometimes&quot;,
+    &quot;shift_ends&quot;: &quot;string|sometimes&quot;
+}</pre>
+                            
+                                                            <p><b>Request Example</b></p>
+                                <pre>{
+    &quot;email&quot;: &quot;ezequiel.carrizo.ac@gmail.com&quot;,
+    &quot;role_list&quot;: [
+        &quot;admin&quot;
+    ],
+    &quot;active&quot;: 1,
+    &quot;first_name&quot;: &quot;Ezequiel&quot;,
+    &quot;last_name&quot;: &quot;Carrizo&quot;,
+    &quot;degree&quot;: &quot;Software Developer&quot;,
+    &quot;position&quot;: &quot;Developer&quot;,
+    &quot;shift_start&quot;: &quot;00:00:00.000&quot;,
+    &quot;shift_end&quot;: &quot;23:59:59.999&quot;
+}</pre>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>clients</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="clients-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-clients-create"
+                                    aria-controls="collapse-clients-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-clients-create" class="collapse show"
+                         aria-labelledby="clients-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/clients
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\ClientController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;active&quot;: &quot;required|integer&quot;,
+    &quot;deleted&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_at&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_by&quot;: &quot;required|integer&quot;,
+    &quot;first_name&quot;: &quot;required|string&quot;,
+    &quot;last_name&quot;: &quot;required|string&quot;,
+    &quot;nationality&quot;: &quot;required|string&quot;,
+    &quot;identification_type&quot;: &quot;required|string&quot;,
+    &quot;identification_number&quot;: &quot;required|string&quot;,
+    &quot;tin_number&quot;: &quot;required|string&quot;,
+    &quot;date_of_birth&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;phone_number&quot;: &quot;required|string&quot;,
+    &quot;email&quot;: &quot;required|string&quot;,
+    &quot;street_address&quot;: &quot;required|string&quot;,
+    &quot;number_address&quot;: &quot;required|integer&quot;,
+    &quot;floor_address&quot;: &quot;required|string&quot;,
+    &quot;department_address&quot;: &quot;required|string&quot;,
+    &quot;country&quot;: &quot;required|string&quot;,
+    &quot;state&quot;: &quot;required|string&quot;,
+    &quot;city&quot;: &quot;required|string&quot;,
+    &quot;observations&quot;: &quot;required|string&quot;,
+    &quot;extra&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="clients-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-clients-delete"
+                                    aria-controls="collapse-clients-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-clients-delete" class="collapse "
+                         aria-labelledby="clients-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/clients/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\ClientController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="clients-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-clients-getList"
+                                    aria-controls="collapse-clients-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-clients-getList" class="collapse "
+                         aria-labelledby="clients-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/clients
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\ClientController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="clients-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-clients-getOne"
+                                    aria-controls="collapse-clients-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-clients-getOne" class="collapse "
+                         aria-labelledby="clients-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/clients/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\ClientController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="clients-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-clients-patch"
+                                    aria-controls="collapse-clients-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-clients-patch" class="collapse "
+                         aria-labelledby="clients-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/clients/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>App\Http\Controllers\ClientController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;active&quot;: &quot;required|integer&quot;,
+    &quot;deleted&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_at&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_by&quot;: &quot;required|integer&quot;,
+    &quot;first_name&quot;: &quot;required|string&quot;,
+    &quot;last_name&quot;: &quot;required|string&quot;,
+    &quot;nationality&quot;: &quot;required|string&quot;,
+    &quot;identification_type&quot;: &quot;required|string&quot;,
+    &quot;identification_number&quot;: &quot;required|string&quot;,
+    &quot;tin_number&quot;: &quot;required|string&quot;,
+    &quot;date_of_birth&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;phone_number&quot;: &quot;required|string&quot;,
+    &quot;email&quot;: &quot;required|string&quot;,
+    &quot;street_address&quot;: &quot;required|string&quot;,
+    &quot;number_address&quot;: &quot;required|integer&quot;,
+    &quot;floor_address&quot;: &quot;required|string&quot;,
+    &quot;department_address&quot;: &quot;required|string&quot;,
+    &quot;country&quot;: &quot;required|string&quot;,
+    &quot;state&quot;: &quot;required|string&quot;,
+    &quot;city&quot;: &quot;required|string&quot;,
+    &quot;observations&quot;: &quot;required|string&quot;,
+    &quot;extra&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="clients-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-clients-update"
+                                    aria-controls="collapse-clients-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-clients-update" class="collapse "
+                         aria-labelledby="clients-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/clients/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\ClientController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;active&quot;: &quot;required|integer&quot;,
+    &quot;deleted&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_at&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_by&quot;: &quot;required|integer&quot;,
+    &quot;first_name&quot;: &quot;required|string&quot;,
+    &quot;last_name&quot;: &quot;required|string&quot;,
+    &quot;nationality&quot;: &quot;required|string&quot;,
+    &quot;identification_type&quot;: &quot;required|string&quot;,
+    &quot;identification_number&quot;: &quot;required|string&quot;,
+    &quot;tin_number&quot;: &quot;required|string&quot;,
+    &quot;date_of_birth&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;phone_number&quot;: &quot;required|string&quot;,
+    &quot;email&quot;: &quot;required|string&quot;,
+    &quot;street_address&quot;: &quot;required|string&quot;,
+    &quot;number_address&quot;: &quot;required|integer&quot;,
+    &quot;floor_address&quot;: &quot;required|string&quot;,
+    &quot;department_address&quot;: &quot;required|string&quot;,
+    &quot;country&quot;: &quot;required|string&quot;,
+    &quot;state&quot;: &quot;required|string&quot;,
+    &quot;city&quot;: &quot;required|string&quot;,
+    &quot;observations&quot;: &quot;required|string&quot;,
+    &quot;extra&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>movements</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="movements-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-create"
+                                    aria-controls="collapse-movements-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-create" class="collapse show"
+                         aria-labelledby="movements-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;datetime&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;amount&quot;: &quot;required|integer&quot;,
+    &quot;concept&quot;: &quot;required|string&quot;,
+    &quot;movement_type_id&quot;: &quot;required|integer&quot;,
+    &quot;user_id&quot;: &quot;required|integer&quot;,
+    &quot;movement_category_id&quot;: &quot;required|integer&quot;,
+    &quot;client_id&quot;: &quot;required|integer&quot;,
+    &quot;deleted&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_at&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_by&quot;: &quot;required|integer&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-delete"
+                                    aria-controls="collapse-movements-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-delete" class="collapse "
+                         aria-labelledby="movements-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-getList"
+                                    aria-controls="collapse-movements-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-getList" class="collapse "
+                         aria-labelledby="movements-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-getOne"
+                                    aria-controls="collapse-movements-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-getOne" class="collapse "
+                         aria-labelledby="movements-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-patch"
+                                    aria-controls="collapse-movements-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-patch" class="collapse "
+                         aria-labelledby="movements-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;datetime&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;amount&quot;: &quot;required|integer&quot;,
+    &quot;concept&quot;: &quot;required|string&quot;,
+    &quot;movement_type_id&quot;: &quot;required|integer&quot;,
+    &quot;user_id&quot;: &quot;required|integer&quot;,
+    &quot;movement_category_id&quot;: &quot;required|integer&quot;,
+    &quot;client_id&quot;: &quot;required|integer&quot;,
+    &quot;deleted&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_at&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_by&quot;: &quot;required|integer&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-update"
+                                    aria-controls="collapse-movements-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-update" class="collapse "
+                         aria-labelledby="movements-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;datetime&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;amount&quot;: &quot;required|integer&quot;,
+    &quot;concept&quot;: &quot;required|string&quot;,
+    &quot;movement_type_id&quot;: &quot;required|integer&quot;,
+    &quot;user_id&quot;: &quot;required|integer&quot;,
+    &quot;movement_category_id&quot;: &quot;required|integer&quot;,
+    &quot;client_id&quot;: &quot;required|integer&quot;,
+    &quot;deleted&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_at&quot;: &quot;required|date_format:Y-m-d H:i:s&quot;,
+    &quot;deleted_by&quot;: &quot;required|integer&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>movements-categories</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="movements-categories-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-categories-create"
+                                    aria-controls="collapse-movements-categories-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-categories-create" class="collapse show"
+                         aria-labelledby="movements-categories-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-categories
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-categories-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-categories-delete"
+                                    aria-controls="collapse-movements-categories-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-categories-delete" class="collapse "
+                         aria-labelledby="movements-categories-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-categories/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-categories-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-categories-getList"
+                                    aria-controls="collapse-movements-categories-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-categories-getList" class="collapse "
+                         aria-labelledby="movements-categories-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-categories
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-categories-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-categories-getOne"
+                                    aria-controls="collapse-movements-categories-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-categories-getOne" class="collapse "
+                         aria-labelledby="movements-categories-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-categories/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-categories-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-categories-patch"
+                                    aria-controls="collapse-movements-categories-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-categories-patch" class="collapse "
+                         aria-labelledby="movements-categories-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-categories/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-categories-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-categories-update"
+                                    aria-controls="collapse-movements-categories-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-categories-update" class="collapse "
+                         aria-labelledby="movements-categories-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-categories/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>movements-types</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="movements-types-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-types-create"
+                                    aria-controls="collapse-movements-types-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-types-create" class="collapse show"
+                         aria-labelledby="movements-types-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-types
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementTypeController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-types-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-types-delete"
+                                    aria-controls="collapse-movements-types-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-types-delete" class="collapse "
+                         aria-labelledby="movements-types-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-types/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementTypeController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-types-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-types-getList"
+                                    aria-controls="collapse-movements-types-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-types-getList" class="collapse "
+                         aria-labelledby="movements-types-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-types
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementTypeController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-types-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-types-getOne"
+                                    aria-controls="collapse-movements-types-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-types-getOne" class="collapse "
+                         aria-labelledby="movements-types-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-types/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementTypeController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-types-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-types-patch"
+                                    aria-controls="collapse-movements-types-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-types-patch" class="collapse "
+                         aria-labelledby="movements-types-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-types/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementTypeController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="movements-types-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-movements-types-update"
+                                    aria-controls="collapse-movements-types-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-movements-types-update" class="collapse "
+                         aria-labelledby="movements-types-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/movements-types/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementTypeController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>offices</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="offices-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-offices-create"
+                                    aria-controls="collapse-offices-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-offices-create" class="collapse show"
+                         aria-labelledby="offices-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/offices
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\OfficeController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;,
+    &quot;address&quot;: &quot;required|string&quot;,
+    &quot;comments&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="offices-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-offices-delete"
+                                    aria-controls="collapse-offices-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-offices-delete" class="collapse "
+                         aria-labelledby="offices-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/offices/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\OfficeController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="offices-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-offices-getList"
+                                    aria-controls="collapse-offices-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-offices-getList" class="collapse "
+                         aria-labelledby="offices-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/offices
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\OfficeController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="offices-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-offices-getOne"
+                                    aria-controls="collapse-offices-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-offices-getOne" class="collapse "
+                         aria-labelledby="offices-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/offices/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\OfficeController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="offices-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-offices-patch"
+                                    aria-controls="collapse-offices-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-offices-patch" class="collapse "
+                         aria-labelledby="offices-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/offices/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>App\Http\Controllers\OfficeController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;,
+    &quot;address&quot;: &quot;required|string&quot;,
+    &quot;comments&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="offices-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-offices-update"
+                                    aria-controls="collapse-offices-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-offices-update" class="collapse "
+                         aria-labelledby="offices-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/offices/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\OfficeController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;name&quot;: &quot;required|string&quot;,
+    &quot;address&quot;: &quot;required|string&quot;,
+    &quot;comments&quot;: &quot;required|string&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>rubros</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="rubros-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-rubros-create"
+                                    aria-controls="collapse-rubros-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-rubros-create" class="collapse show"
+                         aria-labelledby="rubros-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/rubros
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="rubros-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-rubros-delete"
+                                    aria-controls="collapse-rubros-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-rubros-delete" class="collapse "
+                         aria-labelledby="rubros-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/rubros/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="rubros-getlist">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-rubros-getlist"
+                                    aria-controls="collapse-rubros-getlist">
+                                Getlist
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-rubros-getlist" class="collapse "
+                         aria-labelledby="rubros-getlist"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Getlist </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/rubros
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="rubros-getone">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-rubros-getone"
+                                    aria-controls="collapse-rubros-getone">
+                                Getone
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-rubros-getone" class="collapse "
+                         aria-labelledby="rubros-getone"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Getone </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/rubros/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="rubros-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-rubros-update"
+                                    aria-controls="collapse-rubros-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-rubros-update" class="collapse "
+                         aria-labelledby="rubros-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/rubros/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\MovementCategoryController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>[]</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+            <div style="margin-top:30px;">
+            <h2><u>turns</u></h2>
+        </div>
+        <div class="accordion" id="accordionExample">
+
+                                                                        <div class="card">
+                    <div class="card-header" id="turns-create">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-turns-create"
+                                    aria-controls="collapse-turns-create">
+                                Create
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-turns-create" class="collapse show"
+                         aria-labelledby="turns-create"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Create </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/turns
+                            </p>
+                            <p><b>Methodo De Request:</b> POST</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>create</b>
+                                del
+                                controlador <b>App\Http\Controllers\TurnController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;client_id&quot;: &quot;required|integer&quot;,
+    &quot;given_user_id&quot;: &quot;required|integer&quot;,
+    &quot;attention_user_id&quot;: &quot;required|integer&quot;,
+    &quot;office_id&quot;: &quot;required|integer&quot;,
+    &quot;register_date&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;turn_date&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;turn_time_start&quot;: &quot;required|date_format:H:i:s&quot;,
+    &quot;turn_time_end&quot;: &quot;required|date_format:H:i:s&quot;,
+    &quot;phone_number_ref&quot;: &quot;required|integer&quot;,
+    &quot;priority&quot;: &quot;required|string&quot;,
+    &quot;comments&quot;: &quot;required|string&quot;,
+    &quot;title&quot;: &quot;required|string&quot;,
+    &quot;active&quot;: &quot;required|integer&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="turns-delete">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-turns-delete"
+                                    aria-controls="collapse-turns-delete">
+                                Delete
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-turns-delete" class="collapse "
+                         aria-labelledby="turns-delete"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Delete </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/turns/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> DELETE</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>delete</b>
+                                del
+                                controlador <b>App\Http\Controllers\TurnController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="turns-getList">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-turns-getList"
+                                    aria-controls="collapse-turns-getList">
+                                GetList
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-turns-getList" class="collapse "
+                         aria-labelledby="turns-getList"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetList </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/turns
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getList</b>
+                                del
+                                controlador <b>App\Http\Controllers\TurnController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="turns-getOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-turns-getOne"
+                                    aria-controls="collapse-turns-getOne">
+                                GetOne
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-turns-getOne" class="collapse "
+                         aria-labelledby="turns-getOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> GetOne </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/turns/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> GET</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>getOne</b>
+                                del
+                                controlador <b>App\Http\Controllers\TurnController</b>
+                            </p>
+
+
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="turns-patch">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-turns-patch"
+                                    aria-controls="collapse-turns-patch">
+                                Patch
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-turns-patch" class="collapse "
+                         aria-labelledby="turns-patch"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Patch </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/turns/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PATCH</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>patch</b>
+                                del
+                                controlador <b>App\Http\Controllers\TurnController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;client_id&quot;: &quot;required|integer&quot;,
+    &quot;given_user_id&quot;: &quot;required|integer&quot;,
+    &quot;attention_user_id&quot;: &quot;required|integer&quot;,
+    &quot;office_id&quot;: &quot;required|integer&quot;,
+    &quot;register_date&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;turn_date&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;turn_time_start&quot;: &quot;required|date_format:H:i:s&quot;,
+    &quot;turn_time_end&quot;: &quot;required|date_format:H:i:s&quot;,
+    &quot;phone_number_ref&quot;: &quot;required|integer&quot;,
+    &quot;priority&quot;: &quot;required|string&quot;,
+    &quot;comments&quot;: &quot;required|string&quot;,
+    &quot;title&quot;: &quot;required|string&quot;,
+    &quot;active&quot;: &quot;required|integer&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                                                            <div class="card">
+                    <div class="card-header" id="turns-update">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse-turns-update"
+                                    aria-controls="collapse-turns-update">
+                                Update
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-turns-update" class="collapse "
+                         aria-labelledby="turns-update"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h3> Update </h3>
+                                                        <p>
+                                <b>Endpoint Url:</b>
+                                http://local.sassani.com/turns/{id}
+                            </p>
+                            <p><b>Methodo De Request:</b> PUT</p>
+                            <p>
+                                <b>Detalles De Dessarrollo:</b> Esta ruta ejecuta el metodo: <b>update</b>
+                                del
+                                controlador <b>App\Http\Controllers\TurnController</b>
+                            </p>
+
+
+                            
+                            
+                                                            <p> Detalles de la informacion Requida para Ejecutar este request </p>
+                                <pre>{
+    &quot;client_id&quot;: &quot;required|integer&quot;,
+    &quot;given_user_id&quot;: &quot;required|integer&quot;,
+    &quot;attention_user_id&quot;: &quot;required|integer&quot;,
+    &quot;office_id&quot;: &quot;required|integer&quot;,
+    &quot;register_date&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;turn_date&quot;: &quot;required|date_format:Y-m-d&quot;,
+    &quot;turn_time_start&quot;: &quot;required|date_format:H:i:s&quot;,
+    &quot;turn_time_end&quot;: &quot;required|date_format:H:i:s&quot;,
+    &quot;phone_number_ref&quot;: &quot;required|integer&quot;,
+    &quot;priority&quot;: &quot;required|string&quot;,
+    &quot;comments&quot;: &quot;required|string&quot;,
+    &quot;title&quot;: &quot;required|string&quot;,
+    &quot;active&quot;: &quot;required|integer&quot;
+}</pre>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                                    </div>
+
+    
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>7
+<script type="text/javascript">
+    $('document').on('ready', function() {
+        $('body').scrollspy({ target: '#navbar-example3' })
+    })
+</script>
+</body>
+</html>
