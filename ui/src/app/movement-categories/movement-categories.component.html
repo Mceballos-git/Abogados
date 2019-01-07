@@ -6,8 +6,8 @@
 </div>
 <div class="container table-responsive-sm mt-3">
   <div *ngIf="loaded;else loading">
-      <table datatable [dtOptions]="dtOptions" class="row-border hover">
-        <thead>
+      <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered table-striped">
+        <thead class="bg-warning">
           <tr>
             <th>ID</th>
             <th>Nombre</th>
@@ -22,7 +22,7 @@
               <td>
                 <button type="button" 
                 class="btn btn-primary"
-                [routerLink]="['/edit-movement-category', category.name]">Editar</button>
+                [routerLink]="['/edit-movement-category', category.id, category.name]">Editar</button>
 
                 <button (click)="setItemToDelete(i, category.id)" type="button"
                   class="btn btn-primary" 

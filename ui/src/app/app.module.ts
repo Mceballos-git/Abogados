@@ -26,6 +26,9 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { MovementCategoriesComponent } from './movement-categories/movement-categories.component';
 import { EditMovementCategoryComponent } from './edit-movement-category/edit-movement-category.component';
 import { NewMovementCategoryComponent } from './new-movement-category/new-movement-category.component';
+import { UsersComponent } from './users/users.component';
+import { NewUserComponent } from './new-user/new-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 
 @NgModule({
@@ -35,7 +38,7 @@ import { NewMovementCategoryComponent } from './new-movement-category/new-moveme
     MainMenuComponent, 
     MailResetPassComponent, 
     ResetPassComponent, 
-    MovementCategoriesComponent, EditMovementCategoryComponent, NewMovementCategoryComponent,
+    MovementCategoriesComponent, EditMovementCategoryComponent, NewMovementCategoryComponent, UsersComponent, NewUserComponent, EditUserComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,8 +22,9 @@ export class MovementsCategoriesService {
     return this.http.post('http://local.sassani.com/rubros', requestBody);
   }
 
-  edit(id){
-    //no esta listo
-    return this.http.put('http://local.sassani.com/rubros/', id);
+  edit(data, id){
+    let requestBody = {name: data.name_mov_category};
+    console.log(id, requestBody);
+    return this.http.put('http://local.sassani.com/rubros/' + id, requestBody);
   }
 }

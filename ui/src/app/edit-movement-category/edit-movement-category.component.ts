@@ -12,18 +12,22 @@ export class EditMovementCategoryComponent {
 
   movementForm: FormGroup;
   isLoading = false;
-
+  id_mov_category;
 
 
   constructor(private movCategoryService:MovementsCategoriesService, 
     private routes:Router,
     private activatedRoute:ActivatedRoute) { 
-    this.movementForm = new FormGroup({
-      'edit_mov_category': new FormControl(this.activatedRoute.snapshot.paramMap.get('id'), Validators.required)
+    this.movementForm = new FormGroup({      
+      'name_mov_category': new FormControl(this.activatedRoute.snapshot.paramMap.get('name'), Validators.required)
     });
+
+    this.id_mov_category=this.activatedRoute.snapshot.paramMap.get('id');
+
+    
   }
 
-  newMovementCategory(){
+  editMovementCategory(){
     this.isLoading = true;
     
     if (!this.movementForm.valid) {
@@ -34,11 +38,14 @@ export class EditMovementCategoryComponent {
     // Do send mail Request
     console.log(this.movementForm.value);
     
-    this.movCategoryService.edit(this.movementForm.value).subscribe(
+    this.movCategoryService.edit(this.movementForm.value, this.id_mov_category).subscribe(
       (response) => {
          console.log(response) 
+         //poner mensaje de ok
         this.routes.navigate(['movements-categories'])},
-      (error) => { console.log(error) }
+      (error) => { 
+        //poner mensaje de error
+        console.log(error) }
     );
   }
 }
