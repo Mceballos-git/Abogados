@@ -20,10 +20,10 @@ class CreateUsersTable extends Migration
             $table->text('role_list')->nullable();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('degree');
-            $table->string('position');
-            $table->string('shift_start');
-            $table->string('shift_end');
+            $table->string('degree')->nullable()->default(null);
+            $table->string('position')->nullable()->default(null);
+            $table->string('shift_start')->nullable()->default(null);
+            $table->string('shift_end')->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('key')->nullable();
