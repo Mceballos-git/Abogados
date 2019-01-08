@@ -6,5 +6,8 @@
   "action": "delete",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "false",
-  "validationMiddleware": "false"
+  "validationMiddleware": "true",
+  "validationRules": {
+    "deleted": "required|boolean"
+  }
 }
