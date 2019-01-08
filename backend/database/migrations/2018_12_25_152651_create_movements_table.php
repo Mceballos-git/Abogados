@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateMovementsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -13,6 +14,7 @@ class CreateMovementsTable extends Migration
      */
     public function up()
     {
+
         Schema::create('movements', function (Blueprint $table) {
             $table->increments('id');
             $table->date('datetime');
@@ -22,9 +24,9 @@ class CreateMovementsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('movement_category_id')->unsigned();
             $table->integer('client_id')->unsigned();
-            $table->softDeletes('deleted');
-            $table->softDeletes('deleted_at');
-            $table->integer('deleted_by')->unsigned();
+            $table->boolean('deleted')->default(null);
+            $table->integer('deleted_by');
+            $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')

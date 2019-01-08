@@ -40,7 +40,7 @@ class UserModel extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'username'
+        'password', 'remember_token'
     ];
 
 
