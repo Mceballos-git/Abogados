@@ -4,28 +4,31 @@
 <div class="container mt-3 col-md-6 ">
     <form [formGroup]="userForm" (ngSubmit)="createUser()">
         <div class="form-row">
-            <div class="form-group col-md-6"
-                 [ngClass]="{'border border-danger': !userForm.get('first_name').valid && userForm.get('first_name').touched}">
+            <div class="form-group col-md-6">
                 <label>Nombre</label>
-                <input type="text" class="form-control for" formControlName="first_name">
+                <input type="text" class="form-control for"
+                 formControlName="first_name"
+                 [ngClass]="{'border border-danger': !userForm.get('first_name').valid && userForm.get('first_name').touched}">
             </div>
             <div class="form-group text-danger"
                  *ngIf="userForm.get('first_name').hasError('required') && userForm.get('first_name').touched">
                 Nombre requerido
             </div>
-            <div class="form-group col-md-6"
-                 [ngClass]="{'border border-danger': !userForm.get('last_name').valid && userForm.get('last_name').touched}">
+            <div class="form-group col-md-6">
                 <label>Apellido</label>
-                <input type="text" class="form-control" formControlName="last_name">
+                <input type="text" class="form-control"
+                 formControlName="last_name"
+                 [ngClass]="{'border border-danger': !userForm.get('last_name').valid && userForm.get('last_name').touched}">
             </div>
             <div class="form-group text-danger"
                  *ngIf="userForm.get('last_name').hasError('required') && userForm.get('last_name').touched">
                 Apellido requerido
             </div>
-            <div class="form-group col-md-4"
-                 [ngClass]="{'border border-danger': !userForm.get('username').valid && userForm.get('username').touched}">
+            <div class="form-group col-md-4">
                 <label>Usuario</label>
-                <input type="text" class="form-control" formControlName="username">
+                <input type="text" class="form-control" 
+                    formControlName="username"
+                    [ngClass]="{'border border-danger': !userForm.get('username').valid && userForm.get('username').touched}">
             </div>
             <div class="form-group text-danger"
                  *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
@@ -70,13 +73,13 @@
                 Horario requerido
             </div>
             <div class="form-inline col-md-4"
-                 [ngClass]="{'border border-danger': !userForm.get('shift_end').valid && userForm.get('shift_end').touched}">
-                <label>Horario salida</label>
+                 [ngClass]="{'border border-danger': !userForm.get('shift_ends').valid && userForm.get('shift_ends').touched}">
+                <label class="mr-1">Horario salida</label>
                 <input class="form-control" type="time" name="horaSalida" value="18:00:00" max="24:00:00" min="00:00:00"
-                       step="1800" formControlName="shift_end">
+                       step="1800" formControlName="shift_ends">
             </div>
             <div class="form-group text-danger"
-                 *ngIf="userForm.get('shift_end').hasError('required') && userForm.get('shift_end').touched">
+                 *ngIf="userForm.get('shift_ends').hasError('required') && userForm.get('shift_ends').touched">
                 Horario requerido
             </div>
 

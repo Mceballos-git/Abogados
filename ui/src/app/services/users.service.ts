@@ -88,5 +88,9 @@ export class UsersService {
         return [selectedRole];
     }
 
+    getOne(id){
+        return this.http.get('http://local.sassani.com/users/' + id);
+    }
+
 
 }

@@ -1,3 +1,136 @@
-<p>
-  edit-user works!
-</p>
+<div class="container p-2 mb-2 mt-3 border border-warning col-md-6 bg-warning">
+    <h4>Editar operador</h4>
+</div>
+<div class="container mt-3 col-md-6 ">
+    <form [formGroup]="userForm" (ngSubmit)="editUser()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input type="text" class="form-control for"
+                 formControlName="first_name"
+                 [ngClass]="{'border border-danger': !userForm.get('first_name').valid && userForm.get('first_name').touched}">
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="userForm.get('first_name').hasError('required') && userForm.get('first_name').touched">
+                Nombre requerido
+            </div>
+            <div class="form-group col-md-6">
+                <label>Apellido</label>
+                <input type="text" class="form-control"
+                 formControlName="last_name"
+                 [ngClass]="{'border border-danger': !userForm.get('last_name').valid && userForm.get('last_name').touched}">
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="userForm.get('last_name').hasError('required') && userForm.get('last_name').touched">
+                Apellido requerido
+            </div>
+            <div class="form-group col-md-4">
+                <label>Usuario</label>
+                <input type="text" class="form-control" 
+                    formControlName="username"
+                    [ngClass]="{'border border-danger': !userForm.get('username').valid && userForm.get('username').touched}">
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
+                Usuario requerido
+            </div>
+            <div class="form-group col-md-8">
+                <label>Email</label>
+                <input type="email"
+                       class="form-control"
+                       formControlName="email"
+                       [ngClass]="{'border border-danger': !userForm.get('email').valid && userForm.get('email').touched}">
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
+                Correo electrónico requerido
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="(userForm.get('email').hasError('required') && userForm.get('email').touched) || (userForm.get('email').hasError('pattern') && userForm.get('email').touched) ">
+                Correo electrónico inválido
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Título</label>
+                <input type="text" class="form-control" formControlName="degree">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Cargo</label>
+                <input type="text" class="form-control" formControlName="position">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-inline col-md-4"
+                 [ngClass]="{'border border-danger': !userForm.get('shift_start').valid && userForm.get('shift_start').touched}">
+                <label>Horario ingreso</label>
+                <input class="form-control" type="time" name="horaIngreso" value="08:00:00" max="24:00:00"
+                       min="00:00:00" step="1800" formControlName="shift_start">
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="userForm.get('shift_start').hasError('required') && userForm.get('shift_start').touched">
+                Horario requerido
+            </div>
+            <div class="form-inline col-md-4"
+                 [ngClass]="{'border border-danger': !userForm.get('shift_ends').valid && userForm.get('shift_ends').touched}">
+                <label class="mr-1">Horario salida</label>
+                <input class="form-control" type="time" name="horaSalida" value="18:00:00" max="24:00:00" min="00:00:00"
+                       step="1800" formControlName="shift_ends">
+            </div>
+            <div class="form-group text-danger"
+                 *ngIf="userForm.get('shift_ends').hasError('required') && userForm.get('shift_ends').touched">
+                Horario requerido
+            </div>
+
+            <div class="form-inline"
+                 [ngClass]="{'border border-danger': !userForm.get('active').valid && userForm.get('active').touched}">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="checkbox" formControlName="active">
+                    <label class="form-check-label">
+                        Activo
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <div class="col-sm-2 text-info"><u>Permisos:</u></div>
+            <div class="col-sm-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="role_list" value="admin" formControlName="role_list">
+                    <label class="form-check-label">
+                        Administrador
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="role_list" value="operator" checked
+                           formControlName="role_list">
+                    <label class="form-check-label">
+                        Operador
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <p class="font-weight-ligh">
+            <small><span class="text-danger">ATENCION: </span>Si quita permisos de administrador al operador que está
+                usando en este momento no podrá acceder a esta sección nuevamente.
+                Recuerde cerrar sesión y volver a iniciar para aplicar permisos al operador actual.
+            </small>
+            <br>
+            <small><span class="text-info">IMPORTANTE: </span>Los operadores con permiso de <em>administrador</em>
+                acceden a todas las secciones del sistema.
+            </small>
+        </p>
+
+        <div class="d-flex justify-content-end mt-2">
+            <!--<button type="submit" class="btn btn-outline-warning mr-2" [disabled]="userForm.invalid">Guardar</button>-->
+            <button type="submit" class="btn btn-outline-warning mr-2">Guardar</button>
+            <button type="submit" class="btn btn-outline-dark" [routerLink]="['/users']">Cancelar</button>
+        </div>
+    </form>
+</div>

@@ -23,10 +23,10 @@ export class NewUserComponent implements OnInit {
             'email': new FormControl('', [Validators.required, Validators.pattern("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$")]),
             'role_list': new FormControl('', Validators.required),
             'active': new FormControl(),
-            'degree': new FormControl(),
-            'position': new FormControl(),
+            'degree': new FormControl(''),
+            'position': new FormControl(''),
             'shift_start': new FormControl('', Validators.required),
-            'shift_end': new FormControl('', Validators.required)
+            'shift_ends': new FormControl('', Validators.required)
         });
 
         this.setDefaultValues();
@@ -44,10 +44,14 @@ export class NewUserComponent implements OnInit {
     }
 
     createUser() {
+        this.isLoading=true;
         this.usersService.create(this.userForm.value).subscribe((response) => {
+            this.isLoading=false;
+            this.userForm.reset();
             console.log('user created ok');
 
         }, (error) => {
+            this.isLoading=false;
             console.log('error al crear usuario' + error);
 
         });
