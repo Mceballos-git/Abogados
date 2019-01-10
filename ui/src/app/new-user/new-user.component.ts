@@ -23,8 +23,8 @@ export class NewUserComponent implements OnInit {
             'email': new FormControl('', [Validators.required, Validators.pattern("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$")]),
             'role_list': new FormControl('', Validators.required),
             'active': new FormControl(),
-            'degree': new FormControl(''),
-            'position': new FormControl(''),
+            'degree': new FormControl('', Validators.required),
+            'position': new FormControl('', Validators.required),
             'shift_start': new FormControl('', Validators.required),
             'shift_ends': new FormControl('', Validators.required)
         });
