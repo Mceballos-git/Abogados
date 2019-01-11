@@ -19,7 +19,7 @@
     "degree" : "string|sometimes",
     "position": "string|sometimes",
     "shift_start": "string|sometimes",
-    "shift_ends": "string|sometimes"
+    "shift_end": "string|sometimes"
   },
   "requestExample" : {
     "email": "ezequiel.carrizo.ac@gmail.com",

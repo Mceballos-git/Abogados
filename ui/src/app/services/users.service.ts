@@ -56,8 +56,8 @@ export class UsersService {
             shift_start: this.getValueOrDefaultIfNull(
                 formData.shift_start, this.constants.SHIFT_START_DEFAULT
             ),
-            shift_ends: this.getValueOrDefaultIfNull(
-                formData.shift_start, this.constants.SHIFT_END_DEFAULT
+            shift_end: this.getValueOrDefaultIfNull(
+                formData.shift_ends, this.constants.SHIFT_END_DEFAULT
             )
         };
     }
@@ -88,5 +88,11 @@ export class UsersService {
         return [selectedRole];
     }
 
+    getOne(id){
+        return this.http.get('http://local.sassani.com/users/' + id);
+    }
 
+    getRoleFromArray(roles){
+        return roles[0];
+    }
 }
