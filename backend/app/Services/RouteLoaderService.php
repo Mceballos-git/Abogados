@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\App;
 class RouteLoaderService
 {
 
+    const ROUTE_ERROR = 'The route {k} from route Group {gn} is Invalid / Has Missing values.';
+
     /**
      * App Router
      * @var Router
@@ -74,7 +76,21 @@ class RouteLoaderService
             return false;
         }
 
-        foreach ($routeGroup as $route) {
+        foreach ($routeGroup as $k => $route) {
+
+            // Not valid route.
+            if (!$route || !isset($route->action) || !isset($route->identifier) || !isset($route->endpoint)) {
+                $error = str_replace('{k}', $k, self::ROUTE_ERROR);
+                $error = str_replace('{gn}', $prefix, $error);
+                print_r($error);
+                die();
+            }
+
+            // Route is disabled.
+            if ($route && isset($route->disabled) && $route->disabled) {
+                continue;
+            }
+
             $endpointConfig = array(
                 'as' => $prefix . '/' . $route->identifier,
                 'middleware' => $this->getMiddleware($route),
