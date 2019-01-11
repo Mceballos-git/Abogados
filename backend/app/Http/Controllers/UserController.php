@@ -57,6 +57,7 @@ class UserController extends Controller
     public function getOne($id)
     {
         $entry = UserModel::where('id', $id)->first();
+        $entry->role_list = json_decode($entry->role_list);
         return $this->successResponse($entry);
     }
 
