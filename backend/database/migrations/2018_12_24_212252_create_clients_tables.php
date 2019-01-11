@@ -15,10 +15,8 @@ class CreateClientsTables extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('active')->default(0);
+            $table->boolean('active');
             $table->timestamps();
-            $table->softDeletes('deleted');
-            $table->softDeletes('deleted_at');
             $table->integer('deleted_by');
             $table->string('first_name');
             $table->string('last_name');
@@ -38,6 +36,7 @@ class CreateClientsTables extends Migration
             $table->string('city');
             $table->string('observations');
             $table->string('extra');
+            $table->softDeletes();
         });
     }
 

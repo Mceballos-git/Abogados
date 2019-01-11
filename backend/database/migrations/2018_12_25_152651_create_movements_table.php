@@ -7,6 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateMovementsTable extends Migration
 {
 
+
     /**
      * Run the migrations.
      *
@@ -24,8 +25,7 @@ class CreateMovementsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('movement_category_id')->unsigned();
             $table->integer('client_id')->unsigned();
-            $table->boolean('deleted')->default(null);
-            $table->integer('deleted_by');
+            $table->integer('deleted_by')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')
