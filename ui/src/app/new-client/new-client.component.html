@@ -1,0 +1,177 @@
+<div class="container p-2 mb-2 mt-3 border border-info col-md-6 bg-info">
+  <h4>Nuevo cliente</h4>
+</div>
+<div class="container mt-3 col-md-6 ">
+    <form [formGroup]="clientForm" (ngSubmit)="createClient()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input type="text" class="form-control"
+                formControlName="first_name"
+                [ngClass]="{'border border-danger': !clientForm.get('first_name').valid && clientForm.get('first_name').touched}">
+                <div class="text-danger"
+                *ngIf="clientForm.get('first_name').hasError('required') && clientForm.get('first_name').touched">
+                    Nombre requerido
+                </div>
+            </div>
+          
+            <div class="form-group col-md-6">
+                <label>Apellido</label>
+                <input type="text" class="form-control"
+                formControlName="last_name"
+                [ngClass]="{'border border-danger': !clientForm.get('last_name').valid && clientForm.get('last_name').touched}">
+                <div class="form-group text-danger"
+                *ngIf="clientForm.get('last_name').hasError('required') && clientForm.get('last_name').touched">
+                Apellido requerido
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label>Tipo doc.</label>
+                <select class="form-control" formControlName="identification_type"
+                    [ngClass]="{'border border-danger': !clientForm.get('identification_type').valid && clientForm.get('identification_type').touched}">      
+                <option *ngFor="let id of id_types" [value]="id">{{id}}</option>
+                </select>
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('identification_type').hasError('required') && clientForm.get('identification_type').touched">
+                    Debe seleccionar un tipo de documento.
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-4">
+                <label>Nro. Documento</label>
+                <input type="text" class="form-control" 
+                    formControlName="identification_number"
+                    [ngClass]="{'border border-danger': !clientForm.get('identification_number').valid && clientForm.get('identification_number').touched}">
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('identification_number').hasError('required') && clientForm.get('identification_number').touched">
+                    Documento requerido
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label>CUIT/CUIL</label>
+                <input type="text" class="form-control" formControlName="tin_number">                          
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4 example-wrapper"> 
+                <label class="example-input-wrapper"></label>
+                Fecha de nacimiento
+                <input class="form-control"
+                    [min]="minDate" [max]="maxDate"
+                    formControlName="date_of_birth"
+                    [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                    [ngClass]="{'border border-danger': !clientForm.get('date_of_birth').valid && clientForm.get('date_of_birth').touched}">
+                    <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('date_of_birth').hasError('required') && clientForm.get('date_of_birth').touched">
+                    Fecha de nacimiento requerida
+                </div>                
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label>Domicilio Calle</label>
+                <input type="text" 
+                    class="form-control" 
+                    formControlName="street_address" [ngClass]="{'border border-danger': !clientForm.get('street_address').valid && clientForm.get('street_address').touched}">
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('street_address').hasError('required') && clientForm.get('street_address').touched">
+                    Calle requerida
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Número</label>
+                <input type="text" 
+                    class="form-control" 
+                    formControlName="number_address" [ngClass]="{'border border-danger': !clientForm.get('number_address').valid && clientForm.get('number_address').touched}">
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('number_address').hasError('required') && clientForm.get('number_address').touched">
+                    Numeración requerida
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Piso</label>
+                <input type="text" class="form-control" formControlName="floor_address">                
+            </div>
+            <div class="form-group col-md-4">
+                <label>Departamento</label>
+                <input type="text" class="form-control" formControlName="department_address">                
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Teléfono</label>
+                <input type="text" 
+                    class="form-control" 
+                    formControlName="phone_number" [ngClass]="{'border border-danger': !clientForm.get('phone_number').valid && clientForm.get('phone_number').touched}">
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('phone_number').hasError('required') && clientForm.get('phone_number').touched">
+                    Teléfono requerido
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <input type="email"
+                    class="form-control"
+                    formControlName="email"
+                    [ngClass]="{'border border-danger': !clientForm.get('email').valid && clientForm.get('email').touched}">
+
+                    <div class="form-group text-danger"
+                        *ngIf="clientForm.get('email').hasError('pattern') && clientForm.get('email').touched ">
+                        Correo electrónico inválido
+                    </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label>País</label>
+                <input type="text" 
+                    class="form-control" 
+                    formControlName="country" [ngClass]="{'border border-danger': !clientForm.get('country').valid && clientForm.get('country').touched}">
+                <div class="form-group text-danger"
+                    *ngIf="clientForm.get('country').hasError('required') && clientForm.get('country').touched">
+                    País requerido
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Provincia</label>
+                <input type="text" class="form-control" formControlName="state">                
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Ciudad</label>
+                <input type="text" class="form-control" formControlName="city">                
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Nacionalidad</label>
+                <input type="text" class="form-control" formControlName="nationality">                
+            </div>
+
+            <div class="form-group col-md-12">
+                <label>Observaciones</label>
+                <textarea class="form-control" formControlName="observations" rows="5"></textarea>             
+            </div>
+
+            <div class="form-inline"
+                [ngClass]="{'border border-danger': !clientForm.get('active').valid && clientForm.get('active').touched}">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                            type="checkbox" formControlName="active">
+                    <label class="form-check-label">
+                        Activo
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-2">
+            <!--<button type="submit" class="btn btn-outline-info mr-2" [disabled]="clientForm.invalid">Guardar</button>-->
+            <button type="submit" class="btn btn-outline-info mr-2">Guardar</button>
+            <button type="submit" class="btn btn-outline-dark" [routerLink]="['/clients']">Cancelar</button>
+        </div>
+    </form>
+</div>

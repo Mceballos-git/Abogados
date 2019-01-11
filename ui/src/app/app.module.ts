@@ -14,6 +14,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {MainMenuComponent} from './main-menu/main-menu.component';
 import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
 
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 
 //servicios
 import {AuthService} from './services/auth.service';
@@ -29,6 +30,9 @@ import {NewMovementCategoryComponent} from './new-movement-category/new-movement
 import {UsersComponent} from './users/users.component';
 import {NewUserComponent} from './new-user/new-user.component';
 import {EditUserComponent} from './edit-user/edit-user.component';
+import { NewClientComponent } from './new-client/new-client.component';
+import { ClientComponent } from './client/client.component';
+import { EditClientComponent } from './edit-client/edit-client.component';
 
 
 @NgModule({
@@ -43,7 +47,10 @@ import {EditUserComponent} from './edit-user/edit-user.component';
         NewMovementCategoryComponent,
         UsersComponent,
         NewUserComponent,
-        EditUserComponent
+        EditUserComponent,
+        NewClientComponent,
+        ClientComponent,
+        EditClientComponent
     ],
     imports: [
         BrowserModule,
@@ -56,6 +63,8 @@ import {EditUserComponent} from './edit-user/edit-user.component';
         LayoutModule,
         HttpClientModule,
         DataTablesModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
         MatToolbarModule,
         MatButtonModule,
         MatSidenavModule,
@@ -66,7 +75,8 @@ import {EditUserComponent} from './edit-user/edit-user.component';
     ],
     providers: [
         AuthService,
-        MovementsService
+        MovementsService,
+        {provide: OWL_DATE_TIME_LOCALE, useValue: 'es'},
     ],
     bootstrap: [AppComponent]
 })

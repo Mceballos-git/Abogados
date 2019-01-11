@@ -95,4 +95,9 @@ export class UsersService {
     getRoleFromArray(roles){
         return roles[0];
     }
+
+    updateUser(id, data){
+        let requestBody = this.getFormRequestBody(data);
+        return this.http.put('http://local.sassani.com/users/' + id, requestBody);
+    }
 }
