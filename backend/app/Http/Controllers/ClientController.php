@@ -64,7 +64,7 @@ class ClientController extends Controller
             'state' => $requestData['state'],
             'city' => $requestData['city'],
             'observations' => $requestData['observations'],
-            'extra' => $requestData['extra']
+            'extra' => null
         ]);
 
         return $this->successResponse($result);

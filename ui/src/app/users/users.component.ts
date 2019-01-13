@@ -95,11 +95,5 @@ export class UsersComponent implements OnInit {
 
   handleDeletingError(response) {
     console.log('There was an error while trying to delete movement category. Todo: Mostrar mensaje delete no exitoso');
-  }
-
-  createUser(){
-
-  }
-  
-
+  }  
 }

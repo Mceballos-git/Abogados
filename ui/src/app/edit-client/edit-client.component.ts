@@ -1,6 +1,30 @@
 import { Component } from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { ClientsService } from '../services/clients.service';
+import { ActivatedRoute } from '@angular/router';
+
+
+class Client{
+  
+  active : number
+  first_name : string
+  last_name : string
+  nationality : string
+  identification_type:string
+  identification_number:string
+  tin_number:string
+  date_of_birth:string
+  phone_number:string
+  email : string  
+  street_address: string
+  number_address: string
+  floor_address: string
+  coutry: string
+  state: string
+  city: string
+  observations: string
+}
+
 
 @Component({
   selector: 'app-edit-client',
@@ -12,11 +36,19 @@ export class EditClientComponent {
   
   public maxDate = new Date(2500, 12, 31, 0, 0);
  
+  client:Client;
   clientForm: FormGroup;
   isLoading = false;
   id_types = ['DNI', 'DU', 'LM', 'LC', 'LE', 'LF', 'DE', 'CI', 'FM', 'FL'];
+  id_client;
 
-  constructor(private clientService:ClientsService) {
+  constructor(private clientService:ClientsService, 
+    private activatedRoute:ActivatedRoute) {
+
+    this.id_client= this.activatedRoute.snapshot.paramMap.get('id');
+    this.getClient(this.id_client);
+    
+
     this.clientForm = new FormGroup({
       'active': new FormControl(),     
       'first_name': new FormControl('', Validators.required),
@@ -37,6 +69,32 @@ export class EditClientComponent {
       'city':new FormControl(''),
       'observations': new FormControl(''),
     }); 
+  }
+
+  getClient(id){
+    this.clientService.getOne(id).subscribe((response:any)=>{      
+      this.client = response;
+      this.clientForm.patchValue(this.client);             
+      console.log(this.client);     
+      
+    },(error)=>{
+      console.log(error);      
+    })
+  }
+
+  editClient(){
+    this.isLoading=true;
+    this.clientService.updateUser(this.id_client, this.clientForm.value).subscribe((response) => {
+        this.isLoading=false;
+        this.clientForm.reset();
+        console.log('client edited ok');
+
+    }, (error) => {
+        this.isLoading=false;
+        console.log('error al editar cliente' + error);
+
+    });
+
   }
 
 }
