@@ -11,9 +11,7 @@ import { ClientsService } from '../services/clients.service';
 })
 export class NewClientComponent implements OnInit {
 
-  public minDate = new Date(1900, 1, 1, 0, 0);
-  
-  public maxDate = new Date(2500, 12, 31, 0, 0);
+
  
   clientForm: FormGroup;
   isLoading = false;
@@ -40,6 +38,8 @@ export class NewClientComponent implements OnInit {
       'city':new FormControl(''),
       'observations': new FormControl(''),
     }); 
+
+    this.clientForm.patchValue({active:true});
   }
 
   ngOnInit() {
@@ -50,11 +50,11 @@ export class NewClientComponent implements OnInit {
     this.clientService.create(this.clientForm.value).subscribe((response) => {
         this.isLoading=false;
         this.clientForm.reset();
-        console.log('client created ok');
+        console.log('Create client successfuly. Todo: Mostrar mensaje create exitoso');
 
     }, (error) => {
         this.isLoading=false;
-        console.log('error al crear cliente' + error);
+        console.log('There was an error while trying to create client. Todo: Mostrar mensaje create no exitoso' + error);
 
     });
   }

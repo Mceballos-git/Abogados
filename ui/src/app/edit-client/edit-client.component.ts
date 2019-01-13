@@ -31,10 +31,7 @@ class Client{
   templateUrl: './edit-client.component.html',
   styleUrls: ['./edit-client.component.css']
 })
-export class EditClientComponent {
-  public minDate = new Date(1900, 1, 1, 0, 0);
-  
-  public maxDate = new Date(2500, 12, 31, 0, 0);
+export class EditClientComponent {  
  
   client:Client;
   clientForm: FormGroup;
@@ -87,13 +84,13 @@ export class EditClientComponent {
     this.clientService.updateUser(this.id_client, this.clientForm.value).subscribe((response) => {
         this.isLoading=false;
         this.clientForm.reset();
-        console.log('client edited ok');
+        console.log('Update client successfuly. Todo: Mostrar mensaje update exitoso');
 
-    }, (error) => {
-        this.isLoading=false;
-        console.log('error al editar cliente' + error);
-
-    });
+      }, (error) => {
+          this.isLoading=false;
+          console.log('There was an error while trying to update client. Todo: Mostrar mensaje update no exitoso' + error);
+  
+      });
 
   }
 

@@ -60,11 +60,9 @@
                 <label class="example-input-wrapper"></label>
                 Fecha de nacimiento
                 <input class="form-control"
-                    [min]="minDate" [max]="maxDate"
-                    formControlName="date_of_birth"
-                    [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
-                    [ngClass]="{'border border-danger': !clientForm.get('date_of_birth').valid && clientForm.get('date_of_birth').touched}">
-                    <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                    type="text"
+                    formControlName="date_of_birth"                   
+                    [ngClass]="{'border border-danger': !clientForm.get('date_of_birth').valid && clientForm.get('date_of_birth').touched}">                    
                 <div class="form-group text-danger"
                     *ngIf="clientForm.get('date_of_birth').hasError('required') && clientForm.get('date_of_birth').touched">
                     Fecha de nacimiento requerida

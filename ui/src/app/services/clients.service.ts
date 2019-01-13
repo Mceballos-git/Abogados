@@ -34,7 +34,7 @@ export class ClientsService {
   }
 
   getOne(id){
-    return this.http.get('http://local.sassani.com/clients' + id);
+    return this.http.get('http://local.sassani.com/clients/' + id);
   }
 
   updateUser(id, data){
@@ -58,7 +58,7 @@ export class ClientsService {
       city:data.city,
       observations: data.observations      
     };
-    return this.http.put('http://local.sassani.com/clients' + id, requestBody);
+    return this.http.put('http://local.sassani.com/clients/' + id, requestBody);
   }
    
   

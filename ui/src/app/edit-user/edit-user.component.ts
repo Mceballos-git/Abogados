@@ -70,11 +70,11 @@ export class EditUserComponent implements OnInit {
     this.userService.updateUser(this.id_user, this.userForm.value).subscribe((response) => {
         this.isLoading=false;
         this.userForm.reset();
-        console.log('user edited ok');
+        console.log('Update user successfuly. Todo: Mostrar mensaje update exitoso');
 
     }, (error) => {
         this.isLoading=false;
-        console.log('error al editar usuario' + error);
+        console.log('There was an error while trying to update user. Todo: Mostrar mensaje update no exitoso' + error);
 
     });
 

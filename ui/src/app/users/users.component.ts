@@ -90,10 +90,10 @@ export class UsersComponent implements OnInit {
     console.log(deletedItem);
 
     this.users.splice(deletedItem.index, 1);
-    console.log('Delete category successfuly. Todo: Mostrar mensaje delete exitoso');      
+    console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');      
   }
 
   handleDeletingError(response) {
-    console.log('There was an error while trying to delete movement category. Todo: Mostrar mensaje delete no exitoso');
+    console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
   }  
 }
