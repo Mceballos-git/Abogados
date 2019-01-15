@@ -13,6 +13,8 @@ import { NewUserComponent } from './new-user/new-user.component';
 import { ClientComponent } from './client/client.component';
 import { NewClientComponent } from './new-client/new-client.component';
 import { EditClientComponent } from './edit-client/edit-client.component';
+import { NewTurnComponent } from './new-turn/new-turn.component';
+import { EditTurnComponent } from './edit-turn/edit-turn.component';
 
 
 
@@ -30,6 +32,8 @@ const routes: Routes = [
   {path:'edit-client/:id', component: EditClientComponent},
   {path:'new-client', component: NewClientComponent},
   {path:'clients', component: ClientComponent},
+  {path:'new-turn', component: NewTurnComponent},
+  {path:'edit-turn', component: EditTurnComponent},
   {path:'', pathMatch: 'full', redirectTo: 'main'}, //ruta vacio redirecciona al home
   {path:'**', pathMatch: 'full', redirectTo: 'login'}, //cualquier otra ruta redirecciona la home 
 ];

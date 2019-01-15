@@ -33,6 +33,8 @@ import {EditUserComponent} from './edit-user/edit-user.component';
 import { NewClientComponent } from './new-client/new-client.component';
 import { ClientComponent } from './client/client.component';
 import { EditClientComponent } from './edit-client/edit-client.component';
+import { NewTurnComponent } from './new-turn/new-turn.component';
+import { EditTurnComponent } from './edit-turn/edit-turn.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { EditClientComponent } from './edit-client/edit-client.component';
         EditUserComponent,
         NewClientComponent,
         ClientComponent,
-        EditClientComponent
+        EditClientComponent,
+        NewTurnComponent,
+        EditTurnComponent
     ],
     imports: [
         BrowserModule,

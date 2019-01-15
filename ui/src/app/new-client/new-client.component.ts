@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { ClientsService } from '../services/clients.service';
 
@@ -9,9 +9,7 @@ import { ClientsService } from '../services/clients.service';
   templateUrl: './new-client.component.html',
   styleUrls: ['./new-client.component.css']
 })
-export class NewClientComponent implements OnInit {
-
-
+export class NewClientComponent {
  
   clientForm: FormGroup;
   isLoading = false;
@@ -42,9 +40,7 @@ export class NewClientComponent implements OnInit {
     this.clientForm.patchValue({active:true});
   }
 
-  ngOnInit() {
-  }
-
+  
   createClient(){
     this.isLoading=true;
     this.clientService.create(this.clientForm.value).subscribe((response) => {

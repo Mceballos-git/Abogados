@@ -48,7 +48,7 @@ export class UsersService {
                 formData.active, this.constants.ACTIVE_DEFAULT
             ),
             degree: this.getValueOrDefaultIfNull(
-                formData.degree, this.constants.POSITION_DEFAULT
+                formData.degree, this.constants.DEGREE_DEFAULT
             ),
             position: this.getValueOrDefaultIfNull(
                 formData.position, this.constants.POSITION_DEFAULT
