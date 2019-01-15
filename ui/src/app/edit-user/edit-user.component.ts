@@ -26,11 +26,14 @@ export class EditUserComponent implements OnInit {
   user:User;
   userForm: FormGroup;
   isLoading = false;
+  id_user;
 
   constructor(private activatedRoute:ActivatedRoute,
     private userService:UsersService) { 
 
-      this.getUser(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.id_user = this.activatedRoute.snapshot.paramMap.get('id');
+
+      this.getUser(this.id_user);
 
       this.userForm = new FormGroup({
         'first_name': new FormControl('', Validators.required),
@@ -42,7 +45,7 @@ export class EditUserComponent implements OnInit {
         'degree': new FormControl('', Validators.required),
         'position': new FormControl('', Validators.required),
         'shift_start': new FormControl('', Validators.required),
-        'shift_ends': new FormControl('', Validators.required)
+        'shift_end': new FormControl('', Validators.required)
     });
   }
 
@@ -63,6 +66,17 @@ export class EditUserComponent implements OnInit {
   }
 
   editUser(){
+    this.isLoading=true;
+    this.userService.updateUser(this.id_user, this.userForm.value).subscribe((response) => {
+        this.isLoading=false;
+        this.userForm.reset();
+        console.log('Update user successfuly. Todo: Mostrar mensaje update exitoso');
+
+    }, (error) => {
+        this.isLoading=false;
+        console.log('There was an error while trying to update user. Todo: Mostrar mensaje update no exitoso' + error);
+
+    });
 
   }
 

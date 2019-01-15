@@ -33,7 +33,6 @@ class MovementController extends Controller
             'movement_type_id',
             'movement_category_id',
             'client_id',
-            'deleted',
             'deleted_by'
         );
 
@@ -45,7 +44,7 @@ class MovementController extends Controller
             'user_id' => $user = Auth::user()->id,
             'movement_category_id' => $requestData['movement_category_id'],
             'client_id' => $requestData['client_id'],
-            'deleted_by' => Auth::user()->id,
+            'deleted_by' => null,
         ]);
 
         return $this->successResponse($result);
@@ -59,7 +58,7 @@ class MovementController extends Controller
     {
 
         return $this->successResponse(
-            MovementModel::where('deleted_at', "!=", null)->get()
+            MovementModel::get()
         );
     }
 
@@ -70,12 +69,18 @@ class MovementController extends Controller
      */
     public function getOne($id)
     {
-        $entry = MovementModel::where('id', $id)->where('deleted_at', '!=', null)->first();
+        $deletedEntry = MovementModel::onlyTrashed()
+            ->where('id', $id)
+            ->get();
+        $entry = MovementModel::where('id', $id)
+            ->first();
 
-//        var_dump($entry->user);
-//        die();
+        if($entry == null){
+            return $this->successResponse($deletedEntry);
+        }else{
+            return $this->successResponse($entry);
 
-        return $this->successResponse($entry);
+        }
     }
 
     /**
@@ -92,8 +97,6 @@ class MovementController extends Controller
             'movement_type_id',
             'movement_category_id',
             'client_id',
-            'deleted',
-            'deleted_at',
         ));
 
         MovementModel::where('id', $id)->update($requestData);
@@ -107,14 +110,12 @@ class MovementController extends Controller
      */
     public function delete($id)
     {
-        $deleted = true;
+        $requestData = array('deleted_by' => Auth::user()->id);
+        MovementModel::where('id', $id)->update($requestData);
 
         return $this->successResponse(array(
-            'id' => MovementModel::where('id', $id),
-            'deleted' => MovementModel::where('deleted', $deleted)
-            ->where('deleted_at', '!=', null)
-            ->delete()));
-
+            'id' => MovementModel::where('id', $id)->delete()
+        ));
     }
 
 

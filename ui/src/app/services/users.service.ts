@@ -48,7 +48,7 @@ export class UsersService {
                 formData.active, this.constants.ACTIVE_DEFAULT
             ),
             degree: this.getValueOrDefaultIfNull(
-                formData.degree, this.constants.POSITION_DEFAULT
+                formData.degree, this.constants.DEGREE_DEFAULT
             ),
             position: this.getValueOrDefaultIfNull(
                 formData.position, this.constants.POSITION_DEFAULT
@@ -94,5 +94,10 @@ export class UsersService {
 
     getRoleFromArray(roles){
         return roles[0];
+    }
+
+    updateUser(id, data){
+        let requestBody = this.getFormRequestBody(data);
+        return this.http.put('http://local.sassani.com/users/' + id, requestBody);
     }
 }

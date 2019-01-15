@@ -1,33 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UsersService} from '../services/users.service';
+import { ClientsService } from '../services/clients.service';
 
 
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 
-
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-client',
+  templateUrl: './client.component.html',
+  styleUrls: ['./client.component.css']
 })
-export class UsersComponent implements OnInit {
+export class ClientComponent implements OnInit {
 
-  
-  users: any = [];
+  clients: any = [];
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   loaded: boolean;
   itemToDeleteData : any;
 
-  constructor(private http: HttpClient, private userService: UsersService) {
-    this.loaded = false;
+  constructor(private http: HttpClient, private clientService: ClientsService) {
+    this.loaded = false
    }
 
   ngOnInit():void {
-    this.userService.getUsersList().subscribe(response => {
-    this.users = response;
+    this.clientService.getClientsList().subscribe(response => {
+    this.clients = response;
     console.log(response);    
     this.buildDtOptions(response)
     this.loaded = true;
@@ -79,7 +77,7 @@ export class UsersComponent implements OnInit {
   }
 
   delete() {
-    this.userService.delete(this.itemToDeleteData.id).subscribe((response) => {
+    this.clientService.delete(this.itemToDeleteData.id).subscribe((response) => {
       this.handleDeletingSuccess(this.itemToDeleteData)
     },(error) => { this.handleDeletingError(error)});
 
@@ -89,11 +87,12 @@ export class UsersComponent implements OnInit {
 
     console.log(deletedItem);
 
-    this.users.splice(deletedItem.index, 1);
-    console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');      
+    this.clients.splice(deletedItem.index, 1);
+    console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');      
   }
 
   handleDeletingError(response) {
-    console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+    console.log('There was an error while trying to delete client. Todo: Mostrar mensaje delete no exitoso');
   }  
+
 }

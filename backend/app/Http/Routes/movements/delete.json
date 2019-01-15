@@ -5,9 +5,9 @@
   "controller": "App\\Http\\Controllers\\MovementController",
   "action": "delete",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "true",
   "validationRules": {
-    "deleted": "required|boolean"
+
   }
 }

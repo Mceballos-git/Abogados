@@ -48,13 +48,13 @@ export class NewUserComponent implements OnInit {
         this.usersService.create(this.userForm.value).subscribe((response) => {
             this.isLoading=false;
             this.userForm.reset();
-            console.log('user created ok');
+            console.log('create user successfuly. Todo: Mostrar mensaje create exitoso');
 
-        }, (error) => {
-            this.isLoading=false;
-            console.log('error al crear usuario' + error);
+    }, (error) => {
+        this.isLoading=false;
+        console.log('There was an error while trying to create user. Todo: Mostrar mensaje create no exitoso' + error);
 
-        });
+    });
 
     }
 

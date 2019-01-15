@@ -19,7 +19,6 @@ class MovementModel extends Model
         'user_id',
         'movement_category_id',
         'client_id',
-        'deleted',
         'deleted_at',
         'deleted_by',
     ];

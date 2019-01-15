@@ -24,9 +24,6 @@ class ClientController extends Controller
         // Obtain Request Information from POST
         $requestData = $request->only(
             'active',
-            'deleted',
-            'deleted_at',
-            'deleted_by',
             'first_name',
             'last_name',
             'nationality',
@@ -49,9 +46,7 @@ class ClientController extends Controller
 
         $result = ClientModel::create([
             'active' => $requestData['active'],
-            'deleted' => $requestData['deleted'],
-            'deleted_at' => $requestData['deleted_at'],
-            'deleted_by' => $requestData['deleted_by'],
+            'deleted_by' => null,
             'first_name' => $requestData['first_name'],
             'last_name' => $requestData['last_name'],
             'nationality' => $requestData['nationality'],
@@ -69,7 +64,7 @@ class ClientController extends Controller
             'state' => $requestData['state'],
             'city' => $requestData['city'],
             'observations' => $requestData['observations'],
-            'extra' => $requestData['extra']
+            'extra' => null
         ]);
 
         return $this->successResponse($result);
@@ -106,11 +101,6 @@ class ClientController extends Controller
     {
         $requestData = $request->only(array(
             'active',
-            'created_at',
-            'updated_at',
-            'deleted',
-            'deleted_at',
-            'deleted_by',
             'first_name',
             'last_name',
             'nationality',
@@ -141,7 +131,12 @@ class ClientController extends Controller
      */
     public function delete($id)
     {
-        return $this->successResponse(array('id' => ClientModel::where('id', $id)->delete()));
+        $requestData = array('deleted_by' => Auth::user()->id);
+        ClientModel::where('id', $id)->update($requestData);
+
+        return $this->successResponse(array(
+            'id' => ClientModel::where('id', $id)->delete()
+        ));
 
     }
 }
