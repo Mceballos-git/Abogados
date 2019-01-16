@@ -69,18 +69,13 @@ class MovementController extends Controller
      */
     public function getOne($id)
     {
-        $deletedEntry = MovementModel::onlyTrashed()
-            ->where('id', $id)
-            ->get();
-        $entry = MovementModel::where('id', $id)
-            ->first();
+        $deletedEntry = MovementModel::onlyTrashed()->where('id', $id)->get();
+        $entry = MovementModel::where('id', $id)->first();
 
-        if($entry == null){
+        if ($entry == null) {
             return $this->successResponse($deletedEntry);
-        }else{
-            return $this->successResponse($entry);
-
         }
+        return $this->successResponse($entry);
     }
 
     /**
@@ -100,6 +95,7 @@ class MovementController extends Controller
         ));
 
         MovementModel::where('id', $id)->update($requestData);
+
         return $this->successResponse(MovementModel::where('id', $id)->first());
     }
 
