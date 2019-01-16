@@ -56,7 +56,7 @@ const appRoutes: Routes = [
     },
     {
         // User must be logged in and have role Admin to see this route.
-        path: 'users',
+        path: 'users/list',
         component: UserListComponent,
         canActivate: [RoleGuardService],
         data: {

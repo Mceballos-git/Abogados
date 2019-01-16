@@ -24,7 +24,7 @@
                     <mat-label>Usuario</mat-label>
                     <input matInput formControlName="username">
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-error *ngIf="loginForm.get('username').hasError('required')">
+                    <mat-error *ngIf="loginForm.get('username').hasError('required') && loginForm.get('username').touched">
                         Usuario Requerido
                     </mat-error>
                 </mat-form-field>
@@ -33,7 +33,7 @@
                     <mat-label>Contraseña</mat-label>
                     <input matInput type="password" formControlName="password">
                     <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
-                    <mat-error>
+                    <mat-error *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
                         Contraseña requerida
                     </mat-error>
                 </mat-form-field>
@@ -46,7 +46,7 @@
                         Recordarme
                     </mat-checkbox>
 
-                    <a class="forgot-password" [routerLink]="'/forgot-password'">
+                    <a class="forgot-password" [routerLink]="['/forgot-password']">
                         Olvistaste la Contraseña?
                     </a>
                 </div>

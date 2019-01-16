@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {FuseConfigService} from '@fuse/services/config.service';
+
 
 
 @Component({
@@ -9,6 +11,23 @@ import { Component } from '@angular/core';
 export class DashboardComponent
 {
 
-    constructor() {
+    constructor(private _fuseConfigService: FuseConfigService) {
+        // Configure the layout
+        this._fuseConfigService.config = {
+            layout: {
+                navbar: {
+                    hidden: false
+                },
+                toolbar: {
+                    hidden: false
+                },
+                footer: {
+                    hidden: true
+                },
+                sidepanel: {
+                    hidden: false
+                }
+            }
+        };
     }
 }
