@@ -4,17 +4,6 @@ import {UsersService} from "../../services/users.service";
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 
-
-export interface UserData {
-    id: string;
-    name: string;
-    progress: string;
-    color: string;
-}
-
-/**
- * @title Data table with sorting, pagination, and filtering.
- */
 @Component({
     selector: 'user-list',
     styleUrls: ['user-list.component.scss'],
@@ -24,15 +13,15 @@ export interface UserData {
 export class UserListComponent implements OnInit {
 
     displayedColumns: string[] = ['id', 'username', 'first_name', 'last_name', 'active', 'actions'];
-    users : any;
-    dataSource: MatTableDataSource<UserData>;
+    users: any;
+    dataSource: MatTableDataSource<any>;
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private _usersService : UsersService) {
+    constructor(private _usersService: UsersService) {
         this.loaded = false;
     }
 
@@ -48,11 +37,9 @@ export class UserListComponent implements OnInit {
             this.dataSource.sort = this.sort;
 
             this.dtTrigger.next();
-        }, (error)=>{
+        }, (error) => {
             console.log(error);
         });
-
-
 
 
     }
@@ -64,7 +51,6 @@ export class UserListComponent implements OnInit {
             this.dataSource.paginator.firstPage();
         }
     }
-
 
 
 }

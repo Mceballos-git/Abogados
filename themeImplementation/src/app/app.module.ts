@@ -56,7 +56,7 @@ const appRoutes: Routes = [
     },
     {
         // User must be logged in and have role Admin to see this route.
-        path: 'operators',
+        path: 'users',
         component: UserListComponent,
         canActivate: [RoleGuardService],
         data: {
@@ -66,8 +66,8 @@ const appRoutes: Routes = [
     },
     {
         // User must be logged in and have role Admin to see this route.
-        path: 'operators-form',
-        component: UserFormModule,
+        path: 'users/create',
+        component: UserFormComponent,
         canActivate: [RoleGuardService],
         data: {
             expectedRole: 'admin'
@@ -76,8 +76,8 @@ const appRoutes: Routes = [
     },
     {
         // User must be logged in and have role Admin to see this route.
-        path: 'operators-form/:operator',
-        component: UserFormModule,
+        path: 'users/update/:id',
+        component: UserFormComponent,
         canActivate: [RoleGuardService],
         data: {
             expectedRole: 'admin'
