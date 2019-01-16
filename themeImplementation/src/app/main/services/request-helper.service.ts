@@ -31,7 +31,6 @@ export class RequestHelperService {
      * @returns {string}
      */
     getURL(endpointModule, endpointRoute): string {
-
         if (!this.endpoints[endpointModule]) {
             throw new Error('Invalid Configuration: Provided endpoint Module do not exist');
         }

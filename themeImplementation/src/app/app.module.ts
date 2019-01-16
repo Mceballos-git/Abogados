@@ -34,6 +34,9 @@ import {ResetPasswordComponent} from './main/authentication/reset-password/reset
 // Users related
 import {UserListComponent} from './main/users/list/user-list.component';
 import {UserListModule} from './main/users/list/user-list.module';
+import {UserFormComponent} from "./main/users/user-form/user-form.component";
+import {UserFormModule} from "./main/users/user-form/user-form.module";
+
 
 // Dashboard
 import {DashboardModule} from './main/dashboard/dashboard.module';
@@ -60,7 +63,28 @@ const appRoutes: Routes = [
             expectedRole: 'admin'
         }
 
-    }
+    },
+    {
+        // User must be logged in and have role Admin to see this route.
+        path: 'operators-form',
+        component: UserFormModule,
+        canActivate: [RoleGuardService],
+        data: {
+            expectedRole: 'admin'
+        }
+
+    },
+    {
+        // User must be logged in and have role Admin to see this route.
+        path: 'operators-form/:operator',
+        component: UserFormModule,
+        canActivate: [RoleGuardService],
+        data: {
+            expectedRole: 'admin'
+        }
+
+    },
+
 
 ];
 
@@ -100,6 +124,7 @@ const appRoutes: Routes = [
 
         // User Modules
         UserListModule,
+        UserFormModule,
 
         // Dashboard
         DashboardModule
