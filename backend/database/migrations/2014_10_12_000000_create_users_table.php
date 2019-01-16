@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable();
             $table->string('email')->unique();
             $table->text('role_list')->nullable();
             $table->string('first_name');
@@ -31,21 +31,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-
-        // Create admin user for test proposes
-        \App\Models\UserModel::create([
-            'username' => 'admin',
-            'email' => 'dsf@dfsdf.com',
-            'password' => Hash::make('password'),
-            'active' => 1,
-            'role_list' => json_encode(array('admin')),
-            'first_name' => 'Admin',
-            'last_name' => 'Nanapu',
-            'degree' => '',
-            'position' => 'Testing Software',
-            'shift_start' => '00:00:00.0000',
-            'shift_end' => '23:59:59.9999'
-        ]);
     }
 
     /**

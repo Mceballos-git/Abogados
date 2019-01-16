@@ -15,9 +15,9 @@ class CreateOfficesTable extends Migration
     {
         Schema::create('offices', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('address');
-            $table->text('comments');
+            $table->string('name')->nullable();
+            $table->string('address')->nullable();
+            $table->text('comments')->nullable();
             $table->timestamps();
         });
     }
