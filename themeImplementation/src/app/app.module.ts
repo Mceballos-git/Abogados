@@ -41,6 +41,8 @@ import {UserFormModule} from "./main/users/user-form/user-form.module";
 // Dashboard
 import {DashboardModule} from './main/dashboard/dashboard.module';
 import {DashboardComponent} from './main/dashboard/dashboard.component';
+import { ClientListComponent } from './main/clients/list/client-list.component';
+import { ClientListModule } from './main/clients/list/client-list.module';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -59,7 +61,7 @@ const appRoutes: Routes = [
         path: 'users/list',
         component: UserListComponent,
         canActivate: [RoleGuardService],
-        data: {
+        data: {     
             expectedRole: 'admin'
         }
 
@@ -84,6 +86,13 @@ const appRoutes: Routes = [
         }
 
     },
+
+    {
+        // User must be logged in and have role Admin to see this route.
+        path: 'clients/list',
+        component: ClientListComponent,
+        canActivate: [AuthenticationGuardService],        
+    }
 
 
 ];
@@ -125,6 +134,9 @@ const appRoutes: Routes = [
         // User Modules
         UserListModule,
         UserFormModule,
+
+        //ClientsModules
+        ClientListModule,
 
         // Dashboard
         DashboardModule

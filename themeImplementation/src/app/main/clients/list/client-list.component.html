@@ -1,6 +1,6 @@
 
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
-    <h1>Listado de Operadores</h1>
+    <h1>Listado de Clientes</h1>
     <div *ngIf="!loaded">
         cargando....
     </div>
@@ -11,45 +11,45 @@
 
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
-
-                <!-- ID Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                <!-- lastName Column -->
+                <ng-container matColumnDef="last_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+                    <td mat-cell *matCellDef="let row"> {{row.last_name}} </td>
                 </ng-container>
-
-                <!-- Progress Column -->
-                <ng-container matColumnDef="username">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
-                    <td mat-cell *matCellDef="let row"> {{row.username}} </td>
-                </ng-container>
-
                 <!-- Name Column -->
                 <ng-container matColumnDef="first_name">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
                     <td mat-cell *matCellDef="let row"> {{row.first_name}} </td>
                 </ng-container>
 
-                <!-- Color Column -->
-                <ng-container matColumnDef="last_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
-                    <td mat-cell *matCellDef="let row"> {{row.last_name}} </td>
+                <!-- ID Column -->
+                <ng-container matColumnDef="identification_number">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> DNI </th>
+                    <td mat-cell *matCellDef="let row"> {{row.identification_number}} </td>
+                </ng-container>
+                
+                
+                <ng-container matColumnDef="city">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad </th>
+                    <td mat-cell *matCellDef="let row"> {{row.city}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="active">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Activo </th>
-                    <td mat-cell *matCellDef="let row"> {{row.active}} </td>
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo electrónico </th>
+                    <td mat-cell *matCellDef="let row"> {{row.email}} </td>
                 </ng-container>
+
+
+
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
                     <td mat-cell *matCellDef="let row" [style.color]="row.color">
-                        
                         <div class="clickeable">
                             <mat-icon matSuffix class="secondary-text">edit</mat-icon>
-                            <mat-icon matSuffix class="secondary-text clickeable" (click)="delete()">delete</mat-icon>
+                            <mat-icon matSuffix class="secondary-text" (click)="delete(row.id)">delete</mat-icon>
                         </div>
-                        
                     </td>
                 </ng-container>
 

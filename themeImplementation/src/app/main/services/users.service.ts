@@ -32,13 +32,37 @@ export class UsersService extends RequestHelperService {
         return this.http.get(url, headers);
     }
 
+    getOne(id){
+        let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_GET_ONE);
+        const headers = this.getRequestOptions(true);
+        url = url.replace(':id', id);
+        return this.http.get(url, headers);
+    }
+
     delete(id) {
-        return this.http.delete('http://local.sassani.com/users/' + id);
+        let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_DELETE);
+        console.log(url);
+        url = url.replace(':id', id);
+        console.log(url);    
+
+        const headers = this.getRequestOptions(true);
+        return this.http.delete(url, headers);
     }
 
     create(formData) {
+        const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_CREATE);
+        const headers = this.getRequestOptions(true);
         let requestBody = this.getFormRequestBody(formData);
-        return this.http.post('http://local.sassani.com/users', requestBody);
+        return this.http.post(url, requestBody, headers);
+    }
+
+    updateUser(id, data){
+        let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_UPDATE);
+        const headers = this.getRequestOptions(true);
+        let requestBody = this.getFormRequestBody(data);
+        url = url.replace(':id', id);
+
+        return this.http.put(url, requestBody, headers);
     }
 
 
@@ -93,18 +117,11 @@ export class UsersService extends RequestHelperService {
             return [];
         }
         return [selectedRole];
-    }
-
-    getOne(id){
-        return this.http.get('http://local.sassani.com/users/' + id);
-    }
+    }    
 
     getRoleFromArray(roles){
         return roles[0];
     }
 
-    updateUser(id, data){
-        let requestBody = this.getFormRequestBody(data);
-        return this.http.put('http://local.sassani.com/users/' + id, requestBody);
-    }
+    
 }
