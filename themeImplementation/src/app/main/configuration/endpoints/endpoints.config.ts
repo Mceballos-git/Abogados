@@ -15,4 +15,11 @@ export class EndpointsConfig {
         FORGOT_PASSWORD: '/user-security/forgot-password',
         RESET_PASSWORD: '/user-security/reset-password'
     };
+    USERS = {
+        CREATE: '/users',
+        UPDATE: '/users/:id',
+        LIST: '/users',
+        GET_ONE: '/users/:id',
+        DELETE: '/users/:id',
+    }
 }

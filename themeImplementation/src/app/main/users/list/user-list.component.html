@@ -1,41 +1,60 @@
+
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
     <h1>Listado de Operadores</h1>
-    <!--<mat-form-field>-->
-        <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
-    <!--</mat-form-field>-->
+    <div *ngIf="!loaded">
+        cargando....
+    </div>
+    <div *ngIf="loaded">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
 
-    <!--<div class="mat-elevation-z8">-->
-        <!--<table mat-table [dataSource]="dataSource" matSort>-->
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
 
-            <!--&lt;!&ndash; ID Column &ndash;&gt;-->
-            <!--<ng-container matColumnDef="id">-->
-                <!--<th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>-->
-                <!--<td mat-cell *matCellDef="let row"> {{row.id}} </td>-->
-            <!--</ng-container>-->
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                </ng-container>
 
-            <!--&lt;!&ndash; Progress Column &ndash;&gt;-->
-            <!--<ng-container matColumnDef="progress">-->
-                <!--<th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>-->
-                <!--<td mat-cell *matCellDef="let row"> {{row.progress}}% </td>-->
-            <!--</ng-container>-->
+                <!-- Progress Column -->
+                <ng-container matColumnDef="username">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+                    <td mat-cell *matCellDef="let row"> {{row.username}} </td>
+                </ng-container>
 
-            <!--&lt;!&ndash; Name Column &ndash;&gt;-->
-            <!--<ng-container matColumnDef="name">-->
-                <!--<th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>-->
-                <!--<td mat-cell *matCellDef="let row"> {{row.name}} </td>-->
-            <!--</ng-container>-->
+                <!-- Name Column -->
+                <ng-container matColumnDef="first_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let row"> {{row.first_name}} </td>
+                </ng-container>
 
-            <!--&lt;!&ndash; Color Column &ndash;&gt;-->
-            <!--<ng-container matColumnDef="color">-->
-                <!--<th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>-->
-                <!--<td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </td>-->
-            <!--</ng-container>-->
+                <!-- Color Column -->
+                <ng-container matColumnDef="last_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+                    <td mat-cell *matCellDef="let row"> {{row.last_name}} </td>
+                </ng-container>
 
-            <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-            <!--<tr mat-row *matRowDef="let row; columns: displayedColumns;">-->
-            <!--</tr>-->
-        <!--</table>-->
+                <ng-container matColumnDef="active">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Activo </th>
+                    <td mat-cell *matCellDef="let row"> {{row.active}} </td>
+                </ng-container>
 
-        <!--<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
-    <!--</div>-->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                    <td mat-cell *matCellDef="let row" [style.color]="row.color">
+                        <mat-icon matSuffix class="secondary-text">edit</mat-icon>
+                        <mat-icon matSuffix class="secondary-text">delete</mat-icon>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
 </div>
