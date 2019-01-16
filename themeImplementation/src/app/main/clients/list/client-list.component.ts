@@ -1,19 +1,20 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {UsersService} from "../../services/users.service";
+import { ClientsService } from 'app/main/services/clients.service';
+
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 
 @Component({
-    selector: 'user-list',
-    styleUrls: ['user-list.component.scss'],
-    templateUrl: 'user-list.component.html',
+    selector: 'client-list',
+    styleUrls: ['./client-list.component.scss'],
+    templateUrl: './client-list.component.html',
 })
 
-export class UserListComponent implements OnInit {
+export class ClientListComponent implements OnInit {
 
-    displayedColumns: string[] = ['id', 'username', 'first_name', 'last_name', 'active', 'actions'];
-    users: any;
+    displayedColumns: string[] = ['last_name', 'first_name', 'identification_number', 'city', 'email', 'actions'];
+    clients: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
@@ -21,18 +22,18 @@ export class UserListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private _usersService: UsersService) {
+    constructor(private _clientsService: ClientsService) {
         this.loaded = false;
     }
 
     ngOnInit() {
 
-        this._usersService.getUsersList().subscribe(response => {
-            this.users = response;
+        this._clientsService.getClientsList().subscribe(response => {
+            this.clients = response;
             this.loaded = true;
 
             // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.users);
+            this.dataSource = new MatTableDataSource(this.clients);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
 
@@ -53,13 +54,12 @@ export class UserListComponent implements OnInit {
     }
 
     delete(id){
-        this._usersService.delete(id).subscribe((response) => {
-            console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');  
+        this._clientsService.delete(id).subscribe((response) => {
+            console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');  
           },(error) => { 
-            console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
-        });      
-    }    
-       
-    
+            console.log('There was an error while trying to delete client. Todo: Mostrar mensaje delete no exitoso');
+        });   
+    }
+
 
 }

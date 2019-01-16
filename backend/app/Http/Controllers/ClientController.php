@@ -7,6 +7,7 @@ use App\Models\TurnModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 use Nexmo\Client;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {

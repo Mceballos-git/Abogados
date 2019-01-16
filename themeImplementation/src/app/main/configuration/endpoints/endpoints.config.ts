@@ -21,5 +21,12 @@ export class EndpointsConfig {
         LIST: '/users',
         GET_ONE: '/users/:id',
         DELETE: '/users/:id',
+    };
+    CLIENTS = {
+        CREATE: '/clients',
+        UPDATE: '/clients/:id',
+        LIST: '/clients',
+        GET_ONE: '/clients/:id',
+        DELETE: '/clients/:id',
     }
 }
