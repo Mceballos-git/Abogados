@@ -9,17 +9,20 @@ import {
     MatIconModule,
     MatInputModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCardModule,
+    MatGridListModule,
+    MatDialogModule
 } from '@angular/material';
 import {FuseSharedModule} from '@fuse/shared.module';
-import {MatCardModule} from '@angular/material';
-import {MatGridListModule} from '@angular/material';
+import {GenericDialogComponent} from "../../common/generic-dialog/generic-dialog.component";
+import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component";
 
 // import {Mat}
 @NgModule({
     declarations: [
         UserListComponent,
-
+        GenericDialogComponent
     ],
     imports: [
         RouterModule,
@@ -34,9 +37,13 @@ import {MatGridListModule} from '@angular/material';
         MatTableModule,
         MatPaginatorModule,
         FuseSharedModule,
+        MatDialogModule
     ],
     exports: [
         UserListComponent
+    ],
+    entryComponents: [
+        GenericDialogComponent
     ]
 })
 

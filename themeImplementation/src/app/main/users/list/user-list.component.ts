@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
 import {UsersService} from "../../services/users.service";
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
+import {GenericDialogComponent} from "../../common/generic-dialog/generic-dialog.component";
 
 @Component({
     selector: 'user-list',
@@ -21,8 +22,12 @@ export class UserListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private _usersService: UsersService) {
+    constructor(
+        private _usersService: UsersService,
+        private _dialog: MatDialog,
+    ) {
         this.loaded = false;
+
     }
 
     ngOnInit() {
@@ -52,14 +57,48 @@ export class UserListComponent implements OnInit {
         }
     }
 
-    delete(id){
-        this._usersService.delete(id).subscribe((response) => {
-            console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');  
-          },(error) => { 
-            console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
-        });      
-    }    
-       
-    
+    openDeleteDialog(index, deleteRowItem) {
+        const title = 'Eliminar Operador'
+        let content = 'Estas por Eliminar al Operador: {row.first_name}, Deseas continuar?';
+        content = content.replace('{row.first_name}', deleteRowItem.first_name);
 
+        const dialogRef = this._dialog.open(GenericDialogComponent, {
+            data: {title: title, content: content}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.delete(index, deleteRowItem);
+        });
+    }
+
+    delete(index, deleteRowItem) {
+        this._usersService.delete(deleteRowItem.id).subscribe((response) => {
+            this.handleDeletingSuccess(index)
+        },(error) => { this.handleDeletingError(error)});
+    }
+
+    /**
+     * Update DataSource so entries get deleted from view.
+     */
+    updateDataSource() {
+        this.dataSource.data = this.users;
+    }
+
+    /**
+     * Handle Deletion process
+     * @param deletedItemIndex
+     */
+    handleDeletingSuccess(deletedItemIndex) {
+        this.users.splice(deletedItemIndex, 1);
+        this.updateDataSource();
+        console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');
+    }
+
+    /**
+     * Handle deletion process errors.
+     * @param response
+     */
+    handleDeletingError(response) {
+        console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+    }
 }

@@ -43,18 +43,18 @@
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                    <td mat-cell *matCellDef="let row" [style.color]="row.color">
+                    <td mat-cell *matCellDef="let row; let i = index;" [style.color]="row.color">
                         
                         <div class="clickeable">
                             <mat-icon matSuffix class="secondary-text">edit</mat-icon>
-                            <mat-icon matSuffix class="secondary-text clickeable" (click)="delete()">delete</mat-icon>
+                            <mat-icon matSuffix class="secondary-text clickeable" (click)="openDeleteDialog(i, row)">delete</mat-icon>
                         </div>
                         
                     </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
                 </tr>
             </table>
 
