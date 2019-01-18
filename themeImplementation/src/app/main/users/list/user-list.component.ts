@@ -4,6 +4,7 @@ import {UsersService} from "../../services/users.service";
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import {GenericDialogComponent} from "../../common/generic-dialog/generic-dialog.component";
+import { FuseConfigService } from '@fuse/services/config.service';
 
 @Component({
     selector: 'user-list',
@@ -25,8 +26,26 @@ export class UserListComponent implements OnInit {
     constructor(
         private _usersService: UsersService,
         private _dialog: MatDialog,
+        private _fuseConfigService:FuseConfigService,
     ) {
         this.loaded = false;
+         // Configure the layout
+         this._fuseConfigService.config = {
+            layout: {
+                navbar: {
+                    hidden: false
+                },
+                toolbar: {
+                    hidden: false
+                },
+                footer: {
+                    hidden: true
+                },
+                sidepanel: {
+                    hidden: false
+                }
+            }
+        };
 
     }
 
@@ -67,7 +86,10 @@ export class UserListComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.delete(index, deleteRowItem);
+            console.log(result);
+            if (result){
+                this.delete(index, deleteRowItem);
+            }           
         });
     }
 

@@ -41,8 +41,12 @@ import {UserFormModule} from "./main/users/user-form/user-form.module";
 // Dashboard
 import {DashboardModule} from './main/dashboard/dashboard.module';
 import {DashboardComponent} from './main/dashboard/dashboard.component';
+//clients
 import { ClientListComponent } from './main/clients/list/client-list.component';
 import { ClientListModule } from './main/clients/list/client-list.module';
+//mov categories
+import { MovementsCategoriesComponent } from './main/movements-categories/list/movements-categories.component';
+import { MovementsCategoriesModule } from './main/movements-categories/list/movements-categories.module';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -88,9 +92,16 @@ const appRoutes: Routes = [
     },
 
     {
-        // User must be logged in and have role Admin to see this route.
+        // User must be logged in to see this route.
         path: 'clients/list',
         component: ClientListComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'movements-categories/list',
+        component: MovementsCategoriesComponent,
         canActivate: [AuthenticationGuardService],        
     }
 
@@ -99,7 +110,8 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        
     ],
     imports: [
         BrowserModule,
@@ -139,7 +151,9 @@ const appRoutes: Routes = [
         ClientListModule,
 
         // Dashboard
-        DashboardModule
+        DashboardModule,
+        //mov categories
+        MovementsCategoriesModule
     ],
     providers: [
         AuthenticationGuardService,

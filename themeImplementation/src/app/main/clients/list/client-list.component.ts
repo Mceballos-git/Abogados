@@ -1,9 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
 import { ClientsService } from 'app/main/services/clients.service';
 
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
+import { FuseConfigService } from '@fuse/services/config.service';
+import { GenericDialogComponent } from 'app/main/common/generic-dialog/generic-dialog.component';
 
 @Component({
     selector: 'client-list',
@@ -22,8 +24,27 @@ export class ClientListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private _clientsService: ClientsService) {
+    constructor(private _clientsService: ClientsService,
+                private _fuseConfigService:FuseConfigService,
+                private _dialog:MatDialog) {
         this.loaded = false;
+         // Configure the layout
+         this._fuseConfigService.config = {
+            layout: {
+                navbar: {
+                    hidden: false
+                },
+                toolbar: {
+                    hidden: false
+                },
+                footer: {
+                    hidden: true
+                },
+                sidepanel: {
+                    hidden: false
+                }
+            }
+        };
     }
 
     ngOnInit() {
@@ -53,13 +74,52 @@ export class ClientListComponent implements OnInit {
         }
     }
 
-    delete(id){
-        this._clientsService.delete(id).subscribe((response) => {
-            console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');  
-          },(error) => { 
-            console.log('There was an error while trying to delete client. Todo: Mostrar mensaje delete no exitoso');
-        });   
+    openDeleteDialog(index, deleteRowItem) {
+        const title = 'Eliminar Cliente'
+        let content = 'Estas por Eliminar al Cliente: {row.first_name}, Deseas continuar?';
+        content = content.replace('{row.first_name}', deleteRowItem.first_name);
+
+        const dialogRef = this._dialog.open(GenericDialogComponent, {
+            data: {title: title, content: content}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+            if (result){
+                this.delete(index, deleteRowItem);
+            }           
+        });
     }
 
+    delete(index, deleteRowItem){
+        this._clientsService.delete(deleteRowItem.id).subscribe((response) => {
+            this.handleDeletingSuccess(index)
+        },(error) => { this.handleDeletingError(error)});  
+    }
+
+    /**
+     * Update DataSource so entries get deleted from view.
+     */
+    updateDataSource() {
+        this.dataSource.data = this.clients;
+    }
+
+    /**
+     * Handle Deletion process
+     * @param deletedItemIndex
+     */
+    handleDeletingSuccess(deletedItemIndex) {
+        this.clients.splice(deletedItemIndex, 1);
+        this.updateDataSource();
+        console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');
+    }
+
+    /**
+     * Handle deletion process errors.
+     * @param response
+     */
+    handleDeletingError(response) {
+        console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+    }
 
 }
