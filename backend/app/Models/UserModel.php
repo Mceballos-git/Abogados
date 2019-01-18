@@ -12,12 +12,7 @@ class UserModel extends Authenticatable implements JWTSubject
 
     use Notifiable;
 
-
     protected $table = 'users';
-
-    protected $primaryKey = 'username';
-
-    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.

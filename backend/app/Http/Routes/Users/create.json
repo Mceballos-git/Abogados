@@ -16,10 +16,10 @@
     "active" : "bool|required",
     "first_name" : "string|required",
     "last_name" : "string|required",
-    "degree" : "string|sometimes",
-    "position": "string|sometimes",
-    "shift_start": "string|sometimes",
-    "shift_end": "string|sometimes"
+    "degree" : "sometimes",
+    "position": "sometimes",
+    "shift_start": "sometimes",
+    "shift_end": "sometimes"
   },
   "requestExample" : {
     "email": "ezequiel.carrizo.ac@gmail.com",
