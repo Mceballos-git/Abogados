@@ -1,4 +1,89 @@
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
-    <h1 *ngIf="action === 'create'">Nuevo Operador.</h1>
-    <h1 *ngIf="action === 'update'">Editar Operador cambiar_por_operador_nombre.</h1>
+    <div *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+        <h1 *ngIf="actionString === 'create'">Nuevo Operador.</h1>
+        <h1 *ngIf="actionString === 'update'">Editar Operador {{resource.first_name}}.</h1>
+        <div>
+
+            <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+
+                <!-- username -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput formControlName="username">
+                    <mat-error *ngIf="form.get('username').hasError('required') && form.get('username').touched">
+                        Usuario Requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- First Name -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="first_name">
+                    <mat-error *ngIf="form.get('first_name').hasError('required') && form.get('first_name').touched">
+                        Nombre Requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Last Name -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput formControlName="last_name">
+                    <mat-error *ngIf="form.get('last_name').hasError('required') && form.get('last_name').touched">
+                        Apellido Requerido
+                    </mat-error>
+                </mat-form-field>
+
+
+                <!-- Email -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-error *ngIf="form.get('email').hasError('required') && form.get('email').touched">
+                        Correo Electronico Requerido
+                    </mat-error>
+                    <mat-error *ngIf="form.get('email').hasError('pattern') && form.get('email').touched">
+                        Correo Electronico Invalido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Degree -->
+                <mat-form-field appearance="outline">
+                    <mat-label> Titulo</mat-label>
+                    <input matInput formControlName="degree">
+                </mat-form-field>
+
+                <!-- position -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Cargo</mat-label>
+                    <input matInput formControlName="position">
+                </mat-form-field>
+
+                <!-- Role -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Permisos</mat-label>
+                    <mat-select placeholder="Permisos" formControlName="role">
+                        <mat-option *ngFor="let role of roles" [value]="role.value">
+                            {{role.text}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div *ngIf="form.invalid">
+                    Errores:
+                    {{form.getError()}}
+                </div>
+
+
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN"
+                        [disabled]="form.invalid">
+                    Guardar
+                </button>
+            </form>
+        </div>
+    </div>
+
 </div>
