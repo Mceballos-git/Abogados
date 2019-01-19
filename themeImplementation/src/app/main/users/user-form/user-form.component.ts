@@ -6,7 +6,7 @@ import {FuseConfigService} from "../../../../@fuse/services/config.service";
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component"
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'user-form',
@@ -24,6 +24,7 @@ export class UserFormComponent implements OnInit {
     resource: any;
     loading: boolean;
     form: FormGroup;
+    res:any;
 
     // Constants.
     DEFAULT_ROLE_VALUE = 'operator';
@@ -34,11 +35,19 @@ export class UserFormComponent implements OnInit {
         { value: 'operator', text: 'Operador'},
     ];
 
+    //hours
+    hours = ['00:00', '00:30','01:00', '01:30','02:00', '02:30','03:00', '03:30','04:00', '04:30','05:00', '05:30','06:00', '06:30',
+        '07:00', '07:30','08:00', '08:30','09:00', '09:30','10:00', '10:30','11:00', '11:30','12:00', '12:30','13:00', '13:30',
+        '14:00', '14:30','15:00', '15:30','16:00', '16:30','17:00', '17:30','18:00', '18:30','19:00', '19:30','20:00', '20:30',
+        '21:00', '21:30','22:00', '22:30','23:00', '23:30','24:00', '24:30'
+    ];
+    
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _activatedRoute: ActivatedRoute,
         private _userService: UsersService,
         private _dialog: MatDialog,
+        private _snackBar:MatSnackBar,
         private _router: Router
     ) {
         this._fuseConfigService.config = {
@@ -61,12 +70,21 @@ export class UserFormComponent implements OnInit {
         this.loading = true;
     }
 
+    //snackbar
+    // openSnackBar(message: string, action:string) {
+    //     this._snackBar.open(message,  action,{
+    //       duration: 3000,
+    //       panelClass: ['green-snackbar']
+    //     });
+    // }
+
+
     ngOnInit() {
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
         if (this.action === 2) {
-            const resourceId = this._activatedRoute.snapshot.paramMap.get('id');
-            return this.initUpdate(resourceId);
+            this.res = this._activatedRoute.snapshot.paramMap.get('id');
+            return this.initUpdate(this.res);
         }
         return this.initCreate();
     }
@@ -162,12 +180,13 @@ export class UserFormComponent implements OnInit {
                 this.handleSubmitError(error);
             });
             return;
-        }
+        }      
 
-        this._userService.update(this.resourceId, this.form.value).subscribe((response) => {
-            this.handleSubmitSuccess(response);
+        this._userService.update(this.res, this.form.value).subscribe((response) => {
+            this.handleSubmitSuccess(response); 
         }, (error) => {
-            this.handleSubmitError(error);
+            this.handleSubmitError(error);   
+            return;
         });
     }
 
@@ -191,8 +210,12 @@ export class UserFormComponent implements OnInit {
      */
     handleSubmitSuccess(response): void {
         this.loadingDialogRef.close();
+        this._snackBar.open('usuario editado correctamente', '',{
+            duration: 3000,
+            panelClass: ['green']
+        });
         if (this.action === 1) {
-            this._router.navigate(['users/update/' + response.id]);
+            this._router.navigate(['/users/list']);
         }
         console.log('show success message');
     }
@@ -204,6 +227,10 @@ export class UserFormComponent implements OnInit {
      */
     handleSubmitError(response): void {
         this.loadingDialogRef.close();
+        this._snackBar.open('Se ha producido un error al editar el usuario', '',{
+            duration: 3000,
+            panelClass: ['warn']
+        });
         console.log('show error');
     }
 

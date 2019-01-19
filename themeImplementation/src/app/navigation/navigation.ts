@@ -59,14 +59,14 @@ export const navigation: FuseNavigation[] = [
                     title    : 'Listado de operadores',
                     translate: 'NAV.SAMPLE.TITLE',
                     type     : 'item',                    
-                    url      : '/operators/list',                    
+                    url      : '/users/list',                    
                 },
                 {
                     id       : 'operators-create',
                     title    : 'Nuevo operador',
                     translate: 'NAV.SAMPLE.TITLE',
                     type     : 'item',                    
-                    url      : '/operators/create',                    
+                    url      : '/users/create',                    
                 }]                
             },//operators
             {

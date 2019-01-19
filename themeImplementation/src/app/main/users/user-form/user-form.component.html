@@ -61,6 +61,26 @@
                     <input matInput formControlName="position">
                 </mat-form-field>
 
+                <!-- shift start -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Horario ingreso</mat-label>
+                    <mat-select placeholder="Horario ingreso" formControlName="shift_start">
+                        <mat-option *ngFor="let hour of hours" [value]="hour">
+                        {{hour}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                 <!-- shift end -->
+                 <mat-form-field appearance="outline">
+                    <mat-label>Horario salida</mat-label>
+                    <mat-select placeholder="Horario salida" formControlName="shift_end">
+                        <mat-option *ngFor="let hour of hours" [value]="hour">
+                        {{hour}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <!-- Role -->
                 <mat-form-field appearance="outline">
                     <mat-label>Permisos</mat-label>
@@ -71,16 +91,20 @@
                     </mat-select>
                 </mat-form-field>
 
-                <div *ngIf="form.invalid">
-                    Errores:
-                    {{form.getError()}}
+                <div style="margin-bottom:10px;" *ngIf="form.invalid">
+                    <span color="warn">Errores:
+                        {{form.getError()}}</span>                    
                 </div>
 
-
-
-                <button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN"
+                <button mat-raised-button color="accent"
+                 class="submit-button m-4" aria-label="LOG IN"
                         [disabled]="form.invalid">
                     Guardar
+                </button>
+                <button mat-raised-button color="primary"
+                 class="submit-button m-4" aria-label="LOG IN"
+                 [routerLink]="['/users/list']" >
+                    Cancelar
                 </button>
             </form>
         </div>

@@ -5,6 +5,7 @@ import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import {GenericDialogComponent} from "../../common/generic-dialog/generic-dialog.component";
 import {FuseConfigService} from '@fuse/services/config.service';
+import { UserSecurityService } from 'app/main/services/user-security.service';
 
 @Component({
     selector: 'user-list',
@@ -27,6 +28,7 @@ export class UserListComponent implements OnInit {
         private _usersService: UsersService,
         private _dialog: MatDialog,
         private _fuseConfigService: FuseConfigService,
+        private _userSecurityService:UserSecurityService
     ) {
         this.loaded = false;
         this._fuseConfigService.config = {
@@ -52,7 +54,7 @@ export class UserListComponent implements OnInit {
 
         this._usersService.getUsersList().subscribe(response => {
             this.users = response;
-            this.loaded = true;
+            this.loaded = true;              
 
             // Assign the data to the data source for the table to render
             this.dataSource = new MatTableDataSource(this.users);
@@ -123,5 +125,26 @@ export class UserListComponent implements OnInit {
      */
     handleDeletingError(response) {
         console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+    }
+
+    activate(id, index){        
+        this._userSecurityService.activate(id).subscribe((response)=>{
+            console.log('user activated ok'); 
+            this.users[index].active = 1;         
+            this.updateDataSource();
+        }, (error)=>{
+            console.log(error);            
+        });
+    }
+
+    deactivate(id, index){
+        this._userSecurityService.deactivate(id).subscribe((response)=>{
+            console.log('user deactivated ok');   
+            this.users[index].active = 0;       
+            this.updateDataSource();
+        }, (error)=>{
+            console.log(error);
+            
+        });
     }
 }

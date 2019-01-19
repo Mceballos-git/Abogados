@@ -13,7 +13,9 @@ export class EndpointsConfig {
     };
     USER_SECURITY = {
         FORGOT_PASSWORD: '/user-security/forgot-password',
-        RESET_PASSWORD: '/user-security/reset-password'
+        RESET_PASSWORD: '/user-security/reset-password',
+        ACTIVATE: '/user-security/activate',
+        DEACTIVATE: '/user-security/deactivate',
     };
     USERS = {
         CREATE: '/users',

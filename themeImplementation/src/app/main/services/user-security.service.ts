@@ -12,6 +12,8 @@ export class UserSecurityService extends RequestHelperService {
         REQUEST_MODULE : 'USER_SECURITY',
         ENDPOINT_FORGOT_PASSWORD : 'FORGOT_PASSWORD',
         ENDPOINT_RESET_PASSWORD : 'RESET_PASSWORD',
+        ENDPOINT_ACTIVATE : 'ACTIVATE',
+        ENDPOINT_DEACTIVATE : 'DEACTIVATE',
     };
 
     /**
@@ -40,6 +42,24 @@ export class UserSecurityService extends RequestHelperService {
             reset_token: data.reset_token,
             new_password: data.new_password,
             new_password_confirmation: data.new_password_confirmation
+        };
+        return this.http.post(url, requestBody, headers);
+    }
+
+    activate(data): Observable<Object> {
+        const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_ACTIVATE);
+        const headers = this.getRequestOptions(true);
+        const requestBody = {
+            user_id: data
+        };
+        return this.http.post(url, requestBody, headers);
+    }
+
+    deactivate(data): Observable<Object> {
+        const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_DEACTIVATE);
+        const headers = this.getRequestOptions(true);
+        const requestBody = {
+            user_id: data
         };
         return this.http.post(url, requestBody, headers);
     }

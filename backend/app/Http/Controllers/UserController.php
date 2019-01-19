@@ -8,6 +8,8 @@ use App\Services\UserService;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Http\Request;
 
+
+
 /**
  * Class UserController
  * @package App\Http\Controllers
@@ -15,6 +17,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
+    
     /**
      * @var UserService
      */
@@ -87,6 +90,8 @@ class UserController extends Controller
         // Transform Data or add additional parameters.
         $requestData['role_list'] = json_encode($requestData['role_list']);
         $requestData['password'] = UserModel::DEFAULT_PASSWORD;
+
+        
 
         // Create new User.
         $newUser = UserModel::create($requestData);

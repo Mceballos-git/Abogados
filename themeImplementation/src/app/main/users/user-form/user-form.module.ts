@@ -11,6 +11,8 @@ import {
     MatCardModule,
     MatGridListModule,
     MatSelectModule,
+    MatSnackBarModule
+    
     // MatCheckbox
 } from '@angular/material';
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -32,7 +34,7 @@ import {LoadingDialogComponent} from '../../common/loading-dialog/loading-dialog
         MatIconModule,
         MatInputModule,
         FuseSharedModule,
-        MatSelectModule
+        MatSelectModule,MatSnackBarModule
     ],
     exports: [
         UserFormComponent

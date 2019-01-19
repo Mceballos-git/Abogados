@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\UserModel;
 use App\Models\PasswordResetModel;
 use App\Services\UserService;
 use App\Traits\ResponseHandlerTrait;
@@ -185,8 +185,8 @@ class UserSecurityController extends Controller
     public function activateUser(Request $request)
     {
         // Obtain Request Information from POST
-        $userId = $request->input('user_id');
-        $user = UserModel::where('id', $userId);
+        $userId = $request->input('user_id');  
+        $user = UserModel::where('id', $userId)->first();          
         $user->active = 1;
         $user->save();
         return $this->successResponse($user);
@@ -201,7 +201,7 @@ class UserSecurityController extends Controller
     {
         // Obtain Request Information from POST
         $userId = $request->input('user_id');
-        $user = UserModel::where('id', $userId);
+        $user = UserModel::where('id', $userId)->first();
         $user->active = 0;
         $user->save();
         return $this->successResponse($user);

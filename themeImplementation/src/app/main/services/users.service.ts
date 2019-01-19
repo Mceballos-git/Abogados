@@ -87,7 +87,7 @@ export class UsersService extends RequestHelperService {
                 formData.shift_start, this.constants.FIELD_DEFAULTS.SHIFT_START_DEFAULT
             ),
             shift_end: this.getValueOrDefaultIfNull(
-                formData.shift_ends, this.constants.FIELD_DEFAULTS.SHIFT_END_DEFAULT
+                formData.shift_end, this.constants.FIELD_DEFAULTS.SHIFT_END_DEFAULT
             )
         };
     }
