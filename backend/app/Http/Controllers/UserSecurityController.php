@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\UserModel;
 use App\Models\PasswordResetModel;
 use App\Services\UserService;
 use App\Traits\ResponseHandlerTrait;
@@ -180,50 +180,30 @@ class UserSecurityController extends Controller
     /**
      * Can only be executed by admin Role.
      * Admin Required certain operator to be Activated
-     * @todo
      * @param Request $request
      */
     public function activateUser(Request $request)
     {
-
-        print_r(123);
-        die();
-
-        // input example: {"user_id" : 1}}
-
-        // Declare Request Parameters Validation Rules
-
-        // Gather Request Input.
-
-        // Evaluate Request Input, If it is not valid, Send back a Bad Request Response.
-
-        // Get User from database (1) , if do not exists return bad request.
-
-        // If user exists, Update active field to 1 and save changes.
-
-        // Send Response back to client.
+        // Obtain Request Information from POST
+        $userId = $request->input('user_id');  
+        $user = UserModel::where('id', $userId)->first();          
+        $user->active = 1;
+        $user->save();
+        return $this->successResponse($user);
     }
 
     /**
      * Roles: can only be executed by admin role.
-     * @todo
      * @param Request $request
      *
      */
     public function deactivateUser(Request $request)
     {
-        // input example: {"user_id" : 1}}
-
-        // Declare Request Parameters Validation Rules
-
-        // Gather Request Input.
-
-        // Evaluate Request Input, If it is not valid, Send back a Bad Request Response.
-
-        // Get User from database (1) , if do not exists return bad request.
-
-        // If user exists, Update active field to 0 and save changes.
-
-        // Send Response back to client.
+        // Obtain Request Information from POST
+        $userId = $request->input('user_id');
+        $user = UserModel::where('id', $userId)->first();
+        $user->active = 0;
+        $user->save();
+        return $this->successResponse($user);
     }
 }

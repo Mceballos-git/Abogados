@@ -2,7 +2,7 @@
     <div class="title">Bienvenido, cambiar_por_nombre</div>
 
     <div class="dashboard-cards-content">
-        <mat-card class="widget-card-dashboard">
+        <mat-card class="widget-card-dashboard amber">
             <mat-card-title> Clientes</mat-card-title>
             <mat-card-content>
                 <ul>
@@ -14,27 +14,43 @@
                 </ul>
             </mat-card-content>
         </mat-card>
-        <mat-card class="widget-card-dashboard">
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
             <mat-card-title> Caja</mat-card-title>
             <mat-card-content>
                 <ul>
-                    <li> Listado de Movimientos</li>
+                    <li>
+                    <a class="link" [routerLink]="['/movements/list']">Listado de movimientos</a>
+                    </li>
                     <li> Nuevo Movimiento</li>
                 </ul>
             </mat-card-content>
         </mat-card>
-        <mat-card class="widget-card-dashboard">
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
+            <mat-card-title> Rubros de caja</mat-card-title>
+            <mat-card-content>
+                <ul>
+                    <li>
+                    <a class="link" [routerLink]="['/movements-categories/list']">Listado de rubros</a>
+                    </li>
+                    <li> Nuevo rubro</li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
             <mat-card-title> Operadores</mat-card-title>
             <mat-card-content>
                 <ul>
                     <li>
                         <a class="link" [routerLink]="['/users/list']">Listado de Operadores</a>
                     </li>
-                    <li> Nuevo Operador</li>
+                    <li> 
+                        <a class="link" [routerLink]="['/users/create']">Nuevo operador</a>
+                    </li>
                 </ul>
             </mat-card-content>
         </mat-card>
-        <mat-card class="widget-card-dashboard">
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
             <mat-card-title> Turnos</mat-card-title>
             <mat-card-content>
                 <ul>

@@ -56,12 +56,11 @@ export class UsersService extends RequestHelperService {
         return this.http.post(url, requestBody, headers);
     }
 
-    updateUser(id, data){
+    update(id, data){
         let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_UPDATE);
         const headers = this.getRequestOptions(true);
         let requestBody = this.getFormRequestBody(data);
         url = url.replace(':id', id);
-
         return this.http.put(url, requestBody, headers);
     }
 
@@ -73,7 +72,7 @@ export class UsersService extends RequestHelperService {
             first_name: formData.first_name,
             last_name: formData.last_name,
             role_list: this.getRolesFromFormData(
-                formData.role_list
+                formData.role
             ),
             active: this.getValueOrDefaultIfNull(
                 formData.active, this.constants.FIELD_DEFAULTS.ACTIVE_DEFAULT
@@ -88,7 +87,7 @@ export class UsersService extends RequestHelperService {
                 formData.shift_start, this.constants.FIELD_DEFAULTS.SHIFT_START_DEFAULT
             ),
             shift_end: this.getValueOrDefaultIfNull(
-                formData.shift_ends, this.constants.FIELD_DEFAULTS.SHIFT_END_DEFAULT
+                formData.shift_end, this.constants.FIELD_DEFAULTS.SHIFT_END_DEFAULT
             )
         };
     }
