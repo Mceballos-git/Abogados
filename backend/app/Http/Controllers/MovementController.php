@@ -39,7 +39,7 @@ class MovementController extends Controller
         $result = MovementModel::create([
             'datetime' => $requestData['datetime'],
             'amount' => $requestData['amount'],
-            'concept' => $requestData['concept'],
+            'concept' => $requestData['concept' ],
             'movement_type_id' => $requestData['movement_type_id'],
             'user_id' => $user = Auth::user()->id,
             'movement_category_id' => $requestData['movement_category_id'],

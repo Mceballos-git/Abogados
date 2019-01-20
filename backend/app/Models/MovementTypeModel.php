@@ -9,6 +9,7 @@ class MovementTypeModel extends Model
     protected $table = 'movement_types';
 
     protected $fillable = [
+        'id',
         'name'
     ];
 

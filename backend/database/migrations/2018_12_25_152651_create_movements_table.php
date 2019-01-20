@@ -19,12 +19,12 @@ class CreateMovementsTable extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->increments('id');
             $table->date('datetime');
-            $table->float('amount');
+            $table->integer('amount');
             $table->text('concept');
             $table->integer('movement_type_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->integer('movement_category_id')->unsigned();
-            $table->integer('client_id')->unsigned();
+            $table->integer('client_id')->unsigned()->nullable();
             $table->integer('deleted_by')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();

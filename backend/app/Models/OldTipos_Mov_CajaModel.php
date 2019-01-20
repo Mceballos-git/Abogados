@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OldOficinasModel extends Model
+class OldTipos_Mov_CajaModel extends Model
 {
     protected $connection = 'mysql2';
 
-    protected $table = 'oficinas';
+    protected $table = 'tipos_mov_caja';
 
     protected $fillable = [];
 }

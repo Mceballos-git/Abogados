@@ -9,6 +9,7 @@ class TurnModel extends Model
     protected $table = 'turns';
 
     protected $fillable = [
+        'id',
         'client_id',
         'given_user_id',
         'attention_user_id',

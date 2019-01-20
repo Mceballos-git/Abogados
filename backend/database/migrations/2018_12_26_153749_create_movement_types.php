@@ -14,7 +14,18 @@ class CreateMovementTypes extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        DB::table('movement_types')->insert([
+                'name' => 'pago'
+            ]
+        );
+        DB::table('movement_types')->insert([
+                'name' => 'venta'
+            ]
+        );
     }
+
+
 
 
     public function down()
