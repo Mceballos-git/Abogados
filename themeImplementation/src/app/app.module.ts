@@ -47,6 +47,8 @@ import { ClientListModule } from './main/clients/list/client-list.module';
 //mov categories
 import { MovementsCategoriesComponent } from './main/movements-categories/list/movements-categories.component';
 import { MovementsCategoriesModule } from './main/movements-categories/list/movements-categories.module';
+import { MovementCategoriesFormComponent } from './main/movements-categories/form/movement-categories-form.component';
+import { MovementCategoriesFormModule } from './main/movements-categories/form/movement-categories-form.module';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -103,6 +105,20 @@ const appRoutes: Routes = [
         path: 'movements-categories/list',
         component: MovementsCategoriesComponent,
         canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'movements-categories/create',
+        component: MovementCategoriesFormComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'movements-categories/update/:id',
+        component: MovementCategoriesFormComponent,
+        canActivate: [AuthenticationGuardService],        
     }
 
 
@@ -153,7 +169,8 @@ const appRoutes: Routes = [
         // Dashboard
         DashboardModule,
         //mov categories
-        MovementsCategoriesModule
+        MovementsCategoriesModule,
+        MovementCategoriesFormModule
     ],
     providers: [
         AuthenticationGuardService,

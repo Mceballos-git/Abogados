@@ -2,15 +2,16 @@
     <div class="title">Bienvenido, cambiar_por_nombre</div>
 
     <div class="dashboard-cards-content">
-        <mat-card class="widget-card-dashboard amber">
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
             <mat-card-title> Clientes</mat-card-title>
             <mat-card-content>
                 <ul>
                     <li> 
                         <a class="link" [routerLink]="['/clients/list']">Listado de clientes</a>
-
                     </li>
-                    <li> Nuevo Cliente</li>
+                    <li> 
+                        <a class="link" [routerLink]="['/clients/create']">Nuevo cliente</a>
+                    </li>
                 </ul>
             </mat-card-content>
         </mat-card>
@@ -21,7 +22,9 @@
                     <li>
                     <a class="link" [routerLink]="['/movements/list']">Listado de movimientos</a>
                     </li>
-                    <li> Nuevo Movimiento</li>
+                    <li> 
+                    <a class="link" [routerLink]="['/movements/create']">Nuevo movimiento</a>
+                    </li>
                 </ul>
             </mat-card-content>
         </mat-card>
@@ -32,7 +35,9 @@
                     <li>
                     <a class="link" [routerLink]="['/movements-categories/list']">Listado de rubros</a>
                     </li>
-                    <li> Nuevo rubro</li>
+                    <li> 
+                    <a class="link" [routerLink]="['/movements-categories/create']">Nuevo rubro</a>
+                     </li>
                 </ul>
             </mat-card-content>
         </mat-card>
@@ -54,7 +59,9 @@
             <mat-card-title> Turnos</mat-card-title>
             <mat-card-content>
                 <ul>
-                    <li> Nuevo Turno</li>
+                    <li>
+                    <a class="link" [routerLink]="['/turns/create']">Listado de rubros</a>
+                    </li>
                 </ul>
             </mat-card-content>
         </mat-card>

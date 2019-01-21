@@ -35,10 +35,10 @@ export const navigation: FuseNavigation[] = [
                 icon     : 'monetization_on',
                 children : [{
                     id       : 'movements-list',
-                    title    : 'Listado de rubros',
+                    title    : 'Listado de movimientos',
                     translate: 'NAV.SAMPLE.TITLE',
                     type     : 'item',                    
-                    url      : '/movements-categories/list',                    
+                    url      : '/movements/list',                    
                 },
                 {
                     id       : 'movements-create',
@@ -48,6 +48,27 @@ export const navigation: FuseNavigation[] = [
                     url      : '/movement/create',                    
                 }]                
             },//movements
+            {
+                id       : 'movements-cat',
+                title    : 'Rubros de caja',
+                translate: 'NAV.SAMPLE.TITLE',
+                type     : 'collapsable',
+                icon     : 'list',
+                children : [{
+                    id       : 'movements-cat-list',
+                    title    : 'Listado de rubros',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/movements-categories/list',                    
+                },
+                {
+                    id       : 'movements-cat-create',
+                    title    : 'Nuevo rubro',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/movements-categories/create',                    
+                }]                
+            },//movements -categories
             {
                 id       : 'operators',
                 title    : 'Operadores',
