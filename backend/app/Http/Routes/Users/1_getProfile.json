@@ -1,0 +1,13 @@
+{
+  "identifier": "getProfile",
+  "requestType": "GET",
+  "endpoint": "/getProfile",
+  "controller": "App\\Http\\Controllers\\UserController",
+  "action": "getProfile",
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "false",
+  "roles" : ["admin"],
+  "validationMiddleware": "false",
+  "validationRules": {},
+  "purifyValues" : 1
+}
