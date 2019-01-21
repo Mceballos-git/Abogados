@@ -25,7 +25,7 @@ class CreateTurnsTable extends Migration
             $table->time('turn_time_end');
             $table->string('phone_number_ref');
             $table->text('priority');
-            $table->text('comments');
+            $table->text('comments')->nullable();
             $table->char('title',100)->nullable();
             $table->boolean('active');
             $table->timestamps();

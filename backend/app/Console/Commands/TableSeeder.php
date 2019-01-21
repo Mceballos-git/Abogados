@@ -82,7 +82,7 @@ class TableSeeder extends Command
             $newUser = [];
             $newUser['id'] = $user->id_operador;
             $newUser['username'] = $user->usuario;
-            $newUser['first_name'] = mb_convert_encoding($user->nombre, 'utf-8');
+            $newUser['first_name'] = $user->nombre;
             $newUser['last_name'] = $user->apellido;
             $newUser['email'] = $user->email;
             $newUser['password'] = Hash::make($user->clave);
@@ -113,11 +113,11 @@ class TableSeeder extends Command
             $newTurn['turn_date'] = $date;
             $newTurn['turn_time_start'] = $turn->hora_desde;
             $newTurn['turn_time_end'] = $turn->hora_hasta;
-            $newTurn['phone_number_ref'] = mb_convert_encoding($turn->telefono_ref, 'utf-8');
+            $newTurn['phone_number_ref'] = $turn->telefono_ref;
             $newTurn['priority'] = $turn->prioridad;
             $newTurn['title'] = $turn->titulo;
             $newTurn['active'] = $turn->activo;
-            $newTurn['comments'] = mb_convert_encoding($turn->comentarios, 'utf-8');;
+            $newTurn['comments'] = $turn->comentarios;
             TurnModel::updateorcreate($newTurn);
         }
     }
@@ -133,23 +133,23 @@ class TableSeeder extends Command
             $newClient = [];
             $newClient['id'] = $client->id_cliente;
             $newClient['active'] = $client->activo;
-            $newClient['first_name'] = mb_convert_encoding($client->nombre, 'utf-8');
-            $newClient['last_name'] = mb_convert_encoding($client->apellido, 'utf-8');
-            $newClient['nationality'] = mb_convert_encoding($client->nacionalidad, 'utf-8');
+            $newClient['first_name'] = $client->nombre;
+            $newClient['last_name'] = $client->apellido;
+            $newClient['nationality'] = $client->nacionalidad;
             $newClient['identification_type'] = $client->tipo_doc;
             $newClient['identification_number'] = $client->dni;
             $newClient['tin_number'] = $client->cuit;
             $newClient['date_of_birth'] = $date_of_birth;
-            $newClient['phone_number'] = mb_convert_encoding($client->telefono, 'utf-8');
+            $newClient['phone_number'] = $client->telefono;
             $newClient['email'] = $client->email;
-            $newClient['street_address'] = mb_convert_encoding($client->domicilio_calle, 'utf-8');
+            $newClient['street_address'] = $client->domicilio_calle;
             $newClient['number_address'] = $client->domicilio_numero;
             $newClient['floor_address'] = $client->domicilio_piso;
             $newClient['department_address'] = $client->domicilio_depto;
             $newClient['country'] = $client->pais;
             $newClient['state'] = $client->provincia;
-            $newClient['city'] = mb_convert_encoding($client->ciudad, 'utf-8');
-            $newClient['observations'] = mb_convert_encoding($client->observaciones, 'utf-8');
+            $newClient['city'] = $client->ciudad;
+            $newClient['observations'] = $client->observaciones;
             $newClient['extra'] = $client->extra;
             ClientModel::updateorcreate($newClient);
         }
@@ -191,7 +191,7 @@ class TableSeeder extends Command
                 $newMovement['id'] = $movement->id_movimiento;
                 $newMovement['datetime'] = $movement->fecha;
                 $newMovement['amount'] = $movement->monto;
-                $newMovement['concept'] = mb_convert_encoding($movement->concepto, 'utf-8');
+                $newMovement['concept'] = $movement->concepto;
                 $newMovement['movement_type_id'] = $tipoMov;
                 $newMovement['user_id'] = $movement->id_operador;
                 $newMovement['movement_category_id'] = $movement->id_rubro;
