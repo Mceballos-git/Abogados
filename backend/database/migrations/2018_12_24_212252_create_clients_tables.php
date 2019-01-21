@@ -18,8 +18,8 @@ class CreateClientsTables extends Migration
             $table->boolean('active');
             $table->timestamps();
             $table->integer('deleted_by')->default("0");
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('nationality')->nullable();
             $table->string('identification_type')->nullable();
             $table->string('identification_number')->nullable();

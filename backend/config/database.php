@@ -49,7 +49,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
+            'collation' => 'utf8mb4_general_ci',
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
@@ -63,6 +63,10 @@ return [
             'database'  => env('DB_DATABASE_SECOND'),
             'username'  => env('DB_USERNAME_SECOND'),
             'password'  => env('DB_PASSWORD_SECOND'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_general_ci',
+
+
         ],
 
         'pgsql' => [

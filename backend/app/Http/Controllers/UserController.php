@@ -7,7 +7,7 @@ use App\Models\UserModel;
 use App\Services\UserService;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 
 /**
@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    
+
     /**
      * @var UserService
      */
@@ -37,6 +37,15 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    public function getProfile()
+    {
+
+        $requestData = array('id' => Auth::user()->id);
+        $entry = UserModel::where('id', $requestData['id'])->first();
+        $entry->role_list = json_decode($entry->role_list);
+        return $this->successResponse($entry);
+    }
+
     /**
      * Get user list.
      *
@@ -45,6 +54,7 @@ class UserController extends Controller
      */
     public function getList()
     {
+
         return $this->successResponse(
             UserModel::get()
         );
@@ -91,7 +101,6 @@ class UserController extends Controller
         $requestData['role_list'] = json_encode($requestData['role_list']);
         $requestData['password'] = UserModel::DEFAULT_PASSWORD;
 
-        
 
         // Create new User.
         $newUser = UserModel::create($requestData);
@@ -99,7 +108,7 @@ class UserController extends Controller
         // Send Invitation Email
         try {
             $this->userService->sendInvitationEmail($newUser);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // el mail no se envio.
         }
 
