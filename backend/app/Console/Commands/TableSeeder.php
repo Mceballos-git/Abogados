@@ -16,6 +16,7 @@ use App\Models\TurnModel;
 use App\Models\UserModel;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use function MongoDB\BSON\toJSON;
 
@@ -54,16 +55,26 @@ class TableSeeder extends Command
      */
     public function handle()
     {
+        $this->info('Initiated DB Seeding with Old Database Information');
+        $this->info('');
+        // Disable Foreign Check DUE Corrupted entries in old atabase.
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $this->createOffices();
         $this->createUsers();
         $this->createTurns();
         $this->createClients();
         $this->createMovementsCategories();
         $this->createMovements();
+        // Enable Foreign Check again.
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+        $this->info('');
+        $this->info('DB Seeding Finalized Successfully');
     }
 
     public function createOffices()
     {
+        $this->info('Creating Offices...');
         $old = OldOficinasModel::get();
         foreach ($old as $office) {
             $newOffice = [];
@@ -77,6 +88,7 @@ class TableSeeder extends Command
 
     public function createUsers()
     {
+        $this->info('Creating Users...');
         $old = OldUsuariosModel::get();
         foreach ($old as $user) {
             $newUser = [];
@@ -97,6 +109,7 @@ class TableSeeder extends Command
 
     public function createTurns()
     {
+        $this->info('Creating Turns...');
         $old = OldTurnosModel::get();
         foreach ($old as $turn) {
             $date = $turn->fecha_registro;
@@ -117,13 +130,14 @@ class TableSeeder extends Command
             $newTurn['priority'] = $turn->prioridad;
             $newTurn['title'] = $turn->titulo;
             $newTurn['active'] = $turn->activo;
-            $newTurn['comments'] = $turn->comentarios;
+            $newTurn['comments'] = mb_convert_encoding($turn->comentarios, 'utf-8');
             TurnModel::updateorcreate($newTurn);
         }
     }
 
     public function createClients()
     {
+        $this->info('Creating Clients...');
         $old = OldClientesModel::get();
         foreach ($old as $client) {
             $date_of_birth = $client->fecha_nac;
@@ -158,6 +172,7 @@ class TableSeeder extends Command
 
     public function createMovementsCategories()
     {
+        $this->info('Creating Movement Categories ...');
         $old = OldTipos_Mov_CajaModel::get();
         foreach ($old as $movementCategory) {
             $newMovementCategory = [];
@@ -167,37 +182,37 @@ class TableSeeder extends Command
         }
     }
 
-    Public function createMovements(){
-        {
-            $old = OldCajaModel::get();
-            foreach ($old as $movement) {
-                $detalleMov = null;
-                $detalleCliente = null;
-                if ($movement->id_pago){
-                    $detalleMov = OldCajaModel::where('id_pago', $movement->id_pago)->first();
-                    $detalleCliente = $detalleMov->id_pago;
-                }
-                if ($movement->id_venta){
-                    $detalleMov = OldCajaModel::where('id_venta', $movement->id_venta)->first();
-                    $detalleCliente = $detalleMov->id_venta;
-                }
-                if ($movement->tipo === 'egreso'){
-                    $tipoMov = 1;
-                }
-                if ($movement->tipo === "ingreso"){
-                    $tipoMov = 2;
-                }
-                $newMovement = [];
-                $newMovement['id'] = $movement->id_movimiento;
-                $newMovement['datetime'] = $movement->fecha;
-                $newMovement['amount'] = $movement->monto;
-                $newMovement['concept'] = $movement->concepto;
-                $newMovement['movement_type_id'] = $tipoMov;
-                $newMovement['user_id'] = $movement->id_operador;
-                $newMovement['movement_category_id'] = $movement->id_rubro;
-                $newMovement['client_id'] = $detalleCliente;
-                MovementModel::updateorcreate($newMovement);
+    Public function createMovements()
+    {
+        $this->info('Creating Movements...');
+        $old = OldCajaModel::get();
+        foreach ($old as $movement) {
+            $detalleMov = null;
+            $detalleCliente = null;
+            if ($movement->id_pago) {
+                $detalleMov = OldCajaModel::where('id_pago', $movement->id_pago)->first();
+                $detalleCliente = $detalleMov->id_pago;
             }
+            if ($movement->id_venta) {
+                $detalleMov = OldCajaModel::where('id_venta', $movement->id_venta)->first();
+                $detalleCliente = $detalleMov->id_venta;
+            }
+            if ($movement->tipo === 'egreso') {
+                $tipoMov = 1;
+            }
+            if ($movement->tipo === "ingreso") {
+                $tipoMov = 2;
+            }
+            $newMovement = [];
+            $newMovement['id'] = $movement->id_movimiento;
+            $newMovement['datetime'] = $movement->fecha;
+            $newMovement['amount'] = $movement->monto;
+            $newMovement['concept'] = $movement->concepto;
+            $newMovement['movement_type_id'] = $tipoMov;
+            $newMovement['user_id'] = $movement->id_operador;
+            $newMovement['movement_category_id'] = $movement->id_rubro;
+            $newMovement['client_id'] = $detalleCliente;
+            MovementModel::updateorcreate($newMovement);
         }
     }
 
