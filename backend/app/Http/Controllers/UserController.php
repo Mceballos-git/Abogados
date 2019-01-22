@@ -136,7 +136,8 @@ class UserController extends Controller
             "degree",
             "position",
             "shift_start",
-            "shift_end"
+            "shift_end",
+            "username"
         ));
 
         // Transform Data or add additional parameters.

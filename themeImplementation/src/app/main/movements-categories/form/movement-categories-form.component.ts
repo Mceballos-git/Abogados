@@ -188,7 +188,7 @@ export class MovementCategoriesFormComponent implements OnInit {
         if (this.action === 1) {
             this._snackBar.open('Se ha producido un error al crear el rubro', '',{
                 duration: 3000,
-                panelClass: ['green']
+                panelClass: ['warn']
             });           
         }
         if(this.action === 2){

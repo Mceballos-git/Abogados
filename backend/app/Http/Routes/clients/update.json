@@ -11,19 +11,19 @@
     "active" : "bool|required",
     "first_name": "required|string",
     "last_name": "required|string",
-    "nationality": "string",
+    "nationality": "sometimes|string|nullable",
     "identification_type": "required|string",
     "identification_number": "required|string",
     "date_of_birth": "required|date_format:Y-m-d",
     "phone_number": "required|string",
-    "email": "string",
+    "email": "sometimes|string|nullable",
     "street_address": "required|string",
     "number_address": "required|integer",
-    "floor_address": "string",
-    "department_address": "string",
-    "country": "string",
-    "state": "string",
-    "city": "string",
-    "observations": "string"
+    "floor_address": "sometimes|string|nullable",
+    "department_address": "sometimes|string|nullable",
+    "country": "sometimes|string|nullable",
+    "state": "sometimes|string|nullable",
+    "city": "sometimes|string|nullable",
+    "observations": "sometimes|string|nullable"
   }
 }
