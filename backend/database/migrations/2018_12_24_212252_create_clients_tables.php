@@ -17,7 +17,7 @@ class CreateClientsTables extends Migration
             $table->increments('id');
             $table->boolean('active');
             $table->timestamps();
-            $table->integer('deleted_by')->default("0");
+            $table->integer('deleted_by')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('nationality')->nullable();

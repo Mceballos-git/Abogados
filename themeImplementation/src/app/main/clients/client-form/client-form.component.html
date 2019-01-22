@@ -1,0 +1,157 @@
+<div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
+    <div *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+        <h1 *ngIf="actionString === 'create'">Nuevo Cliente.</h1>
+        <h1 *ngIf="actionString === 'update'">Editar Cliente {{resource.first_name}}.</h1>
+        <div>
+
+            <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+
+                <!-- First Name -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="first_name">
+                    <mat-error *ngIf="form.get('first_name').hasError('required') && form.get('first_name').touched">
+                        Nombre Requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Last Name -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput formControlName="last_name">
+                    <mat-error *ngIf="form.get('last_name').hasError('required') && form.get('last_name').touched">
+                        Apellido Requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- id type  -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo documento</mat-label>
+                    <mat-select placeholder="Tipo documento" formControlName="identification_type">
+                        <mat-option *ngFor="let id of id_types" [value]="id">
+                        {{id}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- id -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Nro. Documento</mat-label>
+                    <input matInput formControlName="identification_number">
+                    <mat-error *ngIf="form.get('identification_number').hasError('required') && form.get('identification_number').touched">
+                        Documento requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- tin_number -->
+                <mat-form-field appearance="outline">
+                    <mat-label> CUIL/CUIT</mat-label>
+                    <input matInput formControlName="tin_number">
+                </mat-form-field>
+
+                <!--date of birth-->
+                <mat-form-field appearance="outline">
+                    <mat-label> Fecha de nacimiento</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date_of_birth">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                 <!--street-->
+                <mat-form-field appearance="outline">
+                    <mat-label>Domicilio calle</mat-label>
+                    <input matInput formControlName="street_address">
+                    <mat-error *ngIf="form.get('street_address').hasError('required') && form.get('street_address').touched">
+                        Calle requerida
+                    </mat-error>
+                </mat-form-field>
+                
+                 <!--number-->
+                <mat-form-field appearance="outline">
+                    <mat-label>Número</mat-label>
+                    <input matInput formControlName="number_address">
+                    <mat-error *ngIf="form.get('number_address').hasError('required') && form.get('number_address').touched">
+                        Numero requerido
+                    </mat-error>
+                </mat-form-field>
+
+                
+                <!-- floor -->
+                <mat-form-field appearance="outline">
+                    <mat-label> Piso</mat-label>
+                    <input matInput formControlName="floor_address">
+                </mat-form-field>
+                
+                <!-- department -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Departamento</mat-label>
+                    <input matInput formControlName="department_address">
+                </mat-form-field>
+                
+                <!--phone-->
+                <mat-form-field appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput formControlName="phone_number">
+                    <mat-error *ngIf="form.get('phone_number').hasError('required') && form.get('phone_number').touched">
+                        Teléfono requerido
+                    </mat-error>
+                </mat-form-field>
+                
+                <!-- Email -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-error *ngIf="form.get('email').hasError('pattern') && form.get('email').touched">
+                        Correo Electronico Invalido
+                    </mat-error>
+                </mat-form-field>
+
+                 <!-- country -->
+                 <mat-form-field appearance="outline">
+                    <mat-label>Pais</mat-label>
+                    <input matInput formControlName="country">
+                </mat-form-field>
+
+                 <!-- state -->
+                 <mat-form-field appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <input matInput formControlName="state">
+                </mat-form-field>
+
+                 <!-- city -->
+                 <mat-form-field appearance="outline">
+                    <mat-label>Ciudad</mat-label>
+                    <input matInput formControlName="city">
+                </mat-form-field>
+
+                 <!-- nationality -->
+                 <mat-form-field appearance="outline">
+                    <mat-label>Nacionalidad</mat-label>
+                    <input matInput formControlName="nationality">
+                </mat-form-field>
+
+                 <!-- observations -->
+                 <mat-form-field appearance="outline">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput formControlName="observations"></textarea>
+                </mat-form-field>
+
+
+                <button mat-raised-button color="accent"
+                 class="submit-button m-4" aria-label="LOG IN"
+                        [disabled]="form.invalid">
+                    Guardar
+                </button>
+                <button mat-raised-button color="primary"
+                 class="submit-button m-4" aria-label="LOG IN"
+                 [routerLink]="['/clients/list']" >
+                    Cancelar
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>

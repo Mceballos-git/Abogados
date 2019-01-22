@@ -210,14 +210,20 @@ export class UserFormComponent implements OnInit {
      */
     handleSubmitSuccess(response): void {
         this.loadingDialogRef.close();
-        this._snackBar.open('usuario editado correctamente', '',{
-            duration: 3000,
-            panelClass: ['green']
-        });
-        if (this.action === 1) {
-            this._router.navigate(['/users/list']);
+        if (this.action === 2){
+            this._snackBar.open('Usuario editado correctamente', '',{
+                duration: 3000,
+                panelClass: ['green']
+            });
         }
-        console.log('show success message');
+
+        if (this.action === 1) {
+            this._snackBar.open('Usuario creado correctamente', '',{
+                duration: 3000,
+                panelClass: ['green']
+            });            
+        }
+        this._router.navigate(['/users/list']);
     }
 
     /**
@@ -233,5 +239,6 @@ export class UserFormComponent implements OnInit {
         });
         console.log('show error');
     }
+
 
 }

@@ -47,7 +47,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
                     <td mat-cell *matCellDef="let row" [style.color]="row.color">
                         <div class="clickeable">
-                            <mat-icon matSuffix class="secondary-text" color="primary">edit</mat-icon>
+                            <mat-icon matSuffix class="secondary-text" color="primary"
+                            [routerLink]="['/clients/update', row.id]">edit</mat-icon>
                             <mat-icon matSuffix class="secondary-text" color="warn"
                              (click)="openDeleteDialog(i, row)">delete</mat-icon>
                         </div>

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import 'rxjs/Rx';
 import {RequestHelperService} from "./request-helper.service";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +64,7 @@ export class ClientsService extends RequestHelperService{
     return this.http.post(url, requestBody, headers);
   }
 
-  updateUser(id, data){
+  update(id, data){
     let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_UPDATE);
     const headers = this.getRequestOptions(true);
     let requestBody = this.getFormRequestBody(data);
@@ -74,7 +75,15 @@ export class ClientsService extends RequestHelperService{
 
   private getFormRequestBody(formData){
 
-    return {           
+    return {   
+      first_name: formData.first_name,
+      last_name: formData.last_name, 
+      identification_type: formData.identification_type, 
+      identification_number: formData.identification_number,
+      date_of_birth:formData.date_of_birth,      
+      phone_number:formData.phone_number,       
+      street_address:formData.street_address,       
+      number_address:formData.number_address,       
       nationality: this.getValueOrDefaultIfNull(
           formData.nationality, this.constants.FIELD_DEFAULTS.NATIONALITY_DEFAULT
       ),
@@ -98,6 +107,9 @@ export class ClientsService extends RequestHelperService{
       ),
       city: this.getValueOrDefaultIfNull(
         formData.city, this.constants.FIELD_DEFAULTS.CITY_DEFAULT
+      ),
+      observations: this.getValueOrDefaultIfNull(
+        formData.observations, this.constants.FIELD_DEFAULTS.OBSERVATIONS_DEFAULT
       ),
       active: this.getValueOrDefaultIfNull(
         formData.active, this.constants.FIELD_DEFAULTS.ACTIVE_DEFAULT
