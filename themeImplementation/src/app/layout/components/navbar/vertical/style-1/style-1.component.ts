@@ -7,6 +7,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { UsersService } from 'app/main/services/users.service';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -18,6 +19,9 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 {
     fuseConfig: any;
     navigation: any;
+
+    loggedUser:any;
+    username:string;
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
@@ -35,11 +39,23 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
-        private _router: Router
+        private _router: Router,
+        private _userService:UsersService
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+    }
+
+
+    getProfile(){
+        this._userService.getProfile().subscribe((response)=>{           
+            this.loggedUser = response;
+            this.username = this.loggedUser.username;
+        }, (error)=>{
+            console.log(error);
+            
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -99,6 +115,9 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this.getProfile();
+
+
         this._router.events
             .pipe(
                 filter((event) => event instanceof NavigationEnd),

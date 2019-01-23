@@ -45,6 +45,6 @@ export class AuthenticationService extends RequestHelperService {
     logout(): Observable<Object> {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LOGOUT);
         const headers = this.getRequestOptions(true);
-        return this.http.post(url, {});
+        return this.http.post(url, {}, headers);
     }
 }

@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
 import { ClientsService } from 'app/main/services/clients.service';
-
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import { FuseConfigService } from '@fuse/services/config.service';
@@ -51,7 +50,8 @@ export class ClientListComponent implements OnInit {
 
         this._clientsService.getClientsList().subscribe(response => {
             this.clients = response;
-            this.loaded = true;
+            this.loaded = true;    
+            
 
             // Assign the data to the data source for the table to render
             this.dataSource = new MatTableDataSource(this.clients);
@@ -111,7 +111,7 @@ export class ClientListComponent implements OnInit {
     handleDeletingSuccess(deletedItemIndex) {
         this.clients.splice(deletedItemIndex, 1);
         this.updateDataSource();
-        console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');
+        console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');
     }
 
     /**
@@ -119,7 +119,28 @@ export class ClientListComponent implements OnInit {
      * @param response
      */
     handleDeletingError(response) {
-        console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+        console.log('There was an error while trying to delete client. Todo: Mostrar mensaje delete no exitoso');
+    }
+
+    activate(id, index){        
+        this._clientsService.activate(id).subscribe((response)=>{
+            console.log('client activated ok'); 
+            this.clients[index].active = 1;         
+            this.updateDataSource();
+        }, (error)=>{
+            console.log(error);            
+        });
+    }
+
+    deactivate(id, index){
+        this._clientsService.deactivate(id).subscribe((response)=>{
+            console.log('client deactivated ok');   
+            this.clients[index].active = 0;       
+            this.updateDataSource();
+        }, (error)=>{
+            console.log(error);
+            
+        });
     }
 
 }

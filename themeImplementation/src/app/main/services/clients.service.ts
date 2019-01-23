@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 import {RequestHelperService} from "./request-helper.service";
+import {Observable} from 'rxjs';
+
 
 
 
@@ -29,6 +31,8 @@ export class ClientsService extends RequestHelperService{
     ENDPOINT_LIST : 'LIST',
     ENDPOINT_GET_ONE : 'GET_ONE',
     ENDPOINT_DELETE : 'DELETE', 
+    ENDPOINT_ACTIVATE : 'ACTIVATE',
+    ENDPOINT_DEACTIVATE : 'DEACTIVATE',
   };
 
   
@@ -71,6 +75,24 @@ export class ClientsService extends RequestHelperService{
     url = url.replace(':id', id);
 
     return this.http.put(url, requestBody, headers);
+  }
+
+  activate(data): Observable<Object> {
+    const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_ACTIVATE);
+    const headers = this.getRequestOptions(true);
+    const requestBody = {
+        client_id: data
+    };
+    return this.http.post(url, requestBody, headers);
+  }
+
+  deactivate(data): Observable<Object> {
+      const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_DEACTIVATE);
+      const headers = this.getRequestOptions(true);
+      const requestBody = {
+          client_id: data
+      };
+      return this.http.post(url, requestBody, headers);
   }
 
   private getFormRequestBody(formData){

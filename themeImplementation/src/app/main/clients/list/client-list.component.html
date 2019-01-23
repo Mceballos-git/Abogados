@@ -40,15 +40,32 @@
                     <td mat-cell *matCellDef="let row"> {{row.email}} </td>
                 </ng-container>
 
+                <!-- Balance Column -->
+                <!-- <ng-container matColumnDef="saldo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </th>
+                    <td mat-cell *matCellDef="let row"> {{row.balance}} </td>
+                </ng-container> -->
 
 
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                    <td mat-cell *matCellDef="let row" [style.color]="row.color">
+                    <td mat-cell *matCellDef="let row; let i = index" [style.color]="row.color">
                         <div class="clickeable">
+
+                            <!-- activate/deactivate -->
+                            <mat-icon matSuffix class="secondary-text"
+                            style="color:green;" *ngIf="row.active === 1"
+                            (click)="deactivate(row.id, i)">check_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text"
+                            color="warn" *ngIf="row.active === 0"
+                            (click)="activate(row.id, i)">highlight_off</mat-icon>
+
+                            <!-- edit -->
                             <mat-icon matSuffix class="secondary-text" color="primary"
                             [routerLink]="['/clients/update', row.id]">edit</mat-icon>
+
+                            <!-- delete -->
                             <mat-icon matSuffix class="secondary-text" color="warn"
                              (click)="openDeleteDialog(i, row)">delete</mat-icon>
                         </div>

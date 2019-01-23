@@ -1,0 +1,11 @@
+{
+  "identifier": "logout",
+  "requestType": "POST",
+  "endpoint": "/logout",
+  "controller": "App\\Http\\Controllers\\AuthenticationController",
+  "action": "logout",
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware": "false",
+  "validationMiddleware" : "false",
+  "validationRules": { }
+}

@@ -24,7 +24,14 @@ export class UsersService extends RequestHelperService {
         ENDPOINT_LIST : 'LIST',
         ENDPOINT_GET_ONE : 'GET_ONE',
         ENDPOINT_DELETE : 'DELETE',
+        ENDPOINT_GET_PROFILE : 'GET_PROFILE',
     };
+
+    getProfile(){
+        const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_GET_PROFILE);
+        const headers = this.getRequestOptions(true);
+        return this.http.get(url, headers);
+    }
 
     getUsersList() {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
