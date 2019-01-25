@@ -51,6 +51,8 @@ import { MovementCategoriesFormComponent } from './main/movements-categories/for
 import { MovementCategoriesFormModule } from './main/movements-categories/form/movement-categories-form.module';
 import { ClientFormModule } from './main/clients/client-form/client-form.module';
 import { ClientFormComponent } from './main/clients/client-form/client-form.component';
+import { MovementsListModule } from './main/movements/list/movements-list.module';
+import { MovementsListComponent } from './main/movements/list/movements-list.component';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -136,7 +138,19 @@ const appRoutes: Routes = [
         path: 'movements-categories/update/:id',
         component: MovementCategoriesFormComponent,
         canActivate: [AuthenticationGuardService],        
-    }
+    },
+
+    {
+        // User must be logged in and have role Admin to see this route.
+        path: 'movements/list',
+        component: MovementsListComponent,
+        canActivate: [RoleGuardService],
+        data: {     
+            expectedRole: 'admin'
+        }
+    },
+
+    
 
 
 ];
@@ -188,7 +202,9 @@ const appRoutes: Routes = [
         DashboardModule,
         //mov categories
         MovementsCategoriesModule,
-        MovementCategoriesFormModule
+        MovementCategoriesFormModule,
+        //movements
+        MovementsListModule
     ],
     providers: [
         AuthenticationGuardService,
