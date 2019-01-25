@@ -140,4 +140,35 @@ class ClientController extends Controller
         ));
 
     }
+
+
+        /**
+     * Can only be executed by admin Role.
+     * Admin Required certain operator to be Activated
+     * @param Request $request
+     */
+    public function activateClient(Request $request)
+    {
+        // Obtain Request Information from POST
+        $clientId = $request->input('client_id');  
+        $client = ClientModel::where('id', $clientId)->first();          
+        $client->active = 1;
+        $client->save();
+        return $this->successResponse($client);
+    }
+
+    /**
+     * Roles: can only be executed by admin role.
+     * @param Request $request
+     *
+     */
+    public function deactivateClient(Request $request)
+    {
+        // Obtain Request Information from POST
+        $clientId = $request->input('client_id');
+        $client = ClientModel::where('id', $clientId)->first();
+        $client->active = 0;
+        $client->save();
+        return $this->successResponse($client);
+    }
 }

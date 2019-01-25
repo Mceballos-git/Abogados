@@ -1,21 +1,24 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
-import { ClientsService } from 'app/main/services/clients.service';
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { GenericDialogComponent } from 'app/main/common/generic-dialog/generic-dialog.component';
+import { MovementsService } from 'app/main/services/movements.service';
+
+
 
 @Component({
-    selector: 'client-list',
-    styleUrls: ['./client-list.component.scss'],
-    templateUrl: './client-list.component.html',
+    selector: 'movements-list',
+    styleUrls: ['./movements-list.component.scss'],
+    templateUrl: './movements-list.component.html',
+    
 })
 
-export class ClientListComponent implements OnInit {
+export class MovementsListComponent implements OnInit {
 
-    displayedColumns: string[] = ['last_name', 'first_name', 'identification_number', 'city', 'email', 'actions'];
-    clients: any;
+    displayedColumns: string[] = ['datetime', 'movement_category_id', 'client_id','movement_type_id' , 'amount' ,'concept', 'user_id'];
+    movements: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
@@ -23,7 +26,7 @@ export class ClientListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private _clientsService: ClientsService,
+    constructor(private _movService: MovementsService,
                 private _fuseConfigService:FuseConfigService,
                 private _dialog:MatDialog) {
         this.loaded = false;
@@ -48,15 +51,23 @@ export class ClientListComponent implements OnInit {
 
     ngOnInit() {
 
-        this._clientsService.getClientsList().subscribe(response => {
-            this.clients = response;
+        this._movService.getList().subscribe(response => {
+            console.log(response);
+            this.movements = response;
             this.loaded = true;    
             
 
             // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.clients);
+            this.dataSource = new MatTableDataSource(this.movements);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
+            this.paginator._intl.getRangeLabel =function(page, pageSize, length){
+                if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
+                const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
+                return `${startIndex + 1} - ${endIndex} de ${length}`;
+
+            }
 
             this.dtTrigger.next();
         }, (error) => {
@@ -75,8 +86,8 @@ export class ClientListComponent implements OnInit {
     }
 
     openDeleteDialog(index, deleteRowItem) {
-        const title = 'Eliminar Cliente'
-        let content = 'Estas por Eliminar al Cliente: {row.first_name}, Deseas continuar?';
+        const title = 'Eliminar Movimiento'
+        let content = 'Estas por Eliminar al movimiento: {row.first_name}, Deseas continuar?';
         content = content.replace('{row.first_name}', deleteRowItem.first_name);
 
         const dialogRef = this._dialog.open(GenericDialogComponent, {
@@ -92,7 +103,7 @@ export class ClientListComponent implements OnInit {
     }
 
     delete(index, deleteRowItem){
-        this._clientsService.delete(deleteRowItem.id).subscribe((response) => {
+        this._movService.delete(deleteRowItem.id).subscribe((response) => {
             this.handleDeletingSuccess(index)
         },(error) => { this.handleDeletingError(error)});  
     }
@@ -101,7 +112,8 @@ export class ClientListComponent implements OnInit {
      * Update DataSource so entries get deleted from view.
      */
     updateDataSource() {
-        this.dataSource.data = this.clients;
+        this.dataSource.data = this.movements;
+        this.dataSource.paginator = this.paginator;
     }
 
     /**
@@ -109,9 +121,9 @@ export class ClientListComponent implements OnInit {
      * @param deletedItemIndex
      */
     handleDeletingSuccess(deletedItemIndex) {
-        this.clients.splice(deletedItemIndex, 1);
+        this.movements.splice(deletedItemIndex, 1);
         this.updateDataSource();
-        console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');
+        console.log('Delete movement successfuly. Todo: Mostrar mensaje delete exitoso');
     }
 
     /**
@@ -119,28 +131,7 @@ export class ClientListComponent implements OnInit {
      * @param response
      */
     handleDeletingError(response) {
-        console.log('There was an error while trying to delete client. Todo: Mostrar mensaje delete no exitoso');
-    }
-
-    activate(id, index){        
-        this._clientsService.activate(id).subscribe((response)=>{
-            console.log('client activated ok'); 
-            this.clients[index].active = 1;         
-            this.updateDataSource();
-        }, (error)=>{
-            console.log(error);            
-        });
-    }
-
-    deactivate(id, index){
-        this._clientsService.deactivate(id).subscribe((response)=>{
-            console.log('client deactivated ok');   
-            this.clients[index].active = 0;       
-            this.updateDataSource();
-        }, (error)=>{
-            console.log(error);
-            
-        });
-    }
+        console.log('There was an error while trying to delete movement. Todo: Mostrar mensaje delete no exitoso');
+    }   
 
 }

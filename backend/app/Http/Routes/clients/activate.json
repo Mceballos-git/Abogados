@@ -1,0 +1,13 @@
+{
+  "identifier": "activate",
+  "requestType": "POST",
+  "endpoint": "/activate",
+  "controller": "App\\Http\\Controllers\\ClientController",
+  "action": "activateClient",
+  "authenticationMiddleware": "false",
+  "authorizationMiddleware" : "false", "roles" : ["admin"],
+  "validationMiddleware": "true", "purifyValues" : 1,
+  "validationRules": {
+    "client_id": "int|required"
+  }
+}

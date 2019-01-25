@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ClientsService extends RequestHelperService{
+export class MovementsService extends RequestHelperService{
 
   constants = {
     FIELD_DEFAULTS : {
@@ -25,19 +25,17 @@ export class ClientsService extends RequestHelperService{
       OBSERVATIONS_DEFAULT: '',    
       ACTIVE_DEFAULT: true
     },
-    REQUEST_MODULE : 'CLIENTS',
+    REQUEST_MODULE : 'MOVEMENTS',
     ENDPOINT_CREATE : 'CREATE',
     ENDPOINT_UPDATE : 'UPDATE',
     ENDPOINT_LIST : 'LIST',
     ENDPOINT_GET_ONE : 'GET_ONE',
-    ENDPOINT_DELETE : 'DELETE', 
-    ENDPOINT_ACTIVATE : 'ACTIVATE',
-    ENDPOINT_DEACTIVATE : 'DEACTIVATE',
+    ENDPOINT_DELETE : 'DELETE',     
   };
 
   
 
-  getClientsList() {
+  getList() {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
     const headers = this.getRequestOptions(true);
     return this.http.get(url, headers);
@@ -77,23 +75,7 @@ export class ClientsService extends RequestHelperService{
     return this.http.put(url, requestBody, headers);
   }
 
-  activate(data): Observable<Object> {
-    const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_ACTIVATE);
-    const headers = this.getRequestOptions(true);
-    const requestBody = {
-        client_id: data
-    };
-    return this.http.post(url, requestBody, headers);
-  }
 
-  deactivate(data): Observable<Object> {
-      const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_DEACTIVATE);
-      const headers = this.getRequestOptions(true);
-      const requestBody = {
-          client_id: data
-      };
-      return this.http.post(url, requestBody, headers);
-  }
 
   private getFormRequestBody(formData){
 

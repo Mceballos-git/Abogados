@@ -58,7 +58,7 @@ class MovementController extends Controller
     {
 
         return $this->successResponse(
-            MovementModel::get()
+            MovementModel::with(['user','client', 'movementCategory', 'movementType'])->orderBy('id','desc')->get()
         );
     }
 
