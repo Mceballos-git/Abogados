@@ -93,6 +93,7 @@ class MovementController extends Controller
             'movement_category_id',
             'client_id',
         ));
+        $requestData['user_id'] = Auth::user()->id;
 
         MovementModel::where('id', $id)->update($requestData);
 

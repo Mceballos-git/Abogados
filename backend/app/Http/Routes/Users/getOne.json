@@ -9,5 +9,8 @@
   "roles" : ["admin"],
   "validationMiddleware": "false",
   "validationRules": {},
-  "purifyValues" : 1
+  "purifyValues" : 1,
+  "routeValidationRules" : {
+    "id" : "required|exists:users,id"
+  }
 }

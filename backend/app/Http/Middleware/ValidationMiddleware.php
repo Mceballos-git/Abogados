@@ -57,10 +57,22 @@ class ValidationMiddleware
             $routeIdentifier,
             true
         );
+        $validRoutes = true;
+        if (isset($config->validaRoutas)) {
+            $routeValidationRules = $this->getDecoratedValidationRules($config->routeValidationRules);
+            $routeValidationResult = $this->validateRouteParams($routeValidationRules);
+            $validRoutes = $routeValidationResult['result'];
+        }
 
+
+        // Validation is successful continue execution!
+        if ($validRoutes === false) {
+            return $this->badRequestResponse($routeValidationResult['errors']);
+
+        }
         // Execute validation
         $validationRules = $this->getDecoratedValidationRules($config->validationRules);
-        $validationResult = $this->validate($validationRules);
+        $validationResult = $this->validateBodyParams($validationRules);
 
         // Validation is successful continue execution!
         if ($validationResult['result'] === true) {
@@ -72,6 +84,18 @@ class ValidationMiddleware
         return $this->badRequestResponse($validationResult['errors']);
     }
 
+    private function validateRouteParams($routeValidationRules)
+    {
+        $params = $this->getRequestRouteParams();
+        return $this->validate($routeValidationRules, $params);
+    }
+
+    private function validateBodyParams($validationRules)
+    {
+        $params = $this->getRequestParams();
+        return $this->validate($validationRules, $params);
+    }
+
     /**
      * Get decorated Validation Rule
      *
@@ -81,7 +105,7 @@ class ValidationMiddleware
     private function getDecoratedValidationRules($validationRules)
     {
         $routeParams = $this->getRequestRouteParams();
-        foreach((array) $validationRules as $key => $validationRule) {
+        foreach ((array)$validationRules as $key => $validationRule) {
             if (strpos($validationRule, '{id}') !== false) {
                 $id = $routeParams['id'];
                 $validationRules->{$key} = str_replace('{id}', $id, $validationRule);
@@ -114,13 +138,13 @@ class ValidationMiddleware
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    private function validate($validationRules)
+    private function validate($validationRules, $params)
     {
         $default = array('result' => true);
 
         // Start request validation
-        $params = $this->getRequestParams();
-        $validator = Validator::make($params, (array) $validationRules);
+
+        $validator = Validator::make($params, (array)$validationRules);
 
         // If there is no error let continue with normal execution.
         if (!$validator->fails()) {
@@ -132,4 +156,6 @@ class ValidationMiddleware
         $default['errors'] = $validator->errors();
         return $default;
     }
+
+
 }
