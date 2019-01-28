@@ -4,6 +4,6 @@
   "endpoint": "/{id}",
   "controller": "App\\Http\\Controllers\\MovementCategoryController",
   "action": "delete",
-  "authenticationMiddleware": "false"
+  "authenticationMiddleware": "true"
 
 }

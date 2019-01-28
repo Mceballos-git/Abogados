@@ -1,0 +1,14 @@
+{
+  "identifier": "activate",
+  "requestType": "POST",
+  "endpoint": "/deactivate",
+  "controller": "App\\Http\\Controllers\\ClientController",
+  "action": "deactivateClient",
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware" : "false", "roles" : ["admin"],
+  "validationMiddleware": "true",
+  "validationRules": {
+    "client_id": "int|required"
+  },
+  "purifyValues" : 1
+}

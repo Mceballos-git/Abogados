@@ -5,6 +5,6 @@
   "controller": "App\\Http\\Controllers\\MovementTypeController",
   "action": "getOne",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "false"
 }

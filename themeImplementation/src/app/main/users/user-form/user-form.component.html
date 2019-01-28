@@ -62,7 +62,7 @@
                 </mat-form-field>
 
                 <!-- shift start -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-25-p mr-16">
                     <mat-label>Horario ingreso</mat-label>
                     <mat-select placeholder="Horario ingreso" formControlName="shift_start">
                         <mat-option *ngFor="let hour of hours" [value]="hour">
@@ -72,7 +72,7 @@
                 </mat-form-field>
 
                  <!-- shift end -->
-                 <mat-form-field appearance="outline">
+                 <mat-form-field appearance="outline" class="w-25-p mr-16">
                     <mat-label>Horario salida</mat-label>
                     <mat-select placeholder="Horario salida" formControlName="shift_end">
                         <mat-option *ngFor="let hour of hours" [value]="hour">
@@ -82,7 +82,7 @@
                 </mat-form-field>
 
                 <!-- Role -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-25-p">
                     <mat-label>Permisos</mat-label>
                     <mat-select placeholder="Permisos" formControlName="role">
                         <mat-option *ngFor="let role of roles" [value]="role.value">

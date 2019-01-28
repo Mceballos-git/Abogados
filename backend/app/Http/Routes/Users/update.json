@@ -5,7 +5,7 @@
   "controller": "App\\Http\\Controllers\\UserController",
   "action": "update",
   "purifyValues" : 1,
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware" : "false",
   "roles" : ["admin"],
   "validationMiddleware": "true",

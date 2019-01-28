@@ -4,5 +4,5 @@
   "endpoint": "/{id}",
   "controller": "App\\Http\\Controllers\\MovementCategoryController",
   "action": "getOne",
-  "authenticationMiddleware": "false"
+  "authenticationMiddleware": "true"
 }

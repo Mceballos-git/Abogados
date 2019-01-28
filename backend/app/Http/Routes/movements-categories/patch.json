@@ -5,7 +5,7 @@
   "controller": "App\\Http\\Controllers\\MovementCategoryController",
   "action": "patch",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "true",
   "validationRules": {
     "name": "required|string"

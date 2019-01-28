@@ -23,6 +23,7 @@ export class EndpointsConfig {
         LIST: '/users',
         GET_ONE: '/users/:id',
         DELETE: '/users/:id',
+        GET_PROFILE:'/users/getProfile'
     };
     CLIENTS = {
         CREATE: '/clients',
@@ -30,6 +31,8 @@ export class EndpointsConfig {
         LIST: '/clients',
         GET_ONE: '/clients/:id',
         DELETE: '/clients/:id',
+        ACTIVATE: '/clients/activate',
+        DEACTIVATE: '/clients/deactivate',
     };
     MOVEMENTS_CATEGORIES = {
         CREATE: '/movements-categories',
@@ -37,5 +40,19 @@ export class EndpointsConfig {
         LIST: '/movements-categories',
         GET_ONE: '/movements-categories/:id',
         DELETE: '/movements-categories/:id',
+    };
+    MOVEMENTS = {
+        CREATE: '/movements',
+        UPDATE: '/movements/:id',
+        LIST: '/movements',
+        GET_ONE: '/movements/:id',
+        DELETE: '/movements/:id',
+    };
+    OFFICES = {
+        CREATE: '/offices',
+        UPDATE: '/offices/:id',
+        LIST: '/offices',
+        GET_ONE: '/offices/:id',
+        DELETE: '/offices/:id',
     };
 }

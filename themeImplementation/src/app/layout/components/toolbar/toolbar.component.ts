@@ -8,6 +8,9 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
+import { UsersService } from 'app/main/services/users.service';
+import { AuthenticationService } from 'app/main/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector     : 'toolbar',
@@ -26,6 +29,9 @@ export class ToolbarComponent implements OnInit, OnDestroy
     selectedLanguage: any;
     userStatusOptions: any[];
 
+    loggedUser:any;
+    username:string;
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -39,7 +45,10 @@ export class ToolbarComponent implements OnInit, OnDestroy
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _userService:UsersService,
+        private _authService:AuthenticationService,
+        private _router:Router
     )
     {
         // Set the defaults
@@ -90,6 +99,26 @@ export class ToolbarComponent implements OnInit, OnDestroy
         this._unsubscribeAll = new Subject();
     }
 
+    getProfile(){
+        this._userService.getProfile().subscribe((response)=>{           
+            this.loggedUser = response;
+            this.username = this.loggedUser.username;
+        }, (error)=>{
+            console.log(error);
+            
+        });
+    }
+
+    logout(){
+        this._authService.logout().subscribe((response)=>{
+            console.log(response);
+            this._authService.setToken('');
+            this._router.navigate(['/login']);
+        }, (error)=>{
+            console.log(error);            
+        });
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -99,6 +128,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this.getProfile();
+
         // Subscribe to the config changes
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))

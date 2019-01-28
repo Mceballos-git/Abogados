@@ -4,5 +4,5 @@
   "endpoint": "/",
   "controller": "App\\Http\\Controllers\\MovementCategoryController",
   "action": "create",
-  "authenticationMiddleware": "false"
+  "authenticationMiddleware": "true"
 }

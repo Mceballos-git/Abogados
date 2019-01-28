@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSnackBar} from '@angular/material';
 import { ClientsService } from 'app/main/services/clients.service';
-
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import { FuseConfigService } from '@fuse/services/config.service';
@@ -26,7 +25,8 @@ export class ClientListComponent implements OnInit {
 
     constructor(private _clientsService: ClientsService,
                 private _fuseConfigService:FuseConfigService,
-                private _dialog:MatDialog) {
+                private _dialog:MatDialog,
+                private _snackBar:MatSnackBar) {
         this.loaded = false;
          // Configure the layout
          this._fuseConfigService.config = {
@@ -51,12 +51,20 @@ export class ClientListComponent implements OnInit {
 
         this._clientsService.getClientsList().subscribe(response => {
             this.clients = response;
-            this.loaded = true;
+            this.loaded = true;    
+            
 
             // Assign the data to the data source for the table to render
             this.dataSource = new MatTableDataSource(this.clients);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
+            this.paginator._intl.getRangeLabel =function(page, pageSize, length){
+                if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
+                const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
+                return `${startIndex + 1} - ${endIndex} de ${length}`;
+
+            }
 
             this.dtTrigger.next();
         }, (error) => {
@@ -111,7 +119,11 @@ export class ClientListComponent implements OnInit {
     handleDeletingSuccess(deletedItemIndex) {
         this.clients.splice(deletedItemIndex, 1);
         this.updateDataSource();
-        console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');
+        console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');
+        this._snackBar.open('Cliente eliminado correctamente', '',{
+            duration: 4000,
+            panelClass: ['green']
+        });
     }
 
     /**
@@ -119,7 +131,32 @@ export class ClientListComponent implements OnInit {
      * @param response
      */
     handleDeletingError(response) {
-        console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+        console.log('There was an error while trying to delete client. Todo: Mostrar mensaje delete no exitoso');
+        this._snackBar.open('Se ha producido un error al eliminar el cliente', '',{
+            duration: 4000,
+            panelClass: ['warn']
+        });  
+    }
+
+    activate(id, index){        
+        this._clientsService.activate(id).subscribe((response)=>{
+            console.log('client activated ok'); 
+            this.clients[index].active = 1;         
+            this.updateDataSource();
+        }, (error)=>{
+            console.log(error);            
+        });
+    }
+
+    deactivate(id, index){
+        this._clientsService.deactivate(id).subscribe((response)=>{
+            console.log('client deactivated ok');   
+            this.clients[index].active = 0;       
+            this.updateDataSource();
+        }, (error)=>{
+            console.log(error);
+            
+        });
     }
 
 }

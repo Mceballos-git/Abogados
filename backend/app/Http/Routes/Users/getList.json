@@ -4,7 +4,7 @@
   "endpoint": "/",
   "controller": "App\\Http\\Controllers\\UserController",
   "action": "getList",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware" : "false",
   "roles" : ["admin"],
   "validationMiddleware": "false",

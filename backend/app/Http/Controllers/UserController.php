@@ -8,6 +8,7 @@ use App\Services\UserService;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\ValidationMiddleware;
 
 
 /**
@@ -69,6 +70,8 @@ class UserController extends Controller
      */
     public function getOne($id)
     {
+
+
         $entry = UserModel::where('id', $id)->first();
         $entry->role_list = json_decode($entry->role_list);
         return $this->successResponse($entry);

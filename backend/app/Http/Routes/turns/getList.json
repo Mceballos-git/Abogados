@@ -5,6 +5,6 @@
   "controller": "App\\Http\\Controllers\\TurnController",
   "action": "getList",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "false"
 }

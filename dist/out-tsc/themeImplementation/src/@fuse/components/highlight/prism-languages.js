@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("prismjs/prism");
+require("prismjs/components/prism-bash");
+require("prismjs/components/prism-c");
+require("prismjs/components/prism-cpp");
+require("prismjs/components/prism-csharp");
+require("prismjs/components/prism-css");
+require("prismjs/components/prism-diff");
+require("prismjs/components/prism-markup");
+require("prismjs/components/prism-markup-templating");
+require("prismjs/components/prism-java");
+require("prismjs/components/prism-javascript");
+require("prismjs/components/prism-json");
+require("prismjs/components/prism-perl");
+require("prismjs/components/prism-php");
+require("prismjs/components/prism-python");
+require("prismjs/components/prism-sass");
+require("prismjs/components/prism-scss");
+require("prismjs/components/prism-typescript");
+//# sourceMappingURL=prism-languages.js.map

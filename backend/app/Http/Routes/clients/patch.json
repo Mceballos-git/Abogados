@@ -5,7 +5,7 @@
   "controller": "App\\Http\\Controllers\\ClientController",
   "action": "patch",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "true",
   "validationRules": {
     "active" : "bool|required",

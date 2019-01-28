@@ -44,6 +44,7 @@ class AuthenticationController extends Controller
 
         // Login was successful, send token back to Client.
         $response = new \stdClass();
+        $response->user = UserModel::where('username', $email)->first();
         $response->message = self::SUCCESS_LOGGED_IN_SUCCESSFULLY;
         $response->result = true;
         $response->token = $token;

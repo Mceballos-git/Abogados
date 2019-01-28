@@ -4,7 +4,7 @@
   "endpoint": "/",
   "controller": "App\\Http\\Controllers\\ClientController",
   "action": "create",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware": "false",
   "validationMiddleware": "false",
   "validationRules": {
