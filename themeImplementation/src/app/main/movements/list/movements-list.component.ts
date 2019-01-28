@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSnackBar} from '@angular/material';
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import { FuseConfigService } from '@fuse/services/config.service';
@@ -28,7 +28,8 @@ export class MovementsListComponent implements OnInit {
 
     constructor(private _movService: MovementsService,
                 private _fuseConfigService:FuseConfigService,
-                private _dialog:MatDialog) {
+                private _dialog:MatDialog,
+                private _snackBar:MatSnackBar) {
         this.loaded = false;
          // Configure the layout
          this._fuseConfigService.config = {
@@ -87,8 +88,8 @@ export class MovementsListComponent implements OnInit {
 
     openDeleteDialog(index, deleteRowItem) {
         const title = 'Eliminar Movimiento'
-        let content = 'Estas por Eliminar al movimiento: {row.first_name}, Deseas continuar?';
-        content = content.replace('{row.first_name}', deleteRowItem.first_name);
+        let content = 'Estas por Eliminar al movimiento: {row.concept}, Deseas continuar?';
+        content = content.replace('{row.concept}', deleteRowItem.concept);
 
         const dialogRef = this._dialog.open(GenericDialogComponent, {
             data: {title: title, content: content}
@@ -124,6 +125,10 @@ export class MovementsListComponent implements OnInit {
         this.movements.splice(deletedItemIndex, 1);
         this.updateDataSource();
         console.log('Delete movement successfuly. Todo: Mostrar mensaje delete exitoso');
+        this._snackBar.open('Movimiento eliminado correctamente', '',{
+            duration: 4000,
+            panelClass: ['green']
+        });
     }
 
     /**
@@ -132,6 +137,10 @@ export class MovementsListComponent implements OnInit {
      */
     handleDeletingError(response) {
         console.log('There was an error while trying to delete movement. Todo: Mostrar mensaje delete no exitoso');
+        this._snackBar.open('Se ha producido un error al eliminar el movimiento', '',{
+            duration: 4000,
+            panelClass: ['warn']
+        });
     }   
 
 }

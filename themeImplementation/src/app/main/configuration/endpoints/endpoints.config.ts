@@ -48,4 +48,11 @@ export class EndpointsConfig {
         GET_ONE: '/movements/:id',
         DELETE: '/movements/:id',
     };
+    OFFICES = {
+        CREATE: '/offices',
+        UPDATE: '/offices/:id',
+        LIST: '/offices',
+        GET_ONE: '/offices/:id',
+        DELETE: '/offices/:id',
+    };
 }

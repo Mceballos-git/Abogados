@@ -4,7 +4,7 @@
   "endpoint": "/activate",
   "controller": "App\\Http\\Controllers\\ClientController",
   "action": "activateClient",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware" : "false", "roles" : ["admin"],
   "validationMiddleware": "true", "purifyValues" : 1,
   "validationRules": {

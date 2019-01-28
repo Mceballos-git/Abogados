@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog,MatSnackBar} from '@angular/material';
 import {UsersService} from "../../services/users.service";
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -28,7 +28,8 @@ export class UserListComponent implements OnInit {
         private _usersService: UsersService,
         private _dialog: MatDialog,
         private _fuseConfigService: FuseConfigService,
-        private _userSecurityService:UserSecurityService
+        private _userSecurityService:UserSecurityService,
+        private _snackBar:MatSnackBar
     ) {
         this.loaded = false;
         this._fuseConfigService.config = {
@@ -60,6 +61,13 @@ export class UserListComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.users);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
+            this.paginator._intl.getRangeLabel =function(page, pageSize, length){
+                if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
+                const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
+                return `${startIndex + 1} - ${endIndex} de ${length}`;
+
+            }
 
             this.dtTrigger.next();
         }, (error) => {
@@ -117,6 +125,10 @@ export class UserListComponent implements OnInit {
         this.users.splice(deletedItemIndex, 1);
         this.updateDataSource();
         console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');
+        this._snackBar.open('Operador eliminado correctamente', '',{
+            duration: 4000,
+            panelClass: ['green']
+        });
     }
 
     /**
@@ -125,6 +137,10 @@ export class UserListComponent implements OnInit {
      */
     handleDeletingError(response) {
         console.log('There was an error while trying to delete user. Todo: Mostrar mensaje delete no exitoso');
+        this._snackBar.open('Se ha producido un error al eliminar el operador', '',{
+            duration: 4000,
+            panelClass: ['warn']
+        });
     }
 
     activate(id, index){        

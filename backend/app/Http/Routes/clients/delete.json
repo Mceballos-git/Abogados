@@ -5,6 +5,6 @@
   "controller": "App\\Http\\Controllers\\ClientController",
   "action": "delete",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "false"
 }

@@ -6,7 +6,7 @@
   "controller": "App\\Http\\Controllers\\UserController",
   "action": "delete",
   "purifyValues" : 1,
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware" : "false",
   "roles" : ["admin"],
   "validationMiddleware": "false",

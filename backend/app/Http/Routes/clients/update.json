@@ -4,7 +4,7 @@
   "endpoint": "/{id}",
   "controller": "App\\Http\\Controllers\\ClientController",
   "action": "update",
-  "authorizationMiddleware": "false",
+  "authorizationMiddleware": "true",
   "authenticationMiddleware": "false",
   "validationMiddleware": "true",
   "validationRules": {

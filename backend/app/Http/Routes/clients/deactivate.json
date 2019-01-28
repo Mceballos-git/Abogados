@@ -4,7 +4,7 @@
   "endpoint": "/deactivate",
   "controller": "App\\Http\\Controllers\\ClientController",
   "action": "deactivateClient",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware" : "false", "roles" : ["admin"],
   "validationMiddleware": "true",
   "validationRules": {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSnackBar} from '@angular/material';
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import {GenericDialogComponent} from "../../common/generic-dialog/generic-dialog.component";
@@ -25,8 +25,9 @@ export class MovementsCategoriesComponent implements OnInit {
 
   constructor(private _movCategoriesService: MovementCategoriesService,
     private _dialog: MatDialog,
-    private _fuseConfigService:FuseConfigService,) {
-
+    private _fuseConfigService:FuseConfigService,
+    private _snackBar:MatSnackBar) 
+    {
       this.loaded = false;
       // Configure the layout
       this._fuseConfigService.config = {
@@ -49,13 +50,20 @@ export class MovementsCategoriesComponent implements OnInit {
 
   ngOnInit() {
     this._movCategoriesService.getMovCategoriesList().subscribe(response => {
-      this.movCategories = response;
-      this.loaded = true;
+    this.movCategories = response;
+    this.loaded = true;
 
-      // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource(this.movCategories);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(this.movCategories);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
+    this.paginator._intl.getRangeLabel =function(page, pageSize, length){
+        if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
+        const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
+        return `${startIndex + 1} - ${endIndex} de ${length}`;
+
+    }
 
       this.dtTrigger.next();
     }, (error) => {
@@ -109,6 +117,10 @@ export class MovementsCategoriesComponent implements OnInit {
       this.movCategories.splice(deletedItemIndex, 1);
       this.updateDataSource();
       console.log('Delete movement-category successfuly. Todo: Mostrar mensaje delete exitoso');
+      this._snackBar.open('Rubro eliminado correctamente', '',{
+        duration: 4000,
+        panelClass: ['green']
+    });
   }
 
   /**
@@ -117,6 +129,10 @@ export class MovementsCategoriesComponent implements OnInit {
    */
   handleDeletingError(response) {
       console.log('There was an error while trying to delete movement-category. Todo: Mostrar mensaje delete no exitoso');
+      this._snackBar.open('Se ha producido un error al eliminar el rubro', '',{
+        duration: 4000,
+        panelClass: ['warn']
+    });
   }
 
 }

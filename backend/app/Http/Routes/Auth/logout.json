@@ -4,7 +4,7 @@
   "endpoint": "/logout",
   "controller": "App\\Http\\Controllers\\AuthenticationController",
   "action": "logout",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "authorizationMiddleware": "false",
   "validationMiddleware" : "false",
   "validationRules": { }

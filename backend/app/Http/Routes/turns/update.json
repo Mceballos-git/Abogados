@@ -5,7 +5,7 @@
   "controller": "App\\Http\\Controllers\\TurnController",
   "action": "update",
   "authorizationMiddleware": "false",
-  "authenticationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "true",
   "validationRules": {
     "client_id": "required|integer",
