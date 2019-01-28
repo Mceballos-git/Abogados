@@ -1,0 +1,60 @@
+server {                                                                                                                                                                                                                                  
+    listen 80; ## Listen on port 80 ##
+    server_name sassanionlinetest.tk;  ## Domain Name ##
+    root /var/www/html/abogados/themeImplementation/dist;  ## Site root for the Angular code ##
+
+    index index.html index.php;  ## Set the index for site to use ##
+
+    charset utf-8; ## Set the charset ##
+
+    location / { ## Handle default requests ##
+        try_files $uri $uri/ /index.html;  ## Try files and fall back to index.html ##
+    }
+
+    location /api { ## URL string to use for api ##
+        alias /var/www/html/abogados/backend/public; ## Site root for Laravel code ##
+
+        ## Check for file existing and if there, stop ##
+        if (-f $request_filename) {
+            break;
+        }
+
+        ## Check for file existing and if there, stop ##
+        if (-d $request_filename) {
+            break;
+        }
+
+        ## If we get here then there is no file or directory matching request_filename ##
+        rewrite (.*) /api/index.php?$query_string;
+
+        ## Normal php block for processing ##
+        location ~ \.php$ {
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass unix:/var/run/php/php7-fpm.sock;
+            fastcgi_index index.php;
+            include fastcgi_params;
+        }
+    }
+
+    ## Don't fail or log request to favicon or robots.txt ##
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    ## Access log is off and error log location is set ##
+
+    ## Disable sendfile ##
+    sendfile off;
+
+    ## Normal php block for processing ##
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php/php7-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    }
+
+    ## Don't allow access to .ht files ##
+    location ~ /\.ht {
+        deny all;
+    }
+}
