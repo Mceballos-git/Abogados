@@ -59,11 +59,11 @@ class TableSeeder extends Command
         $this->info('');
         // Disable Foreign Check DUE Corrupted entries in old atabase.
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-//        $this->createOffices();
-//        $this->createUsers();
-//        $this->createTurns();
-//        $this->createClients();
-//        $this->createMovementsCategories();
+        $this->createOffices();
+        $this->createUsers();
+        $this->createTurns();
+        $this->createClients();
+        $this->createMovementsCategories();
         $this->createMovements();
         // Enable Foreign Check again.
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
