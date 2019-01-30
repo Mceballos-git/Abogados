@@ -2,37 +2,39 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSnackBar} from '@angular/material';
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
-import { FuseConfigService } from '@fuse/services/config.service';
-import { GenericDialogComponent } from 'app/main/common/generic-dialog/generic-dialog.component';
-import { MovementsService } from 'app/main/services/movements.service';
-
+import {FuseConfigService} from '@fuse/services/config.service';
+import {GenericDialogComponent} from 'app/main/common/generic-dialog/generic-dialog.component';
+import {MovementsService} from 'app/main/services/movements.service';
 
 
 @Component({
     selector: 'movements-list',
     styleUrls: ['./movements-list.component.scss'],
     templateUrl: './movements-list.component.html',
-    
+
 })
 
 export class MovementsListComponent implements OnInit {
 
-    displayedColumns: string[] = ['datetime', 'movement_category_id', 'client_id','movement_type_id' , 'amount' ,'concept', 'user_id'];
+    displayedColumns: string[] = ['datetime', 'movement_category_id', 'client_id', 'movement_type_id', 'amount', 'concept', 'user_id'];
     movements: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
+    balance: number;
+    incomes: number;
+    outcomes: number;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(private _movService: MovementsService,
-                private _fuseConfigService:FuseConfigService,
-                private _dialog:MatDialog,
-                private _snackBar:MatSnackBar) {
+                private _fuseConfigService: FuseConfigService,
+                private _dialog: MatDialog,
+                private _snackBar: MatSnackBar) {
         this.loaded = false;
-         // Configure the layout
-         this._fuseConfigService.config = {
+        // Configure the layout
+        this._fuseConfigService.config = {
             layout: {
                 navbar: {
                     hidden: false
@@ -55,17 +57,22 @@ export class MovementsListComponent implements OnInit {
         this._movService.getList().subscribe(response => {
             console.log(response);
             this.movements = response;
-            this.loaded = true;    
-            
+            this.loaded = true;
+            this.balance = this.getBalance();
+
 
             // Assign the data to the data source for the table to render
             this.dataSource = new MatTableDataSource(this.movements);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
             this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            this.paginator._intl.getRangeLabel =function(page, pageSize, length){
-                if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
-                const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
+            this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
+                if (length == 0 || pageSize == 0) {
+                    return `0 de ${length}`;
+                }
+                length = Math.max(length, 0);
+                const startIndex = page * pageSize;
+                const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
                 return `${startIndex + 1} - ${endIndex} de ${length}`;
 
             }
@@ -77,6 +84,27 @@ export class MovementsListComponent implements OnInit {
 
 
     }
+
+    getBalance() {
+        this.balance = 0;
+        this.incomes = 0;
+        this.outcomes = 0;
+        for (let i = 0, len = this.movements.length; i < len; i++) {
+
+            if (this.movements[i].movement_type_id === 1) {
+                this.balance = this.balance - this.movements[i].amount;
+                this.outcomes = this.outcomes + this.movements[i].amount;
+            }
+
+            if (this.movements[i].movement_type_id === 2) {
+                this.balance = this.balance + this.movements[i].amount;
+                this.incomes = this.incomes + this.movements[i].amount;
+            }
+
+        }
+        return this.balance;
+    }
+
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -97,16 +125,18 @@ export class MovementsListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
-            if (result){
+            if (result) {
                 this.delete(index, deleteRowItem);
-            }           
+            }
         });
     }
 
-    delete(index, deleteRowItem){
+    delete(index, deleteRowItem) {
         this._movService.delete(deleteRowItem.id).subscribe((response) => {
             this.handleDeletingSuccess(index)
-        },(error) => { this.handleDeletingError(error)});  
+        }, (error) => {
+            this.handleDeletingError(error)
+        });
     }
 
     /**
@@ -125,7 +155,7 @@ export class MovementsListComponent implements OnInit {
         this.movements.splice(deletedItemIndex, 1);
         this.updateDataSource();
         console.log('Delete movement successfuly. Todo: Mostrar mensaje delete exitoso');
-        this._snackBar.open('Movimiento eliminado correctamente', '',{
+        this._snackBar.open('Movimiento eliminado correctamente', '', {
             duration: 4000,
             panelClass: ['green']
         });
@@ -137,10 +167,10 @@ export class MovementsListComponent implements OnInit {
      */
     handleDeletingError(response) {
         console.log('There was an error while trying to delete movement. Todo: Mostrar mensaje delete no exitoso');
-        this._snackBar.open('Se ha producido un error al eliminar el movimiento', '',{
+        this._snackBar.open('Se ha producido un error al eliminar el movimiento', '', {
             duration: 4000,
             panelClass: ['warn']
         });
-    }   
+    }
 
 }

@@ -17,6 +17,7 @@ export class ClientsService extends RequestHelperService{
       NATIONALITY_DEFAULT: '',
       TIN_NUMBER_DEFAULT: '',
       EMAIL_DEFAULT: '',
+      DATE_OF_BIRTH_DEFAULT:'01-01-2000',
       FLOOR_ADDRESS_DEFAULT: '',
       DEPARTMENT_ADDRESS_DEFAULT: '',
       COUNTRY_DEFAULT: '',
@@ -102,7 +103,9 @@ export class ClientsService extends RequestHelperService{
       last_name: formData.last_name, 
       identification_type: formData.identification_type, 
       identification_number: formData.identification_number,
-      date_of_birth:formData.date_of_birth,      
+      date_of_birth: this.getValueOrDefaultIfNull(
+        formData.date_of_birth, this.constants.FIELD_DEFAULTS.DATE_OF_BIRTH_DEFAULT
+      ),     
       phone_number:formData.phone_number,       
       street_address:formData.street_address,       
       number_address:formData.number_address,       

@@ -185,8 +185,9 @@ class TableSeeder extends Command
     Public function createMovements()
     {
         $this->info('Creating Movements...');
-        $old = OldCajaModel::get();
+        $old = OldCajaModel::where('borrado', 0)->where('id_caja', 1)->get();
         foreach ($old as $movement) {
+
             $detalleMov = null;
             $detalleCliente = null;
             if ($movement->id_pago) {

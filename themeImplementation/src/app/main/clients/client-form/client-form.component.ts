@@ -107,6 +107,10 @@ export class ClientFormComponent implements OnInit {
         this._clientService.getOne(resourceId).subscribe(response => {
             this.resource = response;
             this.createForm(response);
+            this.form.markAsTouched();
+            for (let control in this.form.controls) {
+                this.form.controls[control].markAsTouched();
+            };
             this.loading = false;
             this.dtTrigger.next();
         }, (error) => {
@@ -127,14 +131,14 @@ export class ClientFormComponent implements OnInit {
             'first_name': new FormControl(formData.first_name, Validators.required),
             'last_name': new FormControl(formData.last_name, Validators.required),
             'nationality': new FormControl(formData.nationality),
-            'identification_type': new FormControl(formData.identification_type, Validators.required),
-            'identification_number': new FormControl(formData.identification_number, Validators.required),
+            'identification_type': new FormControl(formData.identification_type),
+            'identification_number': new FormControl(formData.identification_number),
             'tin_number': new FormControl(formData.tin_number),
-            'date_of_birth': new FormControl(formData.date_of_birth, Validators.required),
-            'phone_number': new FormControl(formData.phone_number, Validators.required),
+            'date_of_birth': new FormControl(formData.date_of_birth),
+            'phone_number': new FormControl(formData.phone_number),
             'email': new FormControl(formData.email, Validators.pattern("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$")),
-            'street_address':new FormControl(formData.street_address, Validators.required),
-            'number_address': new FormControl(formData.number_address, Validators.required),
+            'street_address':new FormControl(formData.street_address),
+            'number_address': new FormControl(formData.number_address),
             'floor_address': new FormControl(formData.floor_address),
             'department_address':new FormControl(formData.department_address),
             'country': new FormControl(formData.country),
