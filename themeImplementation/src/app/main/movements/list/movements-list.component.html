@@ -4,7 +4,15 @@
     <div *ngIf="!loaded">
         cargando....
     </div>
+
+
+
+
     <div [hidden]="!loaded">
+
+        <!--<h1> Balance: {{balance}}</h1>-->
+        <!--<h1> Egresos: {{outcomes}}</h1>-->
+        <!--<h1> Ingresos: {{incomes}}</h1>-->
         <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
         </mat-form-field>

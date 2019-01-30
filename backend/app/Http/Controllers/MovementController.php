@@ -39,7 +39,7 @@ class MovementController extends Controller
         $result = MovementModel::create([
             'datetime' => $requestData['datetime'],
             'amount' => $requestData['amount'],
-            'concept' => $requestData['concept' ],
+            'concept' => $requestData['concept'],
             'movement_type_id' => $requestData['movement_type_id'],
             'user_id' => $user = Auth::user()->id,
             'movement_category_id' => $requestData['movement_category_id'],
@@ -54,12 +54,22 @@ class MovementController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList()
+    public function getList(Request $request)
     {
+        $dateFrom = $request->input('date_from', false);
+        $dateTo = $request->input('date_to', false);
 
-        return $this->successResponse(
-            MovementModel::with(['user','client', 'movementCategory', 'movementType'])->orderBy('id','desc')->get()
-        );
+        $query = MovementModel::with(['user', 'client', 'movementCategory', 'movementType'])->orderBy('id', 'desc');
+
+        if($dateFrom) {
+            $query->where('datetime', '>', $dateFrom);
+        }
+
+        if($dateTo) {
+            $query->where('datetime', '<', $dateTo);
+        }
+
+        return $this->successResponse($query->get());
     }
 
     /**
