@@ -7,6 +7,7 @@
         <h1 *ngIf="actionString === 'update'">Editar Operador {{resource.first_name}}.</h1>
         <div>
 
+
             <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
 
                 <!-- username -->
@@ -62,7 +63,7 @@
                 </mat-form-field>
 
                 <!-- shift start -->
-                <mat-form-field appearance="outline" class="w-25-p mr-16">
+                <mat-form-field appearance="outline" class="w-30-p mr-16">
                     <mat-label>Horario ingreso</mat-label>
                     <mat-select placeholder="Horario ingreso" formControlName="shift_start">
                         <mat-option *ngFor="let hour of hours" [value]="hour">
@@ -72,7 +73,7 @@
                 </mat-form-field>
 
                  <!-- shift end -->
-                 <mat-form-field appearance="outline" class="w-25-p mr-16">
+                 <mat-form-field appearance="outline" class="w-30-p mr-16">
                     <mat-label>Horario salida</mat-label>
                     <mat-select placeholder="Horario salida" formControlName="shift_end">
                         <mat-option *ngFor="let hour of hours" [value]="hour">
@@ -89,12 +90,16 @@
                             {{role.text}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field>     
+                
+                
+                <p *ngIf="userExists" class="w-100-p" style="color:red">
+                    Hubo un error al crear el operador: El nombre de usuario ya existe.
+                </p>
 
-                <div style="margin-bottom:10px;" *ngIf="form.invalid">
-                    <span class="warn">Errores:
-                        {{form.getError()}}</span>                    
-                </div>
+                <p *ngIf="emailExists" class="w-100-p" style="color:red">
+                    Hubo un error al crear el operador: El correo electrónico ya existe.
+                </p>
 
                 <button mat-raised-button color="accent"
                  class="submit-button m-4" aria-label="LOG IN"

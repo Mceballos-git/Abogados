@@ -28,7 +28,7 @@
                 </mat-form-field>
 
                 <!-- id type  -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-35-p mr-16">
                     <mat-label>Tipo documento</mat-label>
                     <mat-select placeholder="Tipo documento" formControlName="identification_type">
                         <mat-option *ngFor="let id of id_types" [value]="id">
@@ -38,7 +38,7 @@
                 </mat-form-field>
 
                 <!-- id -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-60-p">
                     <mat-label>Nro. Documento</mat-label>
                     <input matInput formControlName="identification_number">
                     <mat-error *ngIf="form.get('identification_number').hasError('required') && form.get('identification_number').touched">
@@ -47,13 +47,13 @@
                 </mat-form-field>
 
                 <!-- tin_number -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-50-p mr-16">
                     <mat-label> CUIL/CUIT</mat-label>
                     <input matInput formControlName="tin_number">
                 </mat-form-field>
 
                 <!--date of birth-->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-45-p">
                     <mat-label> Fecha de nacimiento</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="date_of_birth">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -70,7 +70,7 @@
                 </mat-form-field>
                 
                  <!--number-->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-30-p mr-16">
                     <mat-label>Número</mat-label>
                     <input matInput formControlName="number_address">
                     <mat-error *ngIf="form.get('number_address').hasError('required') && form.get('number_address').touched">
@@ -80,19 +80,19 @@
 
                 
                 <!-- floor -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-30-p mr-16">
                     <mat-label> Piso</mat-label>
                     <input matInput formControlName="floor_address">
                 </mat-form-field>
                 
                 <!-- department -->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-30-p">
                     <mat-label>Departamento</mat-label>
                     <input matInput formControlName="department_address">
                 </mat-form-field>
                 
                 <!--phone-->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" >
                     <mat-label>Teléfono</mat-label>
                     <input matInput formControlName="phone_number">
                     <mat-error *ngIf="form.get('phone_number').hasError('required') && form.get('phone_number').touched">
@@ -103,10 +103,7 @@
                 <!-- Email -->
                 <mat-form-field appearance="outline">
                     <mat-label>Correo Electronico</mat-label>
-                    <input matInput formControlName="email">
-                    <mat-error *ngIf="form.get('email').hasError('pattern') && form.get('email').touched">
-                        Correo Electronico Invalido
-                    </mat-error>
+                    <input matInput formControlName="email">                    
                 </mat-form-field>
 
                  <!-- country -->
