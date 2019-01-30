@@ -40,13 +40,14 @@ export const navigation: FuseNavigation[] = [
                     type     : 'item',                    
                     url      : '/movements/list',                    
                 },
-                {
-                    id       : 'movements-create',
-                    title    : 'Nuevo movimiento',
-                    translate: 'NAV.SAMPLE.TITLE',
-                    type     : 'item',                    
-                    url      : '/movement/create',                    
-                }]                
+                // {
+                //     id       : 'movements-create',
+                //     title    : 'Nuevo movimiento',
+                //     translate: 'NAV.SAMPLE.TITLE',
+                //     type     : 'item',                    
+                //     url      : '/movement/create',                    
+                // }
+            ]                
             },//movements
             {
                 id       : 'movements-cat',
@@ -96,14 +97,14 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.SAMPLE.TITLE',
                 type     : 'collapsable',
                 icon     : 'calendar_today',
-                children : [
-                {
-                    id       : 'turns-create',
-                    title    : 'Nuevo turno',
-                    translate: 'NAV.SAMPLE.TITLE',
-                    type     : 'item',                    
-                    url      : '/turns/create',                    
-                }]                
+                // children : [
+                // {
+                //     id       : 'turns-create',
+                //     title    : 'Nuevo turno',
+                //     translate: 'NAV.SAMPLE.TITLE',
+                //     type     : 'item',                    
+                //     url      : '/turns/create',                    
+                // }]                
             }//turns
         ]
         
