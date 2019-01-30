@@ -82,7 +82,7 @@ export class MovementFormComponent implements OnInit {
     //para llenar combo de tipos de movimientos
     mov_type : MovType[] = [
         {value : 1 , viewValue : 'PAGO'},
-        {value : 1 , viewValue : 'VENTA'},
+        {value : 2 , viewValue : 'VENTA'},
     ]
 
    

@@ -25,6 +25,8 @@ export class UserFormComponent implements OnInit {
     loading: boolean;
     form: FormGroup;
     res:any;
+    userExists:boolean;
+    emailExists:boolean;
 
     // Constants.
     DEFAULT_ROLE_VALUE = 'operator';
@@ -93,7 +95,9 @@ export class UserFormComponent implements OnInit {
      * Initialize Form View For Create.
      */
     initCreate() {
+
         this.createForm(false);
+        this.form.markAsTouched();       
         this.loading = false;
     }
 
@@ -106,6 +110,10 @@ export class UserFormComponent implements OnInit {
         this._userService.getOne(resourceId).subscribe(response => {
             this.resource = response;
             this.createForm(response);
+            this.form.markAsTouched();
+            for (let control in this.form.controls) {
+                this.form.controls[control].markAsTouched();
+            };
             this.loading = false;
             this.dtTrigger.next();
         }, (error) => {
@@ -171,6 +179,8 @@ export class UserFormComponent implements OnInit {
      *
      */
     submitForm() {
+        this.userExists=false;
+        this.emailExists=false;
         this.openLoadingDialog();
 
         if (this.action === 1) {
@@ -232,12 +242,28 @@ export class UserFormComponent implements OnInit {
      * @param response
      */
     handleSubmitError(response): void {
+        
         this.loadingDialogRef.close();
         this._snackBar.open('Se ha producido un error al editar el usuario', '',{
             duration: 3000,
             panelClass: ['warn']
         });
-        console.log('show error');
+        if(response.error.details.message.username)
+        {
+            if(response.error.details.message.username[0] === "The username has already been taken.")
+            {
+                this.userExists = true; 
+            }
+        }
+        
+        if(response.error.details.message.email)
+        {
+            if(response.error.details.message.email[0] === "The email has already been taken.")
+            {
+                this.emailExists = true; 
+            }
+        }
+        
     }
 
 
