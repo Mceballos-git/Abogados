@@ -20,6 +20,7 @@ export class UserListComponent implements OnInit {
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
+    pageSize = 10;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;

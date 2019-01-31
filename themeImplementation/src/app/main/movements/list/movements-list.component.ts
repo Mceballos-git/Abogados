@@ -24,6 +24,7 @@ export class MovementsListComponent implements OnInit {
     balance: number;
     incomes: number;
     outcomes: number;
+    pageSize=10;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;

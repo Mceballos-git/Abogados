@@ -19,6 +19,7 @@ export class ClientListComponent implements OnInit {
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
+    pageSize = 10;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -65,6 +66,7 @@ export class ClientListComponent implements OnInit {
                 return `${startIndex + 1} - ${endIndex} de ${length}`;
 
             }
+            //this.paginator.pageSize= 10;
 
             this.dtTrigger.next();
         }, (error) => {

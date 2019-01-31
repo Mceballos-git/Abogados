@@ -5,7 +5,7 @@ import {FuseConfigService} from '@fuse/services/config.service';
 import {fuseAnimations} from '@fuse/animations/index';
 
 import {UserSecurityService} from '../../services/user-security.service';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig,MatSnackBar} from '@angular/material';
 import {LoadingDialogComponent} from '../../common/loading-dialog/loading-dialog.component';
 import {Router} from '@angular/router';
 
@@ -26,7 +26,8 @@ export class ForgotPasswordComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _userSecurityService: UserSecurityService,
         private _dialog: MatDialog,
-        private _router: Router
+        private _router: Router,
+        private _snackBar:MatSnackBar
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -108,5 +109,9 @@ export class ForgotPasswordComponent implements OnInit {
         this.loadingDialogRef.close();
         this.forgotPasswordForm.reset();
         this.forgotPasswordFailed = true;
+        this._snackBar.open('Se ha producido un error al enviar el correo electronico', '',{
+            duration: 4000,
+            panelClass: ['warn']
+        });  
     }
 }

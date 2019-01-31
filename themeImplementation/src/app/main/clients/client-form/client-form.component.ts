@@ -33,6 +33,7 @@ export const MY_FORMATS = {
     styleUrls: ['./client-form.component.scss'],
     providers: [{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
   ],
 
 })
