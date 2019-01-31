@@ -16,7 +16,7 @@ import {MovementsService} from 'app/main/services/movements.service';
 
 export class MovementsListComponent implements OnInit {
 
-    displayedColumns: string[] = ['datetime', 'movement_category_id', 'client_id', 'movement_type_id', 'amount', 'concept', 'user_id'];
+    displayedColumns: string[] = ['datetime', 'movement_category_id', 'client_id', 'movement_type_id', 'amount', 'concept', 'user_id', 'actions'];
     movements: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;

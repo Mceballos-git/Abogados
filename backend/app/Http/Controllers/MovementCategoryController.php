@@ -27,7 +27,7 @@ class MovementCategoryController extends Controller
     public function getList(Request $request)
     {
         $filtros = $request->only(array('name'));
-        $result = MovementCategoryModel::where($filtros)->get();
+        $result = MovementCategoryModel::where($filtros)->orderBy('id', 'desc')->get();
         return $this->successResponse($result);
 
     }

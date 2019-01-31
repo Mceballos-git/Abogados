@@ -56,8 +56,9 @@ export class ResetPasswordComponent implements OnInit {
             'reset_token': new FormControl(this._activatedRoute.snapshot.paramMap.get('token')),
             'new_password': new FormControl('', Validators.required),
             'new_password_confirmation': new FormControl()
-        });
-
+        });    
+        
+        
         this.resetPasswordForm.controls['new_password_confirmation'].setValidators([
             Validators.required,
             this.checkPasswords.bind(this.resetPasswordForm)
@@ -82,6 +83,8 @@ export class ResetPasswordComponent implements OnInit {
         }
 
         this.openDialog();
+      
+console.log(this.resetPasswordForm.value);
 
         // Do Login Request
         this._userSecurityService.resetPassword(this.resetPasswordForm.value).subscribe(
@@ -122,6 +125,8 @@ export class ResetPasswordComponent implements OnInit {
     handlePostSubmitError (response): void {
         this.loadingDialogRef.close();
         this.resetPasswordForm.reset();
+        console.log(response);
+        
         this.resetPasswordFailed = true;
     }
 }

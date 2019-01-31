@@ -78,7 +78,7 @@ class ClientController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            ClientModel::get()
+            ClientModel::orderBy('last_name', 'asc')->get()
         );
     }
 
