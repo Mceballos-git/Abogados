@@ -17,7 +17,7 @@ export class ClientsService extends RequestHelperService{
       NATIONALITY_DEFAULT: '',
       TIN_NUMBER_DEFAULT: '',
       EMAIL_DEFAULT: '',
-      DATE_OF_BIRTH_DEFAULT:'01-01-2000',
+      DATE_OF_BIRTH_DEFAULT:'',
       FLOOR_ADDRESS_DEFAULT: '',
       DEPARTMENT_ADDRESS_DEFAULT: '',
       COUNTRY_DEFAULT: '',

@@ -103,7 +103,7 @@ export class ClientFormComponent implements OnInit {
      * @param resourceId
      */
     initUpdate(resourceId) {
-        this.resourceId = this.resourceId;
+        this.resourceId = resourceId;
         this._clientService.getOne(resourceId).subscribe(response => {
             this.resource = response;
             this.createForm(response);
@@ -186,10 +186,11 @@ export class ClientFormComponent implements OnInit {
      */
     submitForm() {
         this.openLoadingDialog();
-
         let data = this.form.value;
-        console.log(moment(data.date_of_birth).format('Y-MM-DD'));
-        data.date_of_birth = moment(data.date_of_birth).format('Y-MM-DD');
+
+        if(data.date_of_birth) {
+            data.date_of_birth = moment(data.date_of_birth).format('Y-MM-DD');
+        }
 
         if (this.action === 1) {
             this._clientService.create(data).subscribe((response) => {
