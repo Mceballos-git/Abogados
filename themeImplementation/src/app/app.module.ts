@@ -55,6 +55,8 @@ import { MovementsListModule } from './main/movements/list/movements-list.module
 import { MovementsListComponent } from './main/movements/list/movements-list.component';
 import { MovementFormModule } from "./main/movements/movement-form/movement-form.module";
 import { MovementFormComponent } from './main/movements/movement-form/movement-form.component';
+import { CalendarModule } from './main/calendar/calendar.module';
+import { CalendarComponent } from './main/calendar/calendar.component';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -173,6 +175,12 @@ const appRoutes: Routes = [
         }
 
     },
+    {
+        // User must be logged in to see this route.
+        path: 'calendar',
+        component: CalendarComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
 
 
 ];
@@ -227,7 +235,9 @@ const appRoutes: Routes = [
         MovementCategoriesFormModule,
         //movements
         MovementsListModule,
-        MovementFormModule
+        MovementFormModule,
+        //calendar
+        CalendarModule
     ],
     providers: [
         AuthenticationGuardService,

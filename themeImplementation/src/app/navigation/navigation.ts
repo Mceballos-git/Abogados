@@ -97,14 +97,14 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.SAMPLE.TITLE',
                 type     : 'collapsable',
                 icon     : 'calendar_today',
-                // children : [
-                // {
-                //     id       : 'turns-create',
-                //     title    : 'Nuevo turno',
-                //     translate: 'NAV.SAMPLE.TITLE',
-                //     type     : 'item',                    
-                //     url      : '/turns/create',                    
-                // }]                
+                children : [
+                {
+                    id       : 'turns-create',
+                    title    : 'Nuevo turno',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/calendar',                    
+                }]                
             }//turns
         ]
         

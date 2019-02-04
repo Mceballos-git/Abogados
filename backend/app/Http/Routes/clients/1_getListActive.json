@@ -1,0 +1,10 @@
+{
+  "identifier": "getListActive",
+  "requestType": "GET",
+  "endpoint": "/getListActive",
+  "controller": "App\\Http\\Controllers\\ClientController",
+  "action": "getListActive",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

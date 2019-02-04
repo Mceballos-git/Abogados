@@ -82,6 +82,13 @@ class ClientController extends Controller
         );
     }
 
+    public function getListActive()
+    {
+        return $this->successResponse(
+            ClientModel::where('active', 1)->orderBy('last_name', 'asc')->get()
+        );
+    }
+
     /**
      * Example for handling GET request to api/examples/{id}
      * @param Request $request

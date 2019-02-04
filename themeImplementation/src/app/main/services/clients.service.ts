@@ -34,12 +34,19 @@ export class ClientsService extends RequestHelperService{
     ENDPOINT_DELETE : 'DELETE', 
     ENDPOINT_ACTIVATE : 'ACTIVATE',
     ENDPOINT_DEACTIVATE : 'DEACTIVATE',
+    ENDPOINT_LIST_ACTIVE : 'GET_LIST_ACTIVE',
   };
 
   
 
   getClientsList() {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
+    const headers = this.getRequestOptions(true);
+    return this.http.get(url, headers);
+  }
+
+  getClientsActiveList() {
+    const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST_ACTIVE);
     const headers = this.getRequestOptions(true);
     return this.http.get(url, headers);
   }

@@ -6,7 +6,9 @@ import {Injectable} from '@angular/core';
 })
 
 export class EndpointsConfig {
-    API_BASE = 'https://159.65.180.69/api';
+    //API_BASE = 'https://159.65.180.69/api';
+    API_BASE = 'http://local.sassani.com';
+
     AUTH = {
         LOGIN: '/auth/login',
         LOGOUT: '/auth/logout'
@@ -33,6 +35,7 @@ export class EndpointsConfig {
         DELETE: '/clients/:id',
         ACTIVATE: '/clients/activate',
         DEACTIVATE: '/clients/deactivate',
+        GET_LIST_ACTIVE:'/clients/getListActive'
     };
     MOVEMENTS_CATEGORIES = {
         CREATE: '/movements-categories',
@@ -54,5 +57,12 @@ export class EndpointsConfig {
         LIST: '/offices',
         GET_ONE: '/offices/:id',
         DELETE: '/offices/:id',
+    };
+    TURNS = {
+        CREATE: '/turns',
+        UPDATE: '/turns/:id',
+        LIST: '/turns',
+        GET_ONE: '/turns/:id',
+        DELETE: '/turns/:id',
     };
 }

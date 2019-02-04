@@ -83,9 +83,7 @@ export class MovementFormComponent implements OnInit {
     mov_type : MovType[] = [
         {value : 1 , viewValue : 'PAGO'},
         {value : 2 , viewValue : 'VENTA'},
-    ]
-
-   
+    ] 
 
     //forkJoinResponse
     public responseOffices: any;
