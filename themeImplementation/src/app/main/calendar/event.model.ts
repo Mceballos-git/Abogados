@@ -48,10 +48,7 @@ export class CalendarEventModel
         this.phone_number_ref = data.phone_number_ref || '';
         this.priority = data.priority || '';
         this.comments = data.comments || '';     
-        
         this.title = data.title || '';
-
-        
         this.resizable = {
             beforeStart: data.resizable && data.resizable.beforeStart || true,
             afterEnd   : data.resizable && data.resizable.afterEnd || true
