@@ -51,13 +51,6 @@ class UserSecurityController extends Controller
      */
     public function changePassword(Request $request)
     {
-        // Declare Request Parameters Validation Rules
-        $requestRules = [
-            'current_password' => 'required',
-            'new_password' => 'min:5|confirmed|different:current_password',
-            'new_password_confirmation' => 'required_with:password|same:new_password'
-        ];
-
         // Gather Request Input.
         $requestInput = $request->only(
             'current_password',
@@ -65,11 +58,6 @@ class UserSecurityController extends Controller
             'new_password_confirmation'
         );
 
-        // Evaluate Request Input, If it is not valid, Send back a Bad Request Response.
-        $validator = Validator::make($requestInput, $requestRules);
-        if ($validator->fails()) {
-            return $this->badRequestResponse(self::BAD_REQUEST_MESSAGE, $validator->errors());
-        }
 
         // Evaluate if current_password is valid for the logged account
         $user = Auth::user();
