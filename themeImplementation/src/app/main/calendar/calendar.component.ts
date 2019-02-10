@@ -255,7 +255,10 @@ export class CalendarComponent implements OnInit
 
                         this.events[eventIndex] = Object.assign(this.events[eventIndex], formData.getRawValue());
                         this.refresh.next(true);
-
+                        console.log(eventIndex);
+                        console.log(formData);
+                        
+                        
                         break;
                     /**
                      * Delete

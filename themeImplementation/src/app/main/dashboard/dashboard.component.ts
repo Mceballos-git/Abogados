@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FuseConfigService} from '@fuse/services/config.service';
-import { UsersService } from '../services/users.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 
 
@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit
 
 
     constructor(private _fuseConfigService: FuseConfigService,
-        private _userService:UsersService) {
+        private _auth:AuthenticationService) {
 
 
         // Configure the layout
@@ -44,12 +44,8 @@ export class DashboardComponent implements OnInit
     }
 
     getProfile(){
-        this._userService.getProfile().subscribe((response)=>{           
-            this.loggedUser = response;
-            this.username = this.loggedUser.username;
-        }, (error)=>{
-            console.log(error);
-            
-        });
+        
+        this.username = this._auth.getUsername();
+        
     }
 }

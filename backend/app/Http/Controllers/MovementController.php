@@ -80,7 +80,7 @@ class MovementController extends Controller
     public function getOne($id)
     {
         $deletedEntry = MovementModel::onlyTrashed()->where('id', $id)->get();
-        $entry = MovementModel::where('id', $id)->first();
+        $entry = MovementModel::with(['client', 'movementCategory'])->where('id', $id)->first();
 
         if ($entry == null) {
             return $this->successResponse($deletedEntry);

@@ -229,7 +229,7 @@ export class UserFormComponent implements OnInit {
 
         if (this.action === 1) {
             this._snackBar.open('Usuario creado correctamente', '',{
-                duration: 3000,
+                duration: 4000,
                 panelClass: ['green']
             });            
         }
@@ -245,7 +245,7 @@ export class UserFormComponent implements OnInit {
         
         this.loadingDialogRef.close();
         this._snackBar.open('Se ha producido un error al editar el usuario', '',{
-            duration: 3000,
+            duration: 4000,
             panelClass: ['warn']
         });
         if(response.error.details.message.username)

@@ -17,10 +17,13 @@
                             {{id.viewValue}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('movement_type_id').hasError('required') && form.get('movement_type_id').touched">
+                        Tipo de movimiento requerido
+                    </mat-error>
                 </mat-form-field>
                 
                 <!--date-->
-                <mat-form-field appearance="outline"  class="w-30-p mr-8">
+                <mat-form-field appearance="outline"  class="w-30-p" fxLayoutAlign="rigth">
                     <mat-label> Fecha</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="datetime">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -48,19 +51,19 @@
                 </mat-form-field>
 
                 <!-- office  -->
-                <mat-form-field appearance="outline" >
+                <!-- <mat-form-field appearance="outline" >
                     <mat-label>Caja</mat-label>
                     <mat-select placeholder="Caja" formControlName="movement_type_id">
                         <mat-option *ngFor="let id of office" [value]="id.value">
                             {{id.viewValue}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
 
                
 
                 <!--amount-->
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-30-p">
                     <mat-label>Monto</mat-label>
                     <input matInput formControlName="amount">
                     <mat-error *ngIf="form.get('amount').hasError('required') && form.get('amount').touched">
@@ -73,6 +76,9 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Concepto</mat-label>
                     <textarea matInput formControlName="concept"></textarea>
+                    <mat-error *ngIf="form.get('concept').hasError('required') && form.get('concept').touched">
+                        Concepto requerido
+                    </mat-error>
                 </mat-form-field>
 
 

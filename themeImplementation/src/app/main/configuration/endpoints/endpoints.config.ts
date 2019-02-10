@@ -16,6 +16,7 @@ export class EndpointsConfig {
     USER_SECURITY = {
         FORGOT_PASSWORD: '/user-security/forgot-password',
         RESET_PASSWORD: '/user-security/reset-password',
+        CHANGE_PASSWORD: '/user-security/change-password',
         ACTIVATE: '/user-security/activate',
         DEACTIVATE: '/user-security/deactivate',
     };

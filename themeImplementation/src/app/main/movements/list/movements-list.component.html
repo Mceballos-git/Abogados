@@ -1,6 +1,6 @@
 
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
-    <h1>Listado de Movimientos</h1>
+    <h1 class="mat-headline">Listado de Movimientos</h1>
     <div *ngIf="!loaded">
         cargando....
     </div>
@@ -10,9 +10,12 @@
 
     <div [hidden]="!loaded">
 
-        <h1> Balance: {{balance}}</h1>
-        <h1> Egresos: {{outcomes}}</h1>
-        <h1> Ingresos: {{incomes}}</h1>
+        <p>
+            <span class="h2 mr-16">Ingresos: {{incomes}}</span>
+            <span class="h2 mr-16">Egresos: {{outcomes}}</span>
+            <span class="h2 green-400-fg">Balance: {{balance}}</span>
+        </p>
+
         <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
         </mat-form-field>

@@ -11,15 +11,17 @@ import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'forgot-password',
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss'],
+    templateUrl: './change-password.component.html',
+    styleUrls: ['./change-password.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class ResetPasswordComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit {
     loadingDialogRef: any;
-    resetPasswordForm: FormGroup;
-    resetPasswordFailed: boolean;
+    changePasswordForm: FormGroup;
+    changePasswordFailed: boolean;
+    invalidCurrentPass:boolean;
+    sameOldPassword:boolean;
 
     constructor(
         private _fuseConfigService: FuseConfigService,
@@ -30,6 +32,7 @@ export class ResetPasswordComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _snackBar:MatSnackBar
     ) {
+        
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
@@ -53,17 +56,18 @@ export class ResetPasswordComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.resetPasswordForm = new FormGroup({
-            'reset_token': new FormControl(this._activatedRoute.snapshot.paramMap.get('token')),
+        this.changePasswordForm = new FormGroup({
+            'current_password': new FormControl('', Validators.required),
             'new_password': new FormControl('', [Validators.required, Validators.minLength(5)]),
             'new_password_confirmation': new FormControl()
         });    
         
         
-        this.resetPasswordForm.controls['new_password_confirmation'].setValidators([
+        this.changePasswordForm.controls['new_password_confirmation'].setValidators([
             Validators.required,
-            this.checkPasswords.bind(this.resetPasswordForm)
-        ]);
+            this.checkPasswords.bind(this.changePasswordForm)
+        ]);     
+       
     }
 
     checkPasswords(group: FormGroup): any {
@@ -78,17 +82,17 @@ export class ResetPasswordComponent implements OnInit {
      * @returns {boolean}
      */
     onSubmit(): boolean {
-        // Login Form is invalid abort execution.
-        if (!this.resetPasswordForm.valid) {
+        this.invalidCurrentPass = false;
+        this.sameOldPassword = false;
+        // Form is invalid abort execution.
+        if (!this.changePasswordForm.valid) {
             return false;
         }
 
         this.openDialog();
       
-console.log(this.resetPasswordForm.value);
-
-        // Do Login Request
-        this._userSecurityService.resetPassword(this.resetPasswordForm.value).subscribe(
+        // Do Request
+        this._userSecurityService.changePassword(this.changePasswordForm.value).subscribe(
             (response) => { this.handlePostSubmitSuccess(response); },
             (response) => { this.handlePostSubmitError(response); }
         );
@@ -115,6 +119,10 @@ console.log(this.resetPasswordForm.value);
      */
     handlePostSubmitSuccess (response): void {
         this.loadingDialogRef.close();
+        this._snackBar.open('Cambio de contraseña exitoso', '',{
+            duration: 4000,
+            panelClass: ['green']
+        });  
         this._router.navigate(['login']);
     }
 
@@ -125,13 +133,30 @@ console.log(this.resetPasswordForm.value);
      */
     handlePostSubmitError (response): void {
         this.loadingDialogRef.close();
-        this.resetPasswordForm.reset();
-        console.log(response);
+        this.changePasswordForm.reset();
+        console.log(response.error.details.message);
         
-        this.resetPasswordFailed = true;
-        this._snackBar.open('Se ha producido un error al resetear contraseña', '',{
+        this.changePasswordFailed = true;
+        this._snackBar.open('Se ha producido un error al cambiar contraseña', '',{
             duration: 4000,
             panelClass: ['warn']
         });  
+        if(response.error.details.message)
+        {          
+            
+            if(response.error.details.message === "current_password is invalid")
+            {
+                this.invalidCurrentPass = true; 
+                        
+            }
+        }
+
+        if(response.error.details.message.new_password)
+        {
+            if(response.error.details.message.new_password[0] === "The new password and current password must be different.")
+            {
+                this.sameOldPassword = true; 
+            }
+        }
     }
 }

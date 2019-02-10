@@ -11,7 +11,9 @@ export class MovementsService extends RequestHelperService{
     FIELD_DEFAULTS : {
       DATETIME_DEFAULT: '',
       CONCEPT_DEFAULT: '',
-      AMOUNT_DEFAULT: '',      
+      AMOUNT_DEFAULT: '',     
+      CLIENT_ID_DEFAULT: 0,     
+      MOVEMENT_CATEGORY_ID_DEFAULT: 0,     
     },
     REQUEST_MODULE : 'MOVEMENTS',
     ENDPOINT_CREATE : 'CREATE',
@@ -71,8 +73,12 @@ export class MovementsService extends RequestHelperService{
       datetime: formData.datetime,
       amount: formData.amount, 
       movement_type_id: formData.movement_type_id, 
-      movement_category_id: formData.movement_category_id,
-      client_id:formData.client_id,      
+      movement_category_id: this.getValueOrDefaultIfNull(
+        formData.movement_category_id, this.constants.FIELD_DEFAULTS.MOVEMENT_CATEGORY_ID_DEFAULT
+      ),
+      client_id:this.getValueOrDefaultIfNull(
+        formData.client_id, this.constants.FIELD_DEFAULTS.CLIENT_ID_DEFAULT
+     ),      
       concept: this.getValueOrDefaultIfNull(
           formData.concept, this.constants.FIELD_DEFAULTS.CONCEPT_DEFAULT
       ),

@@ -81,8 +81,8 @@ export class MovementFormComponent implements OnInit {
 
     //para llenar combo de tipos de movimientos
     mov_type : MovType[] = [
-        {value : 1 , viewValue : 'PAGO'},
-        {value : 2 , viewValue : 'VENTA'},
+        {value : 1 , viewValue : 'EGRESO'},
+        {value : 2 , viewValue : 'INGRESO'},
     ] 
 
     //forkJoinResponse
@@ -129,48 +129,48 @@ export class MovementFormComponent implements OnInit {
 
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
-        if (this.action === 2) {
-            this.res = this._activatedRoute.snapshot.paramMap.get('id');
-            return this.initUpdate(this.res);
-        }
+       
 
-        let offices = this._officesService.getList();
-        let clients = this._clientsService.getClientsList();
+        //let offices = this._officesService.getList();
+        let clients = this._clientsService.getClientsActiveList();
         let movCategories = this._movCategoryService.getMovCategoriesList();
 
-        forkJoin([offices, clients, movCategories]).subscribe((responseList)=>{
-            this.responseOffices = responseList[0]; 
-            this.responseClients = responseList[1];
-            this.responseMovCategories = responseList[2];
+        forkJoin([ clients, movCategories]).subscribe((responseList)=>{
+            //this.responseOffices = responseList[0]; 
+            this.responseClients = responseList[0];
+            this.responseMovCategories = responseList[1];
 
             console.log("Done");   
 
-            for(var i=0;i<this.responseOffices.length;i++){
-                this.office[i] = new Offices();
+            // for(var i=0;i<this.responseOffices.length;i++){
+            //     this.office[i] = new Offices();
 
-                this.office[i].value = this.responseOffices[i].id;
-                this.office[i].viewValue = this.responseOffices[i].name;
-            }
+            //     this.office[i].value = this.responseOffices[i].id;
+            //     this.office[i].viewValue = this.responseOffices[i].name;
+            // }
 
             for(var i=0;i<this.responseClients.length;i++){
                 this.client[i] = new Clients();
 
                 this.client[i].value = this.responseClients[i].id;
-                this.client[i].viewValue = this.responseClients[i].first_name + ' ' + this.responseClients[i].last_name;
+                this.client[i].viewValue =  this.responseClients[i].last_name + ' ' + this.responseClients[i].first_name;
             }
 
             for(var i=0;i<this.responseMovCategories.length;i++){
-                this.movCategory[i] = new Clients();
+                this.movCategory[i] = new MovCategory();
 
                 this.movCategory[i].value = this.responseMovCategories[i].id;
                 this.movCategory[i].viewValue = this.responseMovCategories[i].name;
             }
-           
             
         }, (error)=>{
             console.log(error);            
         });
 
+        if (this.action === 2) {
+            this.res = this._activatedRoute.snapshot.paramMap.get('id');
+            return this.initUpdate(this.res);
+        }
 
         return this.initCreate();
     }
@@ -211,9 +211,9 @@ export class MovementFormComponent implements OnInit {
             'datetime': new FormControl(moment()),     
             'amount': new FormControl(formData.amount, Validators.required),
             'concept': new FormControl(formData.concept, Validators.required),
-            'movement_type_id': new FormControl(formData.movement_type_id),
-            'movement_category_id': new FormControl(formData.movement_category_id, Validators.required),
-            'client_id': new FormControl(formData.client_id, Validators.required),
+            'movement_type_id': new FormControl(formData.movement_type_id, Validators.required),
+            'movement_category_id': new FormControl(formData.movement_category_id), 
+            'client_id': new FormControl(formData.client_id),
             
         });
     }
@@ -293,7 +293,7 @@ export class MovementFormComponent implements OnInit {
                 duration: 4000,
                 panelClass: ['green']
             });
-            this._router.navigate(['/clients/list']);
+            this._router.navigate(['/movements/list']);
         }
       
         if (this.action === 1) {

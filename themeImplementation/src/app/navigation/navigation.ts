@@ -40,13 +40,13 @@ export const navigation: FuseNavigation[] = [
                     type     : 'item',                    
                     url      : '/movements/list',                    
                 },
-                // {
-                //     id       : 'movements-create',
-                //     title    : 'Nuevo movimiento',
-                //     translate: 'NAV.SAMPLE.TITLE',
-                //     type     : 'item',                    
-                //     url      : '/movement/create',                    
-                // }
+                {
+                    id       : 'movements-create',
+                    title    : 'Nuevo movimiento',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/movements/create',                    
+                }
             ]                
             },//movements
             {

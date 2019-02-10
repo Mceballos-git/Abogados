@@ -16,11 +16,11 @@ class CreateMovementTypes extends Migration
         });
 
         DB::table('movement_types')->insert([
-                'name' => 'pago'
+                'name' => 'EGRESO'
             ]
         );
         DB::table('movement_types')->insert([
-                'name' => 'venta'
+                'name' => 'INGRESO'
             ]
         );
     }

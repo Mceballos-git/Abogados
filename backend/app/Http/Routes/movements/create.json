@@ -12,7 +12,7 @@
     "amount": "required|integer",
     "concept": "required|string",
     "movement_type_id": "required|integer",
-    "movement_category_id": "required|integer",
-    "client_id": "required|integer"
+    "movement_category_id": "sometimes",
+    "client_id": "sometimes"
   }
 }

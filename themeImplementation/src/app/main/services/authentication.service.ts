@@ -15,12 +15,33 @@ export class AuthenticationService extends RequestHelperService {
         ENDPOINT_LOGOUT: 'LOGOUT',
     };
 
+    LOCAL_STORAGE_USERNAME = 'user';
+    LOCAL_STORAGE_ROLE = 'role';
+
     isAuthenticated(): boolean {
         const token = this.getToken();
         if (!token) {
             return false;
         }
         return !this.jwtHelper.isTokenExpired(token);
+    }
+
+    setUsername(username: string){
+        localStorage.setItem(this.LOCAL_STORAGE_USERNAME, username);
+        return true;
+    }
+
+    getUsername():string{
+        return localStorage.getItem(this.LOCAL_STORAGE_USERNAME);        
+    }
+
+    setRole(role: string){
+        localStorage.setItem(this.LOCAL_STORAGE_ROLE, role);
+        return true;
+    }
+
+    getRole():string{
+        return localStorage.getItem(this.LOCAL_STORAGE_ROLE);        
     }
 
     /**

@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {FuseConfigService} from '@fuse/services/config.service';
 import {fuseAnimations} from '@fuse/animations/index';
 import {AuthenticationService} from '../../services/authentication.service';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatSnackBar} from '@angular/material';
 import {LoadingDialogComponent} from '../../common/loading-dialog/loading-dialog.component';
 
 @Component({
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _authService: AuthenticationService,
         private _dialog: MatDialog,
-        private _router: Router
+        private _router: Router,
+        private _snackBar:MatSnackBar
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -98,6 +99,10 @@ export class LoginComponent implements OnInit {
      */
     handleLoginSuccess(response): void {
         this.loadingDialogRef.close();
+        this._authService.setUsername(response.user.username);
+        this._authService.setRole(response.user.role_list);
+        //console.log(response.user.role_list);
+        
         this._authService.setToken(response.token);
         this._router.navigate(['dashboard']);
     }
@@ -111,5 +116,9 @@ export class LoginComponent implements OnInit {
         this.loginForm.reset();
         this.loadingDialogRef.close();
         this.authenticationFailed = true;
+        this._snackBar.open('Se ha producido un error al iniciar sesión', '',{
+            duration: 3000,
+            panelClass: ['warn']
+        });
     }
 }

@@ -56,7 +56,7 @@ export class MovementsListComponent implements OnInit {
     ngOnInit() {
 
         this._movService.getList().subscribe(response => {
-            console.log(response);
+            //console.log(response);
             this.movements = response;
             this.loaded = true;
             this.balance = this.getBalance();
@@ -155,7 +155,8 @@ export class MovementsListComponent implements OnInit {
     handleDeletingSuccess(deletedItemIndex) {
         this.movements.splice(deletedItemIndex, 1);
         this.updateDataSource();
-        console.log('Delete movement successfuly. Todo: Mostrar mensaje delete exitoso');
+        this.getBalance();
+        console.log('Delete movement successfuly');
         this._snackBar.open('Movimiento eliminado correctamente', '', {
             duration: 4000,
             panelClass: ['green']
@@ -167,7 +168,7 @@ export class MovementsListComponent implements OnInit {
      * @param response
      */
     handleDeletingError(response) {
-        console.log('There was an error while trying to delete movement. Todo: Mostrar mensaje delete no exitoso');
+        console.log('There was an error while trying to delete movement');
         this._snackBar.open('Se ha producido un error al eliminar el movimiento', '', {
             duration: 4000,
             panelClass: ['warn']

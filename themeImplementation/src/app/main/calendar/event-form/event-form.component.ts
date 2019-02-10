@@ -190,7 +190,7 @@ export class CalendarEventFormDialogComponent implements OnInit
             'priority': new FormControl(),
             'comments': new FormControl(''),
             'title':new FormControl('')      
-          }); 
-          return this.eventForm;
+        }); 
+        return this.eventForm;
     }
 }

@@ -57,6 +57,8 @@ import { MovementFormModule } from "./main/movements/movement-form/movement-form
 import { MovementFormComponent } from './main/movements/movement-form/movement-form.component';
 import { CalendarModule } from './main/calendar/calendar.module';
 import { CalendarComponent } from './main/calendar/calendar.component';
+import { ChangePasswordModule } from './main/authentication/change-password/change-password.module';
+import { ChangePasswordComponent } from './main/authentication/change-password/change-password.component';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -76,7 +78,7 @@ const appRoutes: Routes = [
         component: UserListComponent,
         canActivate: [RoleGuardService],
         data: {     
-            expectedRole: 'admin'
+            expectedRole: '["admin"]'
         }
 
     },
@@ -86,7 +88,7 @@ const appRoutes: Routes = [
         component: UserFormComponent,
         canActivate: [RoleGuardService],
         data: {
-            expectedRole: 'admin'
+            expectedRole: '["admin"]'
         }
 
     },
@@ -96,7 +98,7 @@ const appRoutes: Routes = [
         component: UserFormComponent,
         canActivate: [RoleGuardService],
         data: {
-            expectedRole: 'admin'
+            expectedRole: '["admin"]'
         }
 
     },
@@ -150,7 +152,7 @@ const appRoutes: Routes = [
         component: MovementsListComponent,
         canActivate: [RoleGuardService],
         data: {     
-            expectedRole: 'admin'
+            expectedRole: '["admin"]'
         }
     },      
 
@@ -160,18 +162,18 @@ const appRoutes: Routes = [
         component: MovementFormComponent,
         canActivate: [RoleGuardService],
         data: {
-            expectedRole: 'admin'
+            expectedRole: '["admin"]'
         }
 
     },
 
     {
         // User must be logged in and have role Admin to see this route.
-        path: 'movement/update/:id',
+        path: 'movements/update/:id',
         component: MovementFormComponent,
         canActivate: [RoleGuardService],
         data: {
-            expectedRole: 'admin'
+            expectedRole: '["admin"]'
         }
 
     },
@@ -182,6 +184,12 @@ const appRoutes: Routes = [
         canActivate: [AuthenticationGuardService],        
     },
 
+    {
+        // User must be logged in to see this route.
+        path: 'change-password',
+        component: ChangePasswordComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
 
 ];
 
@@ -237,7 +245,9 @@ const appRoutes: Routes = [
         MovementsListModule,
         MovementFormModule,
         //calendar
-        CalendarModule
+        CalendarModule,
+        //change password
+        ChangePasswordModule
     ],
     providers: [
         AuthenticationGuardService,

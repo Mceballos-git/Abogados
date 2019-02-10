@@ -7,11 +7,16 @@ import {
 
 import {AuthenticationService} from './authentication.service';
 import decode from 'jwt-decode';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class RoleGuardService implements CanActivate {
-    constructor(public auth: AuthenticationService, public router: Router) {
+    constructor(public auth: AuthenticationService, 
+        public router: Router,
+        public _snackBar:MatSnackBar) {
     }
+
+    userRole:string;
 
     canActivate(route: ActivatedRouteSnapshot): boolean {
 
@@ -19,17 +24,19 @@ export class RoleGuardService implements CanActivate {
         const token = localStorage.getItem('token');
         const tokenPayload = decode(token);
 
-        console.log(expectedRole);
-        console.log(tokenPayload);
+       
+        this.userRole = this.auth.getRole();         
 
-        //
-        // if (
-        //     !this.auth.isAuthenticated() ||
-        //     tokenPayload.role !== expectedRole
-        // ) {
-        //     this.router.navigate(['login']);
-        //     return false;
-        // }
+        
+        if (!this.auth.isAuthenticated() || this.userRole !== expectedRole) {
+
+            //this.router.navigate(['/dashboard']);
+            this._snackBar.open('Usuario no autorizado', '',{
+                duration: 4000,
+                panelClass: ['warn']
+            });
+            return false;
+        }
         return true;
     }
 }
