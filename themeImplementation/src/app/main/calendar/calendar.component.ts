@@ -212,7 +212,7 @@ export class CalendarComponent implements OnInit {
             const formData: FormGroup = response[1];
             switch (actionType) {
                 case 'save':
-                    this._calendarService.updateEvent(eventApiId, response.value).subscribe(reqResponse => {
+                    this._calendarService.updateEvent(eventApiId, formData.value).subscribe(reqResponse => {
                         const event = this.getEventFromTurn(reqResponse);
                         this.events[eventIndex] = Object.assign(this.events[eventIndex], event);
                         this.refresh.next(true);
