@@ -95,9 +95,7 @@ export class UserFormComponent implements OnInit {
      * Initialize Form View For Create.
      */
     initCreate() {
-
         this.createForm(false);
-        this.form.markAsTouched();       
         this.loading = false;
     }
 

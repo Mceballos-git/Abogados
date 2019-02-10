@@ -16,7 +16,6 @@ export class RequestHelperService {
     jwtHelper : JwtHelperService;
     LOCAL_STORAGE_TOKEN_KEY = 'token';
 
-
     constructor(
         protected http: HttpClient,
         private endpoints: EndpointsConfig
