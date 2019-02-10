@@ -54,9 +54,12 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
     locale: string = 'es';
     eventDate: any;
+    eventDate1: any;
     office: any = [];
     client: any = [];
     user: any = [];
+
+    last_name:string;
 
     priority = ['NORMAL', 'IMPORTANTE', 'PRIORITARIA', 'BASICA'];
 
@@ -84,12 +87,16 @@ export class CalendarEventFormDialogComponent implements OnInit {
     ) {
         this.event = _data.event;
         this.action = _data.action;
-        this.eventDate = moment(_data.date).format('YYYY-MM-DD');
+        this.eventDate = moment(_data.date).format('DD-MM-YYYY');
+        this.eventDate1 = moment(_data.date).format('YYYY-MM-DD');
 
         if (this.action === 'edit') {
-            this.dialogTitle = this.event.title;
+            this.dialogTitle = 'Editar Turno';
             return;
         }
+
+        console.log(_data);
+        
 
         this.dialogTitle = 'Nuevo Turno';
         this.event = new CalendarEventModel();
@@ -108,7 +115,13 @@ export class CalendarEventFormDialogComponent implements OnInit {
             for (let i = 0; i < this.responseClients.length; i++) {
                 this.client[i] = new Person();
                 this.client[i].value = this.responseClients[i].id;
-                this.client[i].viewValue = this.responseClients[i].last_name + ' ' + this.responseClients[i].first_name;
+                if(this.responseClients[i].last_name === null){
+                    this.last_name = '';
+                }
+                else{
+                    this.last_name = this.responseClients[i].last_name;
+                }
+                this.client[i].viewValue = this.last_name + ' ' + this.responseClients[i].first_name;
             }
 
             for (let i = 0; i < this.responseUsers.length; i++) {
@@ -138,7 +151,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
             given_user_id: '',
             attention_user_id: '',
             register_date: '',
-            turn_date: this.eventDate,
+            turn_date: this.eventDate1,
             turn_time_start: '',
             turn_time_end: '',
             phone_number_ref: '',
@@ -169,7 +182,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
             'client_id': new FormControl(data.client_id, Validators.required),
             'given_user_id': new FormControl(data.given_user_id, Validators.required),
             'attention_user_id': new FormControl(data.attention_user_id, Validators.required),
-            'register_date': new FormControl(data.register_date, Validators.required),
+            'register_date': new FormControl(moment().format('YYYY-MM-DD')),
             'turn_date': new FormControl(data.turn_date),
             'turn_time_start': new FormControl(data.turn_time_start, Validators.required),
             'turn_time_end': new FormControl(data.turn_time_end, Validators.required),

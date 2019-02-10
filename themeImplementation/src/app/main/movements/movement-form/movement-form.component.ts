@@ -78,6 +78,7 @@ export class MovementFormComponent implements OnInit {
     office:any=[];
     client:any = [];
     movCategory:any = [];
+    last_name:string;
 
     //para llenar combo de tipos de movimientos
     mov_type : MovType[] = [
@@ -153,7 +154,13 @@ export class MovementFormComponent implements OnInit {
                 this.client[i] = new Clients();
 
                 this.client[i].value = this.responseClients[i].id;
-                this.client[i].viewValue =  this.responseClients[i].last_name + ' ' + this.responseClients[i].first_name;
+                if(this.responseClients[i].last_name === null){
+                    this.last_name = '';
+                }
+                else{
+                    this.last_name = this.responseClients[i].last_name;
+                }
+                this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
             }
 
             for(var i=0;i<this.responseMovCategories.length;i++){

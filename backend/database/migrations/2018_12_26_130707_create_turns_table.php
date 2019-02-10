@@ -18,7 +18,7 @@ class CreateTurnsTable extends Migration
             $table->integer('client_id');
             $table->integer('given_user_id');
             $table->integer('attention_user_id');
-            $table->integer('office_id');
+            $table->integer('office_id')->nullable();
             $table->date('register_date');
             $table->date('turn_date');
             $table->time('turn_time_start');

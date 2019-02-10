@@ -11,7 +11,6 @@
     "client_id": "required|integer",
     "given_user_id": "required|integer",
     "attention_user_id": "required|integer",
-    "office_id": "required|integer",
     "register_date": "required|date_format:Y-m-d",
     "turn_date": "required|date_format:Y-m-d",
     "turn_time_start": "required|date_format:H:i:s",

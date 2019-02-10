@@ -172,6 +172,7 @@ export class CalendarComponent implements OnInit {
         });
 
         this.confirmDialogRef.componentInstance.confirmMessage = 'Esta seguro de querer eliminar el turno?';
+       
 
         const eventApiId = event.originalData.id;
         this.confirmDialogRef.afterClosed().subscribe(result => {
