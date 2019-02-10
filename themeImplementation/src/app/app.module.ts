@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule, Routes} from '@angular/router';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -59,6 +59,7 @@ import { CalendarModule } from './main/calendar/calendar.module';
 import { CalendarComponent } from './main/calendar/calendar.component';
 import { ChangePasswordModule } from './main/authentication/change-password/change-password.module';
 import { ChangePasswordComponent } from './main/authentication/change-password/change-password.component';
+import {AuthenticationRequestInterceptorService} from './main/services/authentication-request-interceptor.service';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -251,7 +252,8 @@ const appRoutes: Routes = [
     ],
     providers: [
         AuthenticationGuardService,
-        RoleGuardService
+        RoleGuardService,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthenticationRequestInterceptorService, multi: true }
     ],
     bootstrap: [
         AppComponent
