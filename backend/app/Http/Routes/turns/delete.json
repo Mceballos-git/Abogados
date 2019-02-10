@@ -4,7 +4,7 @@
   "endpoint": "/{id}",
   "controller": "App\\Http\\Controllers\\TurnController",
   "action": "delete",
-  "authorizationMiddleware": "true",
-  "authenticationMiddleware": "false",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
   "validationMiddleware": "false"
 }

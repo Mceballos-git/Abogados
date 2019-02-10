@@ -39,8 +39,8 @@
 
                     <mat-label>Cliente</mat-label>
                     <mat-select placeholder="Cliente" formControlName="client_id">
-                        <mat-option *ngFor="let id of client" [value]="id.value">
-                            {{id.viewValue}}
+                        <mat-option *ngFor="let c of client" [value]="c.value">
+                            {{c.viewValue}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

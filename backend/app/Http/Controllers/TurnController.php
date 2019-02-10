@@ -49,7 +49,8 @@ class TurnController extends Controller
             'priority' => $requestData['priority'],
             'comments' => $requestData['comments'],
             'title' => $requestData['title'],
-            'active' => $requestData['active']
+            'active' => $requestData['active'],
+            'office_id' => 1
         ]);
 
         return $this->successResponse($result);

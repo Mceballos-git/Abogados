@@ -115,14 +115,10 @@ export class CalendarEventFormDialogComponent implements OnInit {
             for (let i = 0; i < this.responseClients.length; i++) {
                 this.client[i] = new Person();
                 this.client[i].value = this.responseClients[i].id;
-                if(this.responseClients[i].last_name === null){
-                    this.last_name = '';
-                }
-                else{
-                    this.last_name = this.responseClients[i].last_name;
-                }
-                this.client[i].viewValue = this.last_name + ' ' + this.responseClients[i].first_name;
+                let lastName = this.responseClients[i].last_name === null ? '' : this.responseClients[i].last_name;
+                this.client[i].viewValue = lastName + ' ' + this.responseClients[i].first_name;
             }
+
 
             for (let i = 0; i < this.responseUsers.length; i++) {
                 this.user[i] = new Person();
