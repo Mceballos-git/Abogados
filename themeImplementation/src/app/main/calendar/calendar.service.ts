@@ -1,105 +1,41 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {RequestHelperService} from "../services/request-helper.service";
 
 @Injectable()
-export class CalendarService implements Resolve<any>
-{
-    events: any;
-    onEventsUpdated: Subject<any>;
+export class CalendarService extends RequestHelperService {
+
 
     /**
-     * Constructor
      *
-     * @param {HttpClient} _httpClient
      */
-    constructor(
-        private _httpClient: HttpClient
-    )
-    {
-        // Set the defaults
-        this.onEventsUpdated = new Subject();
+    getEvents(): any {
+        const url = this.getURL('TURNS', 'LIST');
+        const options = this.getRequestOptions(true);
+        return this.http.get(url, options);
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
-        return new Promise((resolve, reject) => {
-            Promise.all([
-                this.getEvents()
-            ]).then(
-                ([events]: [any]) => {
-                    resolve();
-                },
-                reject
-            );
-        });
+    updateEvents(events) {
+        return this.getEvents();
     }
 
-    /**
-     * Get events
-     *
-     * @returns {Promise<any>}
-     */
-    getEvents()
-    {
-        // return new Promise((resolve, reject) => {
 
-        //     this._httpClient.get('/turns')
-        //         .subscribe((response: any) => {
-        //             console.log(response);
-                    
-        //             this.events = response.data;
-        //             this.onEventsUpdated.next(this.events);
-        //             resolve(this.events);
-        //         }, reject);
-        // });
-
-        this._httpClient.get('/turns')
-                .subscribe((response: any) => {
-                    console.log(response);
-                    
-                    this.events = response.data;
-                    this.onEventsUpdated.next(this.events);
-                    //resolve(this.events);
-                },(error)=>{
-                    console.log('mallll' + error);
-                    
-                });
-
-    }
-    // getEvents(){
-        
-    // }
-
-    /**
-     * Update events
-     *
-     * @param events
-     * @returns {Promise<any>}
-     */
-    updateEvents(events): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.post('api/calendar/events', {
-                id  : 'events',
-                data: [...events]
-            })
-                .subscribe((response: any) => {
-                    this.getEvents();
-                }, reject);
-        });
+    createEvent(turnData) {
+        const url = this.getURL('TURNS', 'CREATE');
+        const options = this.getRequestOptions(true);
+        return this.http.post(url, turnData, options);
     }
 
+    updateEvent(id, turnData) {
+        let url = this.getURL('TURNS', 'UPDATE');
+        url = url.replace(':id', id);
+        const options = this.getRequestOptions(true);
+        return this.http.put(url, turnData, options);
+    }
+
+    deleteEvent(id) {
+        let url = this.getURL('TURNS', 'DELETE');
+        url = url.replace(':id', id);
+        const options = this.getRequestOptions(true);
+        return this.http.delete(url, options);
+    }
 }

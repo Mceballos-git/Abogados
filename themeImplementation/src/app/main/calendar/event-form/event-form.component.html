@@ -9,19 +9,19 @@
     </mat-toolbar>
 
     <div mat-dialog-content class="p-16 pb-0 m-0" fusePerfectScrollbar>
-        
+
         <form [formGroup]="eventForm" class="event-form w-100-p" fxLayout="column" fxFlex>
-            <div class="mb-8">
-                <strong>Fecha: {{fechaHoy}}</strong>
+            <div class="mb-20">
+                <strong>Fecha: {{eventDate}}</strong>
             </div>
 
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
-                
+
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
                     <mat-label>Hora inicio</mat-label>
                     <input matInput type="time" formControlName="turn_time_start">
                 </mat-form-field>
-                
+
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
                     <mat-label>Hora fin</mat-label>
                     <input matInput type="time" formControlName="turn_time_end">
@@ -29,41 +29,29 @@
             </div>
 
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
-
                 <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
-                              
+
                     <mat-label>Cliente</mat-label>
                     <mat-select placeholder="Cliente" formControlName="client_id">
                         <mat-option *ngFor="let id of client" [value]="id.value">
                             {{id.viewValue}}
                         </mat-option>
-                    </mat-select>              
-                </mat-form-field>
-                
-                <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
-                    <mat-label>Oficina</mat-label>
-                    <mat-select placeholder="Oficina" formControlName="office_id">
-                        <mat-option *ngFor="let id of office" [value]="id.value">
-                            {{id.viewValue}}
-                        </mat-option>
                     </mat-select>
                 </mat-form-field>
-
-
             </div>
-            
-            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row" >
+
+            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 
                 <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
-                            
+
                     <mat-label>Turno dado por:</mat-label>
                     <mat-select placeholder="Turno dado por:" formControlName="given_user_id">
                         <mat-option *ngFor="let id of user" [value]="id.value">
                             {{id.viewValue}}
                         </mat-option>
-                    </mat-select>              
+                    </mat-select>
                 </mat-form-field>
-                    
+
                 <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                     <mat-label>Turno atendido por:</mat-label>
                     <mat-select placeholder="Turno atendido por:" formControlName="attention_user_id">
@@ -74,15 +62,15 @@
                 </mat-form-field>
 
             </div>
-            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row" >
+            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 
                 <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                     <mat-label>Teléfono de referencia</mat-label>
                     <input matInput
-                        name="location"
-                        formControlName="phone_number_ref">           
+                           name="location"
+                           formControlName="phone_number_ref">
                 </mat-form-field>
-                    
+
                 <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                     <mat-label>Prioridad</mat-label>
                     <mat-select placeholder="Prioridad" formControlName="priority">
@@ -94,15 +82,6 @@
 
             </div>
 
-            <!-- <div class="pb-32" fxFlex="1 0 auto" fxLayout="row">
-                
-                <mat-slide-toggle name="allDay" formControlName="allDay" class="mr-24" aria-label="All day">
-                    Todo el día
-                </mat-slide-toggle>
-
-            </div>            -->            
-
-            
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Comentarios</mat-label>
                 <textarea matInput
