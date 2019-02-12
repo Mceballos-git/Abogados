@@ -169,17 +169,24 @@ export class MovementFormComponent implements OnInit {
                 this.movCategory[i].value = this.responseMovCategories[i].id;
                 this.movCategory[i].viewValue = this.responseMovCategories[i].name;
             }
+
+            if (this.action === 2) {
+                this.res = this._activatedRoute.snapshot.paramMap.get('id');
+                return this.initUpdate(this.res);
+            }
+    
+            return this.initCreate();
             
         }, (error)=>{
             console.log(error);            
         });
 
-        if (this.action === 2) {
-            this.res = this._activatedRoute.snapshot.paramMap.get('id');
-            return this.initUpdate(this.res);
-        }
+        // if (this.action === 2) {
+        //     this.res = this._activatedRoute.snapshot.paramMap.get('id');
+        //     return this.initUpdate(this.res);
+        // }
 
-        return this.initCreate();
+        // return this.initCreate();
     }
 
     /**

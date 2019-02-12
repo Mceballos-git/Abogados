@@ -19,6 +19,7 @@ import {CalendarEventFormDialogComponent} from 'app/main/calendar/event-form/eve
 import {FuseConfigService} from '@fuse/services/config.service';
 
 import * as _moment from 'moment';
+import { GenericDialogComponent } from '../common/generic-dialog/generic-dialog.component';
 const moment = _moment;
 
 @Component({
@@ -166,12 +167,13 @@ export class CalendarComponent implements OnInit {
         this.refresh.next(true);
     }
 
-    deleteEvent(event): void {
+    deleteEvent(event): void {        
+
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Esta seguro de querer eliminar el turno?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Esta seguro que desea eliminar el turno?';
        
 
         const eventApiId = event.originalData.id;
@@ -187,8 +189,7 @@ export class CalendarComponent implements OnInit {
 
             }
             this.confirmDialogRef = null;
-        });
-
+        });  
     }
 
     editEvent(action: string, event: CalendarEventModel): void {

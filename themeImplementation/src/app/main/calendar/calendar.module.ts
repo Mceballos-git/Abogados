@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSlideToggleModule, 
-    MatToolbarModule, MatTooltipModule, MatSelectModule
+    MatToolbarModule, MatTooltipModule, MatSelectModule,MatProgressSpinnerModule
 } from '@angular/material';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { CalendarModule as AngularCalendarModule, DateAdapter } from 'angular-calendar';
@@ -49,6 +49,7 @@ const routes: Routes = [
         MatToolbarModule,
         MatTooltipModule,
         MatSelectModule,
+        MatProgressSpinnerModule,
 
         AngularCalendarModule.forRoot({
             provide   : DateAdapter,

@@ -12,9 +12,11 @@ import {CalendarEventModel} from 'app/main/calendar/event.model';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
-import {OfficesService} from 'app/main/services/offices.service';
 import {ClientsService} from 'app/main/services/clients.service';
 import {UsersService} from 'app/main/services/users.service';
+import { AuthenticationService } from 'app/main/services/authentication.service';
+import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component";
+
 
 const moment = _moment;
 
@@ -33,6 +35,7 @@ export const MY_FORMATS = {
 class Person {
     value: number[];
     viewValue: string[];
+    phoneNumber:string[];
 }
 
 @Component({
@@ -51,7 +54,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
     eventForm: FormGroup;
     dialogTitle: string;
     presetColors = MatColors.presets;
-
+    loading: boolean;
     locale: string = 'es';
     eventDate: any;
     eventDate1: any;
@@ -60,6 +63,12 @@ export class CalendarEventFormDialogComponent implements OnInit {
     user: any = [];
 
     last_name:string;
+    first_name:string;
+    id_type:string;
+    id_number:string;
+    clientData:string;
+    phone_number:string;
+    username:string;
 
     priority = ['NORMAL', 'IMPORTANTE', 'PRIORITARIA', 'BASICA'];
 
@@ -81,7 +90,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
         public matDialogRef: MatDialogRef<CalendarEventFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _officesService: OfficesService,
+        private _auth: AuthenticationService,
         private _clientsService: ClientsService,
         private _usersService: UsersService
     ) {
@@ -105,6 +114,8 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
     ngOnInit() {
 
+        this.loading = true;
+       
         let clients = this._clientsService.getClientsActiveList();
         let users = this._usersService.getUsersList();
 
@@ -115,8 +126,14 @@ export class CalendarEventFormDialogComponent implements OnInit {
             for (let i = 0; i < this.responseClients.length; i++) {
                 this.client[i] = new Person();
                 this.client[i].value = this.responseClients[i].id;
+                this.client[i].phoneNumber = this.responseClients[i].phone_number;
+                this.phone_number = this.responseClients[i].phone_number === null ? '' : this.responseClients[i].phone_number;
                 let lastName = this.responseClients[i].last_name === null ? '' : this.responseClients[i].last_name;
-                this.client[i].viewValue = lastName + ' ' + this.responseClients[i].first_name;
+                this.first_name = this.responseClients[i].first_name === null ? '' : this.responseClients[i].first_name;
+                this.id_type = this.responseClients[i].identification_type === null ? '' : this.responseClients[i].identification_type;
+                this.id_number = this.responseClients[i].identification_number === null ? '' : this.responseClients[i].	identification_number;
+                this.clientData = lastName + ' ' + this.first_name + ' ' + '(' + this.id_type + ' ' + this.id_number + ')';
+                this.client[i].viewValue = this.clientData;
             }
 
 
@@ -126,14 +143,22 @@ export class CalendarEventFormDialogComponent implements OnInit {
                 this.user[i].viewValue = this.responseUsers[i].username;
             }
 
+            if (this.action === 'edit') {
+           
+                this.createEventFormEdit(this.event);
+                return;
+            }
+            this.eventForm = this.createEventFormNew();
+
         }, (error) => {});
 
 
-        if (this.action === 'edit') {
-            this.createEventFormEdit(this.event);
-            return;
-        }
-        this.eventForm = this.createEventFormNew();
+        // if (this.action === 'edit') {
+           
+        //     this.createEventFormEdit(this.event);
+        //     return;
+        // }
+        // this.eventForm = this.createEventFormNew();
     }
 
     /**
@@ -141,6 +166,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
      * @returns {FormGroup}
      */
     createEventFormNew() {
+
         const data = {
             active: 1,
             client_id: '',
@@ -164,6 +190,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
      * @returns {FormGroup}
      */
     createEventFormEdit(event) {
+        this.eventDate = moment(event.originalData.turn_date).format('DD-MM-YYYY')
         return this.createEventForm(event.originalData);
     }
 
@@ -185,8 +212,21 @@ export class CalendarEventFormDialogComponent implements OnInit {
             'phone_number_ref': new FormControl(data.phone_number_ref, Validators.required),
             'priority': new FormControl(data.priority),
             'comments': new FormControl(data.comments),
-            'title': new FormControl(data.title)
+            'title': new FormControl(data.title,  Validators.required)
         });
+
+        this.loading=false;
         return this.eventForm;
+    }
+
+    clientPhone(id){     
+        
+        for (let i = 0; i < this.client.length; i++)
+        {
+            if (this.client[i].value === id.value)
+            {
+                this.eventForm.get('phone_number_ref').setValue(this.client[i].phoneNumber) ;
+            }
+        }        
     }
 }
