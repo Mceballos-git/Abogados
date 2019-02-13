@@ -1,0 +1,12 @@
+{
+  "identifier": "delete",
+  "requestType": "DELETE",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\ProcedureController",
+  "action": "delete",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "true",
+  "validationRules": {
+  }
+}

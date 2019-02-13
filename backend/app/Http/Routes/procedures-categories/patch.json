@@ -1,0 +1,12 @@
+{
+  "identifier": "patch",
+  "requestType": "PATCH",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\ProcedureCategoryController",
+  "action": "patch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "true",
+  "validationRules": {
+  }
+}

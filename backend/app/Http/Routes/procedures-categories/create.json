@@ -1,0 +1,12 @@
+{
+  "identifier": "create",
+  "requestType": "POST",
+  "endpoint": "/",
+  "controller": "App\\Http\\Controllers\\ProcedureCategoryController",
+  "action": "create",
+  "authenticationMiddleware": "true",
+  "authorizationMiddleware": "false",
+  "validationMiddleware": "true",
+  "validationRules": {
+  }
+}

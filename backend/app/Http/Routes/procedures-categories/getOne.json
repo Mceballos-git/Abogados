@@ -1,0 +1,10 @@
+{
+  "identifier": "getOne",
+  "requestType": "GET",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\ProcedureCategoryController",
+  "action": "getOne",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

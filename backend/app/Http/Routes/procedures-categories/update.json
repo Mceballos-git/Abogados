@@ -1,0 +1,13 @@
+ {
+  "identifier": "update",
+  "requestType": "PUT",
+  "endpoint": "/{id}",
+  "controller": "App\\Http\\Controllers\\ProcedureCategoryController",
+  "action": "update",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "true",
+  "validationRules": {
+    }
+  }
+
