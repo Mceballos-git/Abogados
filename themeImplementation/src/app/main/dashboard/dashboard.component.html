@@ -67,5 +67,19 @@
             </mat-card-content>
         </mat-card>
 
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
+            <mat-card-title> Trámites (Categorías)</mat-card-title>
+            <mat-card-content>
+                <ul>
+                    <li>
+                        <a class="link" [routerLink]="['/procedure-categories/list']">Listado de categorias de trámites</a>
+                    </li>
+                    <li> 
+                        <a class="link" [routerLink]="['/procedure-categories/create']">Nueva categoría de trámite</a>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+
     </div>
 </div>

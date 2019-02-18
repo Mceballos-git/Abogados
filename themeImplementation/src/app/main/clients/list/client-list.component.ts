@@ -1,10 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSnackBar} from '@angular/material';
 import { ClientsService } from 'app/main/services/clients.service';
 import {Subject} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { GenericDialogComponent } from 'app/main/common/generic-dialog/generic-dialog.component';
+import { ExcelService } from 'app/main/services/excel.service';
+
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     selector: 'client-list',
@@ -13,6 +21,8 @@ import { GenericDialogComponent } from 'app/main/common/generic-dialog/generic-d
 })
 
 export class ClientListComponent implements OnInit {
+
+    @ViewChild('TABLE',{ read: ElementRef }) table: ElementRef;
 
     displayedColumns: string[] = ['last_name', 'first_name', 'identification_number', 'city', 'email', 'actions'];
     clients: any;
@@ -27,7 +37,8 @@ export class ClientListComponent implements OnInit {
     constructor(private _clientsService: ClientsService,
                 private _fuseConfigService:FuseConfigService,
                 private _dialog:MatDialog,
-                private _snackBar:MatSnackBar) {
+                private _snackBar:MatSnackBar, 
+                private excelService:ExcelService) {
         this.loaded = false;
          // Configure the layout
          this._fuseConfigService.config = {
@@ -160,5 +171,18 @@ export class ClientListComponent implements OnInit {
             
         });
     }
+
+    exportAsXLSX(){
+        //this.excelService.exportAsExcelFile(this.clients, 'clientes');
+    
+        const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      /* save to file */
+      XLSX.writeFile(wb, 'SheetJS.xlsx');
+    
+    }
+
 
 }

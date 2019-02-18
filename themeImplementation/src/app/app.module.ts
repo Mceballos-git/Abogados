@@ -60,6 +60,10 @@ import { CalendarComponent } from './main/calendar/calendar.component';
 import { ChangePasswordModule } from './main/authentication/change-password/change-password.module';
 import { ChangePasswordComponent } from './main/authentication/change-password/change-password.component';
 import {AuthenticationRequestInterceptorService} from './main/services/authentication-request-interceptor.service';
+import { ProcedureCategoriesFormModule } from './main/procedure-categories/form/procedure-categories-form.module';
+import { ProcedureCategoriesModule } from './main/procedure-categories/list/procedure-categories.module';
+import { ProcedureCategoriesComponent } from './main/procedure-categories/list/procedure-categories.component';
+import { ProcedureCategoriesFormComponent } from './main/procedure-categories/form/procedure-categories-form.component';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -192,6 +196,27 @@ const appRoutes: Routes = [
         canActivate: [AuthenticationGuardService],        
     },
 
+    {
+        // User must be logged in to see this route.
+        path: 'procedure-categories/list',
+        component: ProcedureCategoriesComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'procedure-categories/create',
+        component: ProcedureCategoriesFormComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'procedure-categories/update/:id',
+        component: ProcedureCategoriesFormComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
 ];
 
 @NgModule({
@@ -248,7 +273,10 @@ const appRoutes: Routes = [
         //calendar
         CalendarModule,
         //change password
-        ChangePasswordModule
+        ChangePasswordModule,
+        //procedure categories
+        ProcedureCategoriesFormModule,
+        ProcedureCategoriesModule,
     ],
     providers: [
         AuthenticationGuardService,

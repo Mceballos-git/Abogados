@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {Subject} from 'rxjs';
 import {startOfDay, isSameDay, isSameMonth} from 'date-fns';
 import {
@@ -19,7 +19,7 @@ import {CalendarEventFormDialogComponent} from 'app/main/calendar/event-form/eve
 import {FuseConfigService} from '@fuse/services/config.service';
 
 import * as _moment from 'moment';
-import { GenericDialogComponent } from '../common/generic-dialog/generic-dialog.component';
+
 const moment = _moment;
 
 @Component({
@@ -46,7 +46,8 @@ export class CalendarComponent implements OnInit {
     constructor(
         private _matDialog: MatDialog,
         private _calendarService: CalendarService,
-        private _fuseConfigService: FuseConfigService
+        private _fuseConfigService: FuseConfigService,
+        private _snackBar: MatSnackBar
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -184,6 +185,15 @@ export class CalendarComponent implements OnInit {
                     const eventIndex = this.events.indexOf(event);
                     this.events.splice(eventIndex, 1);
                     this.refresh.next(true);
+                    this._snackBar.open('Turno eliminado correctamente', '',{
+                        duration: 3000,
+                        panelClass: ['green']
+                    });
+                }, (error)=>{
+                    this._snackBar.open('Se ha producido un error al eliminar el turno', '',{
+                        duration: 3000,
+                        panelClass: ['warn']
+                    });   
                 });
 
 
@@ -217,6 +227,15 @@ export class CalendarComponent implements OnInit {
                         const event = this.getEventFromTurn(reqResponse);
                         this.events[eventIndex] = Object.assign(this.events[eventIndex], event);
                         this.refresh.next(true);
+                        this._snackBar.open('Turno editado correctamente', '',{
+                            duration: 3000,
+                            panelClass: ['green']
+                        });
+                    }, (error)=>{
+                        this._snackBar.open('Se ha producido un error al editar el turno', '',{
+                            duration: 3000,
+                            panelClass: ['warn']
+                        });   
                     });
                     break;
                 case 'delete':
@@ -245,6 +264,15 @@ export class CalendarComponent implements OnInit {
                 const event = this.getEventFromTurn(reqResponse);
                 this.events.push(event);
                 this.refresh.next(true);
+                this._snackBar.open('Turno creado correctamente', '',{
+                    duration: 3000,
+                    panelClass: ['green']
+                });
+            }, (error)=>{
+                this._snackBar.open('Se ha producido un error al crear el turno', '',{
+                    duration: 3000,
+                    panelClass: ['warn']
+                });   
             });
         });
     }

@@ -47,8 +47,7 @@ export const navigation: FuseNavigation[] = [
                     type     : 'item',                    
                     url      : '/movements/create',                    
                 }
-            ]                
-            },//movements
+            ]},//movements
             {
                 id       : 'movements-cat',
                 title    : 'Rubros de caja',
@@ -100,12 +99,34 @@ export const navigation: FuseNavigation[] = [
                 children : [
                 {
                     id       : 'turns-create',
-                    title    : 'Nuevo turno',
+                    title    : 'Calendario',
                     translate: 'NAV.SAMPLE.TITLE',
                     type     : 'item',                    
                     url      : '/calendar',                    
                 }]                
-            }//turns
+            },//turns
+            {
+                id       : 'procedure-cat',
+                title    : 'Trámites (categorías)',
+                translate: 'NAV.SAMPLE.TITLE',
+                type     : 'collapsable',
+                icon     : 'list',
+                children : [{
+                    id       : 'procedure-cat-list',
+                    title    : 'Listado de categorías de trámites',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/procedure-categories/list',                    
+                },
+                {
+                    id       : 'procedure-cat-create',
+                    title    : 'Nueva categoría de trámite',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/procedure-categories/create',                    
+                }]                
+            },//procedure-categories
+                      
         ]
         
 

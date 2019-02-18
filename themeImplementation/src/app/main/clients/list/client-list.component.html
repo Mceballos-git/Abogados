@@ -4,13 +4,19 @@
     <div *ngIf="!loaded">
         cargando....
     </div>
-    <div [hidden]="!loaded">
+    <div [hidden]="!loaded" #TABLE>
+        <div >
+            <button mat-raised-button color="accent" 
+                class="submit-button m-4" (click)="exportAsXLSX()">
+                Exportar a Excel
+            </button>         
+        </div>
         <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
         </mat-form-field>
 
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort>
+            <table mat-table [dataSource]="dataSource" matSort #table>
                 <!-- lastName Column -->
                 <ng-container matColumnDef="last_name">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
