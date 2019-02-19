@@ -12,6 +12,8 @@ class CreateProceduresCategories extends Migration
         Schema::create('procedure_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
+            $table->timestamps();
+
         });
         $procedureCategories = [
             ['name' => 'Reajuste de haberes'],

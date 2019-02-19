@@ -7,6 +7,8 @@ use App\Models\MovementCategoryModel;
 use App\Models\MovementModel;
 use App\Models\OfficeModel;
 use App\Models\OldCajaModel;
+use App\Models\OldPagosModel;
+use App\Models\OldVentasModel;
 use App\Models\OldClientesModel;
 use App\Models\OldOficinasModel;
 use App\Models\OldTipos_Mov_CajaModel;
@@ -14,6 +16,7 @@ use App\Models\OldTurnosModel;
 use App\Models\OldUsuariosModel;
 use App\Models\TurnModel;
 use App\Models\UserModel;
+use App\Services\ClientService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,10 +41,9 @@ class TableSeeder extends Command
      */
     protected $description = 'Fill the new tables with the contents of the original DB';
 
+
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * TableSeeder constructor.
      */
     public function __construct()
     {
@@ -172,7 +174,7 @@ class TableSeeder extends Command
 
     public function createMovementsCategories()
     {
-        $this->info('Creating Movement Categories ...');
+        $this->info('Creating Movement Categories...');
         $old = OldTipos_Mov_CajaModel::get();
         foreach ($old as $movementCategory) {
             $newMovementCategory = [];
@@ -190,13 +192,18 @@ class TableSeeder extends Command
 
             $detalleMov = null;
             $detalleCliente = null;
+            $detallePago = null;
             if ($movement->id_pago) {
                 $detalleMov = OldCajaModel::where('id_pago', $movement->id_pago)->first();
-                $detalleCliente = $detalleMov->id_pago;
+                $detalleIdPago = $detalleMov->id_pago;
+                $detallePago = OldPagosModel::where('id', $detalleIdPago)->first();
+                $detalleCliente = $detallePago->id_cliente;
             }
             if ($movement->id_venta) {
                 $detalleMov = OldCajaModel::where('id_venta', $movement->id_venta)->first();
-                $detalleCliente = $detalleMov->id_venta;
+                $detalleIdVenta = $detalleMov->id_venta;
+                $detalleVenta = OldVentasModel::where('id', $detalleIdVenta)->first();
+                $detalleCliente = $detalleVenta->id_cliente;
             }
             if ($movement->tipo === 'egreso') {
                 $tipoMov = 1;
@@ -216,6 +223,4 @@ class TableSeeder extends Command
             MovementModel::updateorcreate($newMovement);
         }
     }
-
-
 }

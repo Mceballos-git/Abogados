@@ -32,6 +32,10 @@ class CreateMovementsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->foreign('client_id')
+                ->references('id')
+                ->on('clients');
+
 
 
 

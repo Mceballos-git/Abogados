@@ -14,7 +14,7 @@ class CreateClientsTables extends Migration
     public function up()
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id')->primary();
             $table->boolean('active');
             $table->timestamps();
             $table->integer('deleted_by')->nullable();
@@ -36,7 +36,6 @@ class CreateClientsTables extends Migration
             $table->string('city')->nullable();
             $table->text('observations')->nullable();
             $table->string('extra')->nullable();
-            $table->softDeletes();
         });
     }
 

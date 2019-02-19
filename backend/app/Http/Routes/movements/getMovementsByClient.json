@@ -1,0 +1,10 @@
+{
+  "identifier": "getMovementsByClient",
+  "requestType": "GET",
+  "endpoint": "/client/{id}",
+  "controller": "App\\Http\\Controllers\\MovementController",
+  "action": "getMovementsByClient",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

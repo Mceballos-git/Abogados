@@ -51,6 +51,17 @@ class MovementController extends Controller
     }
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public function getMovementsByClient($id)
+    {
+        return MovementModel::where('client_id', $id)
+            ->with(['client', 'movementCategory', 'movementType'])
+            ->orderBy('id', 'desc')->get();
+    }
+
+    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -61,11 +72,11 @@ class MovementController extends Controller
 
         $query = MovementModel::with(['user', 'client', 'movementCategory', 'movementType'])->orderBy('id', 'desc');
 
-        if($dateFrom) {
+        if ($dateFrom) {
             $query->where('datetime', '>', $dateFrom);
         }
 
-        if($dateTo) {
+        if ($dateTo) {
             $query->where('datetime', '<', $dateTo);
         }
 
