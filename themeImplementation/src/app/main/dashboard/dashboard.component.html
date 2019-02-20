@@ -68,6 +68,20 @@
         </mat-card>
 
         <mat-card class="widget-card-dashboard" style="background-color:wheat;">
+            <mat-card-title> Trámites</mat-card-title>
+            <mat-card-content>
+                <ul>
+                    <li>
+                        <a class="link" [routerLink]="['/procedures/list']">Listado de Trámites</a>
+                    </li>
+                    <li> 
+                        <a class="link" [routerLink]="['/procedure/create']">Nuevo trámite</a>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+        
+        <mat-card class="widget-card-dashboard" style="background-color:wheat;">
             <mat-card-title> Trámites (Categorías)</mat-card-title>
             <mat-card-content>
                 <ul>
@@ -80,6 +94,7 @@
                 </ul>
             </mat-card-content>
         </mat-card>
+
 
     </div>
 </div>

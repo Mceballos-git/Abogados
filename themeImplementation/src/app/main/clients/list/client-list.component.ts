@@ -174,7 +174,8 @@ export class ClientListComponent implements OnInit {
 
     exportAsXLSX(){        
     
-        const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);
+        const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);    
+
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
 
@@ -183,9 +184,37 @@ export class ClientListComponent implements OnInit {
     
     }
 
-    exportFullListAsXLSX(){        
-        this.excelService.exportAsExcelFile(this.clients, 'clientes');
+    
+    exportFullListAsXLSX () {
+        let excelList = [];
+        for(let i = 0, len = this.clients.length; i < len; i++) {
+           excelList.push(this.getClientObjectTranslated(this.clients[i]));
+        }
+        this.excelService.exportAsExcelFile(excelList, 'Listado De Clientes');
     }
-
+    
+    getClientObjectTranslated(client) {
+        return {
+           "Nombre" : client.first_name,
+           "Apellido" : client.last_name,
+           "Tipo doc" : client.identification_type,
+           "Numero doc" : client.identification_number,
+           "CUIL-CUIT" : client.tin_number,
+           "Fecha Nacimiento" : client.date_of_birth,
+           "Numero de Telefono" : client.phone_number,
+           "email" : client.email,
+           "Direccion calle" : client.street_address,
+           "Direccion numero" : client.number_address,
+           "Piso" : client.floor_address,
+           "Dpto" : client.department_address,
+           "Pais" : client.country,
+           "Provincia" : client.state,
+           "Ciudad" : client.city,
+           "Nacionalidad" : client.nationality,
+           "Observaciones" : client.observations,
+           "Saldo" : client.balance,
+           "Activo" : client.active,
+        }
+    }
 
 }

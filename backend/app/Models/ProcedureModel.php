@@ -11,6 +11,7 @@ class ProcedureModel extends Model
 
     protected $fillable = [
         'client_id',
+        'procedure_category_id',
         'inicio_demanda',
         'sentencia_primera_instancia',
         'sentencia_segunda_instancia',
@@ -21,5 +22,9 @@ class ProcedureModel extends Model
 
     public function client(){
         return $this->belongsTo(ClientModel::class, 'client_id', 'id');
+    }
+
+    public function procedureCategory(){
+        return $this->belongsTo(ProcedureCategoryModel::class, 'procedure_category_id', 'id');
     }
 }

@@ -1,0 +1,96 @@
+<div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
+    <div *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+        <h1 *ngIf="actionString === 'create'">Nuevo Trámite.</h1>
+        <h1 *ngIf="actionString === 'update'">Editar Trámite {{resource.concept}}.</h1>
+        <div>
+
+            <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+                <!-- client  -->
+                <mat-form-field appearance="outline" >
+                     <mat-label>Cliente</mat-label>
+                     <mat-select placeholder="Cliente" formControlName="client_id">
+                         <mat-option *ngFor="let id of client" [value]="id.value">
+                             {{id.viewValue}}
+                         </mat-option>
+                     </mat-select>
+                     <mat-error *ngIf="form.get('client_id').hasError('required') && form.get('client_id').touched">
+                            Debe seleccionar un cliente
+                        </mat-error>
+                 </mat-form-field>
+
+                 <!-- procedure category  -->
+                 <mat-form-field appearance="outline">
+                     <mat-label>Trámite</mat-label>
+                     <mat-select placeholder="Rubro" formControlName="procedure_category_id">
+                         <mat-option *ngFor="let id of procedureCategory" [value]="id.value">
+                             {{id.viewValue}}
+                         </mat-option>
+                     </mat-select>
+                     <mat-error *ngIf="form.get('procedure_category_id').hasError('required') && form.get('procedure_category_id').touched">
+                        Debe seleccionar un tipo de trámite
+                    </mat-error>
+                 </mat-form-field>
+                                
+               
+                <mat-form-field appearance="outline"  class="w-35-p" fxLayoutAlign="rigth">
+                    <mat-label> Inicio demanda</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="inicio_demanda">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  class="w-35-p" fxLayoutAlign="rigth">
+                    <mat-label>Sentencia primera instancia</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="sentencia_primera_instancia">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  class="w-35-p" fxLayoutAlign="rigth">
+                    <mat-label>Sentencia segunda instancia</mat-label>
+                    <input matInput [matDatepicker]="picker3" formControlName="sentencia_segunda_instancia">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  class="w-35-p" fxLayoutAlign="rigth">
+                    <mat-label>Sentencia Corte Suprema</mat-label>
+                    <input matInput [matDatepicker]="picker4" formControlName="sentencia_corte_suprema">
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  class="w-35-p" fxLayoutAlign="rigth">
+                    <mat-label>Inicio de ejecución</mat-label>
+                    <input matInput [matDatepicker]="picker5" formControlName="inicio_de_ejecucion">
+                    <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                    <mat-datepicker #picker5 disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                
+                            
+                <!-- concept -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput formControlName="observaciones"></textarea>                   
+                </mat-form-field>
+
+
+                <button mat-raised-button color="accent"
+                 class="submit-button m-4" aria-label="LOG IN"
+                        [disabled]="form.invalid">
+                    Guardar
+                </button>
+                <button mat-raised-button color="primary"
+                 class="submit-button m-4" aria-label="LOG IN"
+                 [routerLink]="['/procedures/list']" >
+                    Cancelar
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>

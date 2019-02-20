@@ -64,6 +64,10 @@ import { ProcedureCategoriesFormModule } from './main/procedure-categories/form/
 import { ProcedureCategoriesModule } from './main/procedure-categories/list/procedure-categories.module';
 import { ProcedureCategoriesComponent } from './main/procedure-categories/list/procedure-categories.component';
 import { ProcedureCategoriesFormComponent } from './main/procedure-categories/form/procedure-categories-form.component';
+import { ProceduresListModule } from './main/procedures/list/procedures-list.module';
+import { ProceduresListComponent } from './main/procedures/list/procedures-list.component';
+import { ProcedureFormModule } from './main/procedures/procedures-form/procedure-form.module';
+import { ProcedureFormComponent } from './main/procedures/procedures-form/procedure-form.component';
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -216,6 +220,26 @@ const appRoutes: Routes = [
         component: ProcedureCategoriesFormComponent,
         canActivate: [AuthenticationGuardService],        
     },
+    {
+        // User must be logged in to see this route.
+        path: 'procedures/list',
+        component: ProceduresListComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'procedure/create',
+        component: ProcedureFormComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+    {
+        // User must be logged in to see this route.
+        path: 'procedure/update/:id',
+        component: ProcedureFormComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
 
 ];
 
@@ -277,6 +301,9 @@ const appRoutes: Routes = [
         //procedure categories
         ProcedureCategoriesFormModule,
         ProcedureCategoriesModule,
+        //procedures
+        ProceduresListModule,
+        ProcedureFormModule,
     ],
     providers: [
         AuthenticationGuardService,

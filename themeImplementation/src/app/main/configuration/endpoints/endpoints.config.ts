@@ -73,4 +73,11 @@ export class EndpointsConfig {
         GET_ONE: '/procedures-categories/:id',
         DELETE: '/procedures-categories/:id',
     };
+    PROCEDURES = {
+        CREATE: '/procedures',
+        UPDATE: '/procedures/:id',
+        LIST: '/procedures',
+        GET_ONE: '/procedures/:id',
+        DELETE: '/procedures/:id',
+    };
 }
