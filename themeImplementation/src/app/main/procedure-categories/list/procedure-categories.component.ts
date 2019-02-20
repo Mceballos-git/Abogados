@@ -116,6 +116,8 @@ export class ProcedureCategoriesComponent implements OnInit {
    */
   handleDeletingSuccess(deletedItemIndex) {
       this.procedureCategories.splice(deletedItemIndex, 1);
+      console.log(deletedItemIndex);
+      
       this.updateDataSource();
       console.log('Delete procedure-category successfuly. Todo: Mostrar mensaje delete exitoso');
       this._snackBar.open('Trámite eliminado correctamente', '',{

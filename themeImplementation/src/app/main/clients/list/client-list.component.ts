@@ -24,7 +24,7 @@ export class ClientListComponent implements OnInit {
 
     @ViewChild('TABLE',{ read: ElementRef }) table: ElementRef;
 
-    displayedColumns: string[] = ['last_name', 'first_name', 'identification_number', 'city', 'email', 'actions'];
+    displayedColumns: string[] = ['last_name', 'first_name', 'identification_number', 'city', 'balance', 'actions'];
     clients: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
@@ -172,16 +172,19 @@ export class ClientListComponent implements OnInit {
         });
     }
 
-    exportAsXLSX(){
-        //this.excelService.exportAsExcelFile(this.clients, 'clientes');
+    exportAsXLSX(){        
     
         const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
 
       /* save to file */
-      XLSX.writeFile(wb, 'SheetJS.xlsx');
+      XLSX.writeFile(wb, 'cliente.xlsx');
     
+    }
+
+    exportFullListAsXLSX(){        
+        this.excelService.exportAsExcelFile(this.clients, 'clientes');
     }
 
 

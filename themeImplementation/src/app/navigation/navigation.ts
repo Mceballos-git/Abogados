@@ -6,7 +6,19 @@ export const navigation: FuseNavigation[] = [
         title    : 'Secciones',
         translate: 'NAV.APPLICATIONS',
         type     : 'group',
-        children : [{
+        children : [
+            {
+            
+                id       : 'dashboard',
+                title    : 'Menú Principal',
+                translate: 'NAV.SAMPLE.TITLE',
+                type     : 'item',
+                icon     : 'home',
+                url     : '/dashboard'
+                 
+            },//dashboard
+            {
+            
                 id       : 'clients',
                 title    : 'Clientes',
                 translate: 'NAV.SAMPLE.TITLE',
