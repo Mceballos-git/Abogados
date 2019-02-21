@@ -29,6 +29,10 @@ class CreateTurnsTable extends Migration
             $table->char('title',100)->nullable();
             $table->boolean('active');
             $table->timestamps();
+            $table->foreign('client_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
 
         });

@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClientModel;
 use App\Models\MovementModel;
-use App\Models\TurnModel;
+use App\Services\ClientService;
+use App\Models\ClientModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Support\Facades\Auth;
-use Nexmo\Client;
 
 class MovementController extends Controller
 {
+    protected $clientService;
+
+    /**
+     * updateBalance constructor.
+     * @param ClientService $clientService
+     */
+    public function __construct(ClientService $clientService)
+    {
+        $this->clientService = $clientService;
+    }
+
     /**
      * Add Responses methods
      */
@@ -23,8 +33,6 @@ class MovementController extends Controller
      */
     public function create(Request $request)
     {
-
-
         // Obtain Request Information from POST
         $requestData = $request->only(
             'datetime',
@@ -46,6 +54,9 @@ class MovementController extends Controller
             'client_id' => $requestData['client_id'],
             'deleted_by' => null,
         ]);
+
+        // update balance
+        $this->clientService->updateClientBalance($requestData['client_id']);
 
         return $this->successResponse($result);
     }
@@ -118,6 +129,9 @@ class MovementController extends Controller
 
         MovementModel::where('id', $id)->update($requestData);
 
+        // update balance
+        $this->clientService->updateClientBalance($requestData['client_id']);
+
         return $this->successResponse(MovementModel::where('id', $id)->first());
     }
 
@@ -128,6 +142,20 @@ class MovementController extends Controller
      */
     public function delete($id)
     {
+        $getMovement = MovementModel::where('id', $id)->first();
+        $getIdClient = $getMovement->client_id;
+        $getMovementAmount = $getMovement->amount;
+        $getMovementType = $getMovement->movement_type_id;
+        $getClient = ClientModel::where('id', $getIdClient)->first();
+        $getClientBalance = $getClient->balance;
+
+        if ($getMovementType == '1') {     //egreso
+            $balance = $getClientBalance + $getMovementAmount;
+        } else {                         //ingreso
+            $balance = $getClientBalance - $getMovementAmount;
+        }
+        ClientModel::where('id', $getIdClient)->update(['balance' => $balance]);
+
         $requestData = array('deleted_by' => Auth::user()->id);
         MovementModel::where('id', $id)->update($requestData);
 
@@ -135,6 +163,4 @@ class MovementController extends Controller
             'id' => MovementModel::where('id', $id)->delete()
         ));
     }
-
-
 }

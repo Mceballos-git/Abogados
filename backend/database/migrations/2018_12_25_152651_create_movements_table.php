@@ -35,13 +35,6 @@ class CreateMovementsTable extends Migration
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients');
-
-
-
-
-
-
-
         });
     }
 
