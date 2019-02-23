@@ -24,8 +24,6 @@ class ProcedureController extends Controller
      */
     public function create(Request $request)
     {
-
-
         // Obtain Request Information from POST
         $requestData = $request->only(
             'client_id',
@@ -61,7 +59,9 @@ class ProcedureController extends Controller
         $dateFrom = $request->input('date_from', false);
         $dateTo = $request->input('date_to', false);
 
-        $query = ProcedureModel::with(['client'])->orderBy('id', 'desc');
+        $query = ProcedureModel::with(['client'])
+            ->with(['procedureCategory'])
+            ->orderBy('id', 'desc');
 
         if ($dateFrom) {
             $query->where('datetime', '>', $dateFrom);

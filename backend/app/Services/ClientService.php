@@ -7,11 +7,16 @@
  */
 
 namespace App\Services;
+
 use App\Models\ClientModel;
 use App\Models\MovementModel;
 
 class ClientService
 {
+    /**
+     * @param $clientId
+     * @return bool
+     */
     public function updateClientBalance($clientId)
     {
         $entry = ClientModel::where('id', $clientId)->first();
@@ -25,7 +30,7 @@ class ClientService
         foreach ($movements as $movement) {
             if ($movement->movement_type_id == '1') {     //egreso
                 $balance = $balance - $movement->amount;
-            } else {     //ingreso
+            } else {                                      //ingreso
                 $balance = $balance + $movement->amount;
             }
             ClientModel::where('id', $clientId)->update(['balance' => $balance]);
