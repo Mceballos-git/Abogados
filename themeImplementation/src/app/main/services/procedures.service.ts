@@ -16,6 +16,7 @@ export class ProceduresService extends RequestHelperService{
       INICIO_DE_EJECUCION_DEFAULT: '',
       OBSERVACIONES_DEFAULT: '',     
       CLIENT_ID_DEFAULT: 0,    
+      PROCEDURE_CATEGORY_ID_DEFAULT: 0,    
     },
     REQUEST_MODULE : 'PROCEDURES',
     ENDPOINT_CREATE : 'CREATE',

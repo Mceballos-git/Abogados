@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSnackBar} from '@angular/material';
 import {Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -6,6 +6,8 @@ import {FuseConfigService} from '@fuse/services/config.service';
 import {GenericDialogComponent} from 'app/main/common/generic-dialog/generic-dialog.component';
 import { ProceduresService } from 'app/main/services/procedures.service';
 
+import * as XLSX from 'xlsx';
+import { ExcelService } from 'app/main/services/excel.service';
 
 @Component({
     selector: 'procedures-list',
@@ -16,8 +18,10 @@ import { ProceduresService } from 'app/main/services/procedures.service';
 
 export class ProceduresListComponent implements OnInit {
 
-    displayedColumns: string[] = ['id', 'procedure_category_id', 'client_id', 'inicio_demanda', 'sentencia_primera_instancia', 
-        'sentencia_segunda_instancia', 'sentencia_corte_suprema', 'inicio_de_ejecucion', 'observaciones'];
+    @ViewChild('TABLE',{ read: ElementRef }) table: ElementRef;
+
+    displayedColumns: string[] = ['procedure_category_id', 'client_id', 'inicio_demanda', 'sentencia_primera_instancia', 
+        'sentencia_segunda_instancia', 'sentencia_corte_suprema', 'inicio_de_ejecucion', 'observaciones', 'actions'];
     procedures: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
@@ -33,7 +37,8 @@ export class ProceduresListComponent implements OnInit {
     constructor(private _proceduresService: ProceduresService,
                 private _fuseConfigService: FuseConfigService,
                 private _dialog: MatDialog,
-                private _snackBar: MatSnackBar) {
+                private _snackBar: MatSnackBar,
+                private _excelService:ExcelService) {
         this.loaded = false;
         // Configure the layout
         this._fuseConfigService.config = {
@@ -57,7 +62,7 @@ export class ProceduresListComponent implements OnInit {
     ngOnInit() {
 
         this._proceduresService.getList().subscribe(response => {
-            //console.log(response);
+            console.log(response);
             this.procedures = response;
             this.loaded = true;
            
@@ -83,11 +88,7 @@ export class ProceduresListComponent implements OnInit {
             console.log(error);
         });
 
-
-    }
-
-    
-
+    }   
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -155,6 +156,50 @@ export class ProceduresListComponent implements OnInit {
             duration: 4000,
             panelClass: ['warn']
         });
+    }
+
+    exportAsXLSX(){        
+    
+        const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);    
+
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
+
+      /* save to file */
+      XLSX.writeFile(wb, 'tramites.xlsx');
+    
+    }
+
+    exportFullListAsXLSX(){
+        let excelList = [];
+        for(let i = 0, len = this.procedures.length; i < len; i++) {
+           excelList.push(this.getClientObjectTranslated(this.procedures[i]));
+        }
+        this._excelService.exportAsExcelFile(excelList, 'Listado De Clientes');
+    }
+
+    getClientObjectTranslated(client) {
+        return {
+           "Nombre" : client.first_name,
+           "Apellido" : client.last_name,
+           "Tipo doc" : client.identification_type,
+           "Numero doc" : client.identification_number,
+           "CUIL-CUIT" : client.tin_number,
+           "Fecha Nacimiento" : client.date_of_birth,
+           "Numero de Telefono" : client.phone_number,
+           "email" : client.email,
+           "Direccion calle" : client.street_address,
+           "Direccion numero" : client.number_address,
+           "Piso" : client.floor_address,
+           "Dpto" : client.department_address,
+           "Pais" : client.country,
+           "Provincia" : client.state,
+           "Ciudad" : client.city,
+           "Nacionalidad" : client.nationality,
+           "Observaciones" : client.observations,
+           "Saldo" : client.balance,
+           "Activo" : client.active,
+        }
     }
 
 }

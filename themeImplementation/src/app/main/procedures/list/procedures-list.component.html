@@ -5,23 +5,29 @@
         cargando....
     </div>
 
-    <div [hidden]="!loaded">
+    <div [hidden]="!loaded" #TABLE>
+        <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center" >
+            <button mat-raised-button color="accent" class="mr-8"
+                class="submit-button m-4" (click)="exportAsXLSX()">
+                Exportar vista a Excel
+            </button>   
+            <button mat-raised-button color="accent" 
+                class="submit-button m-4" (click)="exportFullListAsXLSX()">
+                Exportar listado completo a Excel
+            </button>       
+        </div>
 
         <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
         </mat-form-field>
 
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort>
-                <!-- lastName Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                    <td nowrap mat-cell *matCellDef="let row"> {{row.id}} </td>
-                </ng-container>
+            <table mat-table [dataSource]="dataSource" matSort #table>
+               
                 <!-- Name Column -->
                 <ng-container matColumnDef="procedure_category_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Trámite </th>
-                    <td nowrap mat-cell *matCellDef="let row"> 
+                    <td nowrap class="w20" mat-cell *matCellDef="let row"> 
                         <p *ngIf="row.procedure_category">
                             {{row.procedure_category.name}}
                         </p> 
@@ -31,7 +37,7 @@
                 <!-- client Column -->
                 <ng-container matColumnDef="client_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
-                    <td nowrap mat-cell *matCellDef="let row"> 
+                    <td nowrap class="w20" mat-cell *matCellDef="let row"> 
                     <p *ngIf="row.client">
                         {{row.client.first_name + ' ' + row.client.last_name}}
                     </p>   
@@ -40,33 +46,33 @@
                 
                 <ng-container matColumnDef="inicio_demanda">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio demanda </th>
-                    <td class="w20" mat-cell *matCellDef="let row"> {{row.inicio_demanda}} </td>
+                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.inicio_demanda}} </td>
                 </ng-container>
                 
                 <ng-container matColumnDef="sentencia_primera_instancia">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Sentencia primera instancia </th>
-                    <td class="w20" mat-cell *matCellDef="let row"> {{row.sentencia_primera_instancia}} </td>
+                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_primera_instancia}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="sentencia_segunda_instancia">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Sentencia segunda instancia </th>
-                    <td class="w20" mat-cell *matCellDef="let row"> {{row.sentencia_segunda_instancia}} </td>
+                    <td  nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_segunda_instancia}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="sentencia_corte_suprema">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Sentencia Corte Suprema </th>
-                    <td class="w20" mat-cell *matCellDef="let row"> {{row.sentencia_corte_suprema}} </td>
+                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_corte_suprema}} </td>
                 </ng-container>
 
                  <!-- Email Column -->
                  <ng-container matColumnDef="inicio_de_ejecucion">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio de ejecución </th>
-                    <td nowrap mat-cell *matCellDef="let row"> {{row.inicio_de_ejecucion}} </td>
+                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.inicio_de_ejecucion}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="observaciones">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones </th>
-                    <td nowrap mat-cell *matCellDef="let row"> {{row.observaciones}} </td>
+                    <td nowrap class="w15" mat-cell *matCellDef="let row"> {{row.observaciones}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">

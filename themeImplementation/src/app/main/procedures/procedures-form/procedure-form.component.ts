@@ -223,7 +223,7 @@ export class ProcedureFormComponent implements OnInit {
         return {
 
             'procedure_category_id':  data ? data.procedure_category_id : '',
-            'inicio_demanda': data ? data.inicio_demanda : 0,
+            'inicio_demanda': data ? data.inicio_demanda : '',
             'sentencia_primera_instancia': data ? data.sentencia_primera_instancia : '',
             'sentencia_segunda_instancia': data ? data.sentencia_segunda_instancia : '',
             'sentencia_corte_suprema': data ? data.sentencia_corte_suprema : '',
@@ -241,13 +241,24 @@ export class ProcedureFormComponent implements OnInit {
         this.openLoadingDialog();
 
         let data = this.form.value;
-        
-        data.inicio_demanda = moment(data.inicio_demanda).format('Y-MM-DD');
-        data.sentencia_primera_instancia = moment(data.sentencia_primera_instancia).format('Y-MM-DD');
-        data.sentencia_segunda_instancia = moment(data.sentencia_segunda_instancia).format('Y-MM-DD');
-        data.sentencia_corte_suprema = moment(data.sentencia_corte_suprema).format('Y-MM-DD');
-        data.inicio_de_ejecucion = moment(data.inicio_de_ejecucion).format('Y-MM-DD');
+        if (data.inicio_demanda){
+            data.inicio_demanda = moment(data.inicio_demanda).format('DD-MM-Y');      
+        }        
+        if (data.sentencia_primera_instancia){
+            data.sentencia_primera_instancia = moment(data.sentencia_primera_instancia).format('DD-MM-Y');
+        }               
+        if (data.sentencia_segunda_instancia){
+            data.sentencia_segunda_instancia = moment(data.sentencia_segunda_instancia).format('DD-MM-Y');
+        }
+        if (data.sentencia_corte_suprema){
+            data.sentencia_corte_suprema = moment(data.sentencia_corte_suprema).format('DD-MM-Y');
+        }
+        if (data.inicio_de_ejecucion){
+            data.inicio_de_ejecucion = moment(data.inicio_de_ejecucion).format('DD-MM-Y');
 
+        }        
+       
+       
         if (this.action === 1) {
             this._procedureService.create(data).subscribe((response) => {
                 console.log(data);
@@ -328,4 +339,5 @@ export class ProcedureFormComponent implements OnInit {
         }   
     }
 
+  
 }

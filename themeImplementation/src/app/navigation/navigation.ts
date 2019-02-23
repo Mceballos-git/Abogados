@@ -138,7 +138,27 @@ export const navigation: FuseNavigation[] = [
                     url      : '/procedure-categories/create',                    
                 }]                
             },//procedure-categories
-                      
+            {
+                id       : 'procedures',
+                title    : 'Trámites',
+                translate: 'NAV.SAMPLE.TITLE',
+                type     : 'collapsable',
+                icon     : 'list',
+                children : [{
+                    id       : 'procedures-list',
+                    title    : 'Listado de trámites',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/procedures/list',                    
+                },
+                {
+                    id       : 'procedures-create',
+                    title    : 'Nuevo trámite',
+                    translate: 'NAV.SAMPLE.TITLE',
+                    type     : 'item',                    
+                    url      : '/procedure/create',                    
+                }
+            ]},          
         ]
         
 
