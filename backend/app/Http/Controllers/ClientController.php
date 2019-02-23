@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientModel;
-use App\Models\TurnModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
-use Nexmo\Client;
 use Illuminate\Support\Facades\Auth;
+use App\Services\FluffyQueryService;
 
 class ClientController extends Controller
 {
+    public function __construct(FluffyQueryService $clientService)
+    {
+        $this->FluffyQueryService = $clientService;
+    }
+
     /**
      * Add Responses methods
      */
@@ -69,6 +73,16 @@ class ClientController extends Controller
         ]);
 
         return $this->successResponse($result);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function list($valor)
+    {
+        $query = app()->make(ClientModel::class);
+        $queryWithFluffy = $this->FluffyQueryService->fluffyQuery($query, ['first_name', 'last_name'], $valor)
+        return $queryWithFluffy->get();
     }
 
     /**
@@ -149,7 +163,7 @@ class ClientController extends Controller
     }
 
 
-        /**
+    /**
      * Can only be executed by admin Role.
      * Admin Required certain operator to be Activated
      * @param Request $request
@@ -157,8 +171,8 @@ class ClientController extends Controller
     public function activateClient(Request $request)
     {
         // Obtain Request Information from POST
-        $clientId = $request->input('client_id');  
-        $client = ClientModel::where('id', $clientId)->first();          
+        $clientId = $request->input('client_id');
+        $client = ClientModel::where('id', $clientId)->first();
         $client->active = 1;
         $client->save();
         return $this->successResponse($client);

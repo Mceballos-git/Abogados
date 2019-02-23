@@ -19,24 +19,22 @@ class CreateProcedures extends Migration
         Schema::create('Procedures', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client_id');
-            $table->integer('procedure_category_id');
-            $table->date('inicio_demanda')->nullable();
-            $table->date('sentencia_primera_instancia')->nullable();
-            $table->date('sentencia_segunda_instancia')->nullable();
-            $table->date('sentencia_corte_suprema')->nullable();
-            $table->date('inicio_de_ejecucion')->nullable();
+            $table->integer('procedure_category_id')->default(0);
+            $table->string('inicio_demanda')->nullable();
+            $table->string('sentencia_primera_instancia')->nullable();
+            $table->string('sentencia_segunda_instancia')->nullable();
+            $table->string('sentencia_corte_suprema')->nullable();
+            $table->string('inicio_de_ejecucion')->nullable();
             $table->text('observaciones')->nullable();
             $table->timestamps();
             $table->foreign('client_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-
-
-
-
-
-
+            $table->foreign('procedure_category_id')
+                ->references('id')
+                ->on('procedures_categories')
+                ->onDelete('cascade');
         });
     }
 

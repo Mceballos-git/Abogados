@@ -7,7 +7,7 @@ use App\Models\ClientModel;
 use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Services\ClientService;
+use App\Services\FluffyQueryService;
 
 
 
@@ -27,15 +27,15 @@ class updateBalance extends Command
      */
     protected $description = 'Generate balance content in client table';
     /**
-     * @var ClientService
+     * @var FluffyQueryService
      */
     protected $clientService;
 
     /**
      * updateBalance constructor.
-     * @param ClientService $clientService
+     * @param FluffyQueryService $clientService
      */
-    public function __construct(ClientService $clientService)
+    public function __construct(FluffyQueryService $clientService)
     {
         $this->clientService = $clientService;
         parent::__construct();
