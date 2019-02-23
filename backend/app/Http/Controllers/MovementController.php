@@ -13,11 +13,7 @@ class MovementController extends Controller
 {
     protected $clientService;
 
-    /**
-     * updateBalance constructor.
-     * @param ClientService $clientService
-     */
-    public function __construct(ClientService $clientService)
+    public function __construct(updateClientBalance $clientService)
     {
         $this->clientService = $clientService;
     }
@@ -142,19 +138,12 @@ class MovementController extends Controller
      */
     public function delete($id)
     {
-        $getMovement = MovementModel::where('id', $id)->first();
-        $getIdClient = $getMovement->client_id;
-        $getMovementAmount = $getMovement->amount;
-        $getMovementType = $getMovement->movement_type_id;
-        $getClient = ClientModel::where('id', $getIdClient)->first();
-        $getClientBalance = $getClient->balance;
-
-        if ($getMovementType == '1') {     //egreso
-            $balance = $getClientBalance + $getMovementAmount;
-        } else {                         //ingreso
-            $balance = $getClientBalance - $getMovementAmount;
+        $movement = MovementModel::where('id', $id)->first();
+        $clientId = $movement->client_id;
+        $movement->delete();
+        if ($clientId) {
+            $this->clientService->updateClientBalance($clientId);
         }
-        ClientModel::where('id', $getIdClient)->update(['balance' => $balance]);
 
         $requestData = array('deleted_by' => Auth::user()->id);
         MovementModel::where('id', $id)->update($requestData);

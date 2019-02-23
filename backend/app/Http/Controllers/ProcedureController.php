@@ -29,6 +29,7 @@ class ProcedureController extends Controller
         // Obtain Request Information from POST
         $requestData = $request->only(
             'client_id',
+            'procedure_category_id',
             'inicio_demanda',
             'sentencia_primera_instancia',
             'sentencia_segunda_instancia',
@@ -39,6 +40,7 @@ class ProcedureController extends Controller
 
         $result = ProcedureModel::create([
             'client_id' => $requestData['client_id'],
+            'procedure_category_id' => $requestData['procedure_category_id'],
             'inicio_demanda' => $requestData['inicio_demanda'],
             'sentencia_primera_instancia' => $requestData['sentencia_primera_instancia'],
             'sentencia_segunda_instancia' => $requestData['sentencia_segunda_instancia'],
@@ -92,6 +94,7 @@ class ProcedureController extends Controller
     {
         $requestData = $request->only(array(
             'client_id',
+            'procedure_category_id',
             'inicio_demanda',
             'sentencia_primera_instancia',
             'sentencia_segunda_instancia',

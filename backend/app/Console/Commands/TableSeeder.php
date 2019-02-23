@@ -16,7 +16,7 @@ use App\Models\OldTurnosModel;
 use App\Models\OldUsuariosModel;
 use App\Models\TurnModel;
 use App\Models\UserModel;
-use App\Services\ClientService;
+use App\Services\FluffyQueryService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
