@@ -13,7 +13,7 @@ class MovementController extends Controller
 {
     protected $clientService;
 
-    public function __construct(updateClientBalance $clientService)
+    public function __construct(ClientService $clientService)
     {
         $this->clientService = $clientService;
     }
@@ -127,6 +127,7 @@ class MovementController extends Controller
 
         // update balance
         $this->clientService->updateClientBalance($requestData['client_id']);
+
 
         return $this->successResponse(MovementModel::where('id', $id)->first());
     }
