@@ -6,8 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateProcedures extends Migration
 {
-
-
     /**
      * Run the migrations.
      *

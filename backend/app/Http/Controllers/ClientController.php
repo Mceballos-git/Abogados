@@ -74,8 +74,6 @@ class ClientController extends Controller
 
         return $this->successResponse($result);
     }
-
-    
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

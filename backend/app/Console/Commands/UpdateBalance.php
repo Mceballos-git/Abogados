@@ -4,11 +4,11 @@ namespace App\Console\Commands;
 
 
 use App\Models\ClientModel;
+use App\Services\ClientService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Services\FluffyQueryService;
-
 
 
 class updateBalance extends Command
@@ -33,9 +33,9 @@ class updateBalance extends Command
 
     /**
      * updateBalance constructor.
-     * @param FluffyQueryService $clientService
+     * @param ClientService $clientService
      */
-    public function __construct(FluffyQueryService $clientService)
+    public function __construct(ClientService $clientService)
     {
         $this->clientService = $clientService;
         parent::__construct();
