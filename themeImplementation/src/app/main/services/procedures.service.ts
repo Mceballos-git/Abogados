@@ -76,10 +76,10 @@ export class ProceduresService extends RequestHelperService{
            
       client_id:this.getValueOrDefaultIfNull(
         formData.client_id, this.constants.FIELD_DEFAULTS.CLIENT_ID_DEFAULT
-     ),    
-     procedure_category_id:this.getValueOrDefaultIfNull(
-      formData.procedure_category_id, this.constants.FIELD_DEFAULTS.PROCEDURE_CATEGORY_ID_DEFAULT
-      ),
+     ),
+      procedure_category_id:this.getValueOrDefaultIfNull(
+        formData.procedure_category_id, this.constants.FIELD_DEFAULTS.PROCEDURE_CATEGORY_ID_DEFAULT
+     ),
      inicio_demanda: this.getValueOrDefaultIfNull(
        formData.inicio_demanda, this.constants.FIELD_DEFAULTS.INICIO_DEMANDA_DEFAULT
      ),
