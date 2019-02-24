@@ -173,32 +173,22 @@ export class ProceduresListComponent implements OnInit {
     exportFullListAsXLSX(){
         let excelList = [];
         for(let i = 0, len = this.procedures.length; i < len; i++) {
-           excelList.push(this.getClientObjectTranslated(this.procedures[i]));
+           excelList.push(this.getObjectTranslated(this.procedures[i]));
         }
-        this._excelService.exportAsExcelFile(excelList, 'Listado De Clientes');
+        this._excelService.exportAsExcelFile(excelList, 'Listado De trámites');
     }
 
-    getClientObjectTranslated(client) {
+    getObjectTranslated(procedureData) {
         return {
-           "Nombre" : client.first_name,
-           "Apellido" : client.last_name,
-           "Tipo doc" : client.identification_type,
-           "Numero doc" : client.identification_number,
-           "CUIL-CUIT" : client.tin_number,
-           "Fecha Nacimiento" : client.date_of_birth,
-           "Numero de Telefono" : client.phone_number,
-           "email" : client.email,
-           "Direccion calle" : client.street_address,
-           "Direccion numero" : client.number_address,
-           "Piso" : client.floor_address,
-           "Dpto" : client.department_address,
-           "Pais" : client.country,
-           "Provincia" : client.state,
-           "Ciudad" : client.city,
-           "Nacionalidad" : client.nationality,
-           "Observaciones" : client.observations,
-           "Saldo" : client.balance,
-           "Activo" : client.active,
+           "Trámite" : procedureData.first_name,
+           "Cliente" : procedureData.last_name,
+           "Inicio demanda" : procedureData.identification_type,
+           "Sentencia primera instancia" : procedureData.identification_type,
+           "Sentencia segunda instancia" : procedureData.identification_number,
+           "Sentencia corte suprema" : procedureData.tin_number,
+           "Inicio ejecución" : procedureData.date_of_birth,
+           "Observaciones" : procedureData.phone_number,
+           
         }
     }
 

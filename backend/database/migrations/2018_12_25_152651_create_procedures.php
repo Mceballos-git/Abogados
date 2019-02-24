@@ -29,7 +29,7 @@ class CreateProcedures extends Migration
             $table->timestamps();
             $table->foreign('client_id')
                 ->references('id')
-                ->on('users')
+                ->on('clients')
                 ->onDelete('cascade');
             $table->foreign('procedure_category_id')
                 ->references('id')

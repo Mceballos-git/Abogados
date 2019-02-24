@@ -75,16 +75,7 @@ class ClientController extends Controller
         return $this->successResponse($result);
     }
 
-    /**
-     * @return mixed
-     */
-    public function list($valor)
-    {
-        $query = app()->make(ClientModel::class);
-        $queryWithFluffy = $this->FluffyQueryService->fluffyQuery($query, ['first_name', 'last_name'], $valor)
-        return $queryWithFluffy->get();
-    }
-
+    
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

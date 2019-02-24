@@ -184,6 +184,8 @@ export class ProcedureFormComponent implements OnInit {
         this.resourceId = this.resourceId;
         this._procedureService.getOne(resourceId).subscribe(response => {
             this.resource = response;
+            console.log(response);
+            
             this.createForm(response);
             this.loading = false;
             this.dtTrigger.next();
@@ -261,11 +263,10 @@ export class ProcedureFormComponent implements OnInit {
        
         if (this.action === 1) {
             this._procedureService.create(data).subscribe((response) => {
-                console.log(data);
                 
                 this.handleSubmitSuccess(response);
             }, (error) => {
-                console.log(data);
+                console.log(error);
                 this.handleSubmitError(error);
             });
             return;
