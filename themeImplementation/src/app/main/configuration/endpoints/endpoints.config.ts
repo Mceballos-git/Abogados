@@ -6,8 +6,7 @@ import {Injectable} from '@angular/core';
 })
 
 export class EndpointsConfig {
-    //API_BASE = 'https://159.65.180.69/api';
-    API_BASE = 'http://local.sassani.com';
+    API_BASE = 'http://sassani.tk';
 
     AUTH = {
         LOGIN: '/auth/login',
