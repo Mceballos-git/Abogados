@@ -24,16 +24,15 @@ class ClientService
             return false;
         }
         $movements = MovementModel::where('client_id', $clientId)
-            ->with(['client', 'movementCategory', 'movementType'])
             ->orderBy('id', 'desc')->get();
         $balance = 0;
         foreach ($movements as $movement) {
-            if ($movement->movement_type_id == '1') {     //egreso
-                $balance = $balance - $movement->amount;
-            } else {                                      //ingreso
-                $balance = $balance + $movement->amount;
-            }
-            ClientModel::where('id', $clientId)->update(['balance' => $balance]);
+            $egreso = $movement->movement_type_id == '1';
+            $balance = $egreso ? $balance - $movement->amount : $balance + $movement->amount;
+
         }
+        $entry->balance = $balance;
+        $entry->save();
+
     }
 }

@@ -77,7 +77,8 @@ class MovementController extends Controller
         $dateFrom = $request->input('date_from', false);
         $dateTo = $request->input('date_to', false);
 
-        $query = MovementModel::with(['user', 'client', 'movementCategory', 'movementType'])->orderBy('id', 'desc');
+        $query = MovementModel::with(['user', 'client', 'movementCategory', 'movementType'])
+            ->orderBy('id', 'desc');
 
         if ($dateFrom) {
             $query->where('datetime', '>', $dateFrom);
@@ -121,13 +122,30 @@ class MovementController extends Controller
             'movement_category_id',
             'client_id',
         ));
+
         $requestData['user_id'] = Auth::user()->id;
 
+        // update old client balance
+        $oldClientMovement = MovementModel::where('id', $id)->first();
+        $oldClientId = $oldClientMovement->client_id;
+
+        // update movement
         MovementModel::where('id', $id)->update($requestData);
 
-        // update balance
-        $this->clientService->updateClientBalance($requestData['client_id']);
+        // Previous Client not actual provided
+        if ($oldClientId && !$requestData['client_id']) {
+            $this->clientService->updateClientBalance($requestData['client_id']);
+        }
 
+        // Provided client Id
+        if ($requestData['client_id']) {
+            $this->clientService->updateClientBalance($requestData['client_id']);
+        }
+
+        // Provided Client and Previous Client And Actual Client are different.
+        if ($requestData['client_id'] && $oldClientId !== $requestData['client_id']) {
+            $this->clientService->updateClientBalance($oldClientId);
+        }
 
         return $this->successResponse(MovementModel::where('id', $id)->first());
     }
@@ -141,16 +159,19 @@ class MovementController extends Controller
     {
         $movement = MovementModel::where('id', $id)->first();
         $clientId = $movement->client_id;
-        $movement->delete();
+
+        // Updatea el deleted by
+        $movement->deleted_by = Auth::user()->id;
+        $movement->save();
+
+        // Delete the movement.
+        $deletedId = $movement->delete();
         if ($clientId) {
             $this->clientService->updateClientBalance($clientId);
         }
 
-        $requestData = array('deleted_by' => Auth::user()->id);
-        MovementModel::where('id', $id)->update($requestData);
-
         return $this->successResponse(array(
-            'id' => MovementModel::where('id', $id)->delete()
+            'id' => $deletedId
         ));
     }
 }

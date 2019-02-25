@@ -153,9 +153,8 @@ class ClientController extends Controller
 
 
     /**
-     * Can only be executed by admin Role.
-     * Admin Required certain operator to be Activated
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function activateClient(Request $request)
     {

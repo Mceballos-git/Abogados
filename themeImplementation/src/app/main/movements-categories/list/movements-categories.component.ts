@@ -90,18 +90,25 @@ export class MovementsCategoriesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
         if (result){
             this.delete(index, deleteRowItem);
         }           
     });
   }
 
-  delete(index, deleteRowItem) {
-      this._movCategoriesService.delete(deleteRowItem.id).subscribe((response) => {
+    delete(pageElementIndex, deleteRowItem) {
+        const index = this.getElementIndex(pageElementIndex);
+        this._movCategoriesService.delete(deleteRowItem.id).subscribe((response) => {
           this.handleDeletingSuccess(index)
       },(error) => { this.handleDeletingError(error)});
   }
+
+    getElementIndex(elementPageIndex) {
+        if (this.paginator.pageIndex === 0) {
+            return elementPageIndex;
+        }
+        return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
+    }
 
   /**
    * Update DataSource so entries get deleted from view.

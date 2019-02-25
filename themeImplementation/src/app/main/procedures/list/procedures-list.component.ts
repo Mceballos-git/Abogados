@@ -147,19 +147,26 @@ export class ProceduresListComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
             if (result) {
                 this.delete(index, deleteRowItem);
             }
         });
     }
 
-    delete(index, deleteRowItem) {
+    delete(pageElementIndex, deleteRowItem) {
+        const index = this.getElementIndex(pageElementIndex);
         this._proceduresService.delete(deleteRowItem.id).subscribe((response) => {
             this.handleDeletingSuccess(index)
         }, (error) => {
             this.handleDeletingError(error)
         });
+    }
+
+    getElementIndex(elementPageIndex) {
+        if (this.paginator.pageIndex === 0) {
+            return elementPageIndex;
+        }
+        return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
     }
 
     /**
