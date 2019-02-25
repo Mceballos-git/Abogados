@@ -184,8 +184,6 @@ export class ProcedureFormComponent implements OnInit {
         this.resourceId = this.resourceId;
         this._procedureService.getOne(resourceId).subscribe(response => {
             this.resource = response;
-            console.log(response);
-            
             this.createForm(response);
             this.loading = false;
             this.dtTrigger.next();
@@ -200,8 +198,8 @@ export class ProcedureFormComponent implements OnInit {
      * @param data
      */
     private createForm(data) {
-        const formData = this.getInitialFormData(data);
-
+        const formData = this.getInitialFormData(data);       
+        
         this.form = new FormGroup({
             'procedure_category_id': new FormControl(formData.procedure_category_id),     
             'inicio_demanda': new FormControl(formData.inicio_demanda),
@@ -244,19 +242,19 @@ export class ProcedureFormComponent implements OnInit {
 
         let data = this.form.value;
         if (data.inicio_demanda){
-            data.inicio_demanda = moment(data.inicio_demanda).format('DD-MM-Y');      
+            data.inicio_demanda = moment(data.inicio_demanda).format('Y-MM-DD');      
         }        
         if (data.sentencia_primera_instancia){
-            data.sentencia_primera_instancia = moment(data.sentencia_primera_instancia).format('DD-MM-Y');
+            data.sentencia_primera_instancia = moment(data.sentencia_primera_instancia).format('Y-MM-DD');
         }               
         if (data.sentencia_segunda_instancia){
-            data.sentencia_segunda_instancia = moment(data.sentencia_segunda_instancia).format('DD-MM-Y');
+            data.sentencia_segunda_instancia = moment(data.sentencia_segunda_instancia).format('Y-MM-DD');
         }
         if (data.sentencia_corte_suprema){
-            data.sentencia_corte_suprema = moment(data.sentencia_corte_suprema).format('DD-MM-Y');
+            data.sentencia_corte_suprema = moment(data.sentencia_corte_suprema).format('Y-MM-DD');
         }
         if (data.inicio_de_ejecucion){
-            data.inicio_de_ejecucion = moment(data.inicio_de_ejecucion).format('DD-MM-Y');
+            data.inicio_de_ejecucion = moment(data.inicio_de_ejecucion).format('Y-MM-DD');
 
         }        
        

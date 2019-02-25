@@ -9,10 +9,32 @@ import { ProceduresService } from 'app/main/services/procedures.service';
 import * as XLSX from 'xlsx';
 import { ExcelService } from 'app/main/services/excel.service';
 
+//para dar formato a la fecha
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as _moment from 'moment';
+
+const moment = _moment;
+
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'DD MM YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'DD MM YYYY',
+      monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
+
 @Component({
     selector: 'procedures-list',
     styleUrls: ['./procedures-list.component.scss'],
     templateUrl: './procedures-list.component.html',
+    providers: [{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},],
 
 })
 
@@ -66,6 +88,23 @@ export class ProceduresListComponent implements OnInit {
             this.procedures = response;
             this.loaded = true;
            
+            for(let i = 0, len = this.procedures.length; i < len; i++){
+                if(this.procedures[i].inicio_demanda){
+                    this.procedures[i].inicio_demanda= moment(this.procedures[i].inicio_demanda).format('DD-MM-Y');
+                }
+                if(this.procedures[i].sentencia_primera_instancia){
+                    this.procedures[i].sentencia_primera_instancia= moment(this.procedures[i].sentencia_primera_instancia).format('DD-MM-Y');
+                }
+                if(this.procedures[i].sentencia_segunda_instancia){
+                    this.procedures[i].sentencia_segunda_instancia= moment(this.procedures[i].sentencia_segunda_instancia).format('DD-MM-Y');
+                }
+                if(this.procedures[i].sentencia_corte_suprema){
+                    this.procedures[i].sentencia_corte_suprema= moment(this.procedures[i].sentencia_corte_suprema).format('DD-MM-Y');
+                }
+                if(this.procedures[i].inicio_de_ejecucion){
+                    this.procedures[i].inicio_de_ejecucion= moment(this.procedures[i].inicio_de_ejecucion).format('DD-MM-Y');
+                }
+            }
 
             // Assign the data to the data source for the table to render
             this.dataSource = new MatTableDataSource(this.procedures);
@@ -100,8 +139,8 @@ export class ProceduresListComponent implements OnInit {
 
     openDeleteDialog(index, deleteRowItem) {
         const title = 'Eliminar Trámite'
-        let content = 'Estas por Eliminar al trámite: {row.concept}, Deseas continuar?';
-        content = content.replace('{row.concept}', deleteRowItem.concept);
+        let content = 'Estas por Eliminar al trámite: {row.procedure_category.name}, Deseas continuar?';
+        content = content.replace('{row.procedure_category.name}', deleteRowItem.procedure_category.name);
 
         const dialogRef = this._dialog.open(GenericDialogComponent, {
             data: {title: title, content: content}
@@ -180,14 +219,14 @@ export class ProceduresListComponent implements OnInit {
 
     getObjectTranslated(procedureData) {
         return {
-           "Trámite" : procedureData.first_name,
-           "Cliente" : procedureData.last_name,
-           "Inicio demanda" : procedureData.identification_type,
-           "Sentencia primera instancia" : procedureData.identification_type,
-           "Sentencia segunda instancia" : procedureData.identification_number,
-           "Sentencia corte suprema" : procedureData.tin_number,
-           "Inicio ejecución" : procedureData.date_of_birth,
-           "Observaciones" : procedureData.phone_number,
+           "Trámite" : procedureData.procedure_category.name,
+           "Cliente" : procedureData.client.first_name + ' ' + procedureData.client.last_name,
+           "Inicio demanda" : procedureData.inicio_demanda,
+           "Sentencia primera instancia" : procedureData.sentencia_primera_instancia,
+           "Sentencia segunda instancia" : procedureData.sentencia_segunda_instancia,
+           "Sentencia corte suprema" : procedureData.sentencia_corte_suprema,
+           "Inicio ejecución" : procedureData.inicio_de_ejecucion,
+           "Observaciones" : procedureData.observaciones,
            
         }
     }
