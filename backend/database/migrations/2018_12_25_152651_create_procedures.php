@@ -16,8 +16,8 @@ class CreateProcedures extends Migration
 
         Schema::create('Procedures', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id');
-            $table->integer('procedure_category_id')->default(0);
+            $table->integer('client_id')->unsigned();
+            $table->integer('procedure_category_id')->unsigned()->default(0);
             $table->string('inicio_demanda')->nullable();
             $table->string('sentencia_primera_instancia')->nullable();
             $table->string('sentencia_segunda_instancia')->nullable();
@@ -29,9 +29,10 @@ class CreateProcedures extends Migration
                 ->references('id')
                 ->on('clients')
                 ->onDelete('cascade');
+
             $table->foreign('procedure_category_id')
                 ->references('id')
-                ->on('procedures_categories')
+                ->on('procedure_categories')
                 ->onDelete('cascade');
         });
     }

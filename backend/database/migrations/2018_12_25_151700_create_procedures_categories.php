@@ -13,8 +13,8 @@ class CreateProceduresCategories extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->timestamps();
-
         });
+
         $procedureCategories = [
             ['name' => 'Reajuste de haberes'],
             ['name' => 'Pensión judicial'],
@@ -33,14 +33,13 @@ class CreateProceduresCategories extends Migration
             ['name' => 'Salud'],
             ['name' => 'Otros'],
         ];
+
         \App\Models\ProcedureCategoryModel::insert($procedureCategories);
     }
 
     public function down()
     {
-        Schema::create('procedure_categories', function (Blueprint $table) {
-            $table->dropColumn(['id', 'name']);
-        });
+        Schema::dropIfExists('procedure_categories');
     }
 
 

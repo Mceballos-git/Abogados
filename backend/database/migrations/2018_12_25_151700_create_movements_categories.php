@@ -20,8 +20,6 @@ class CreateMovementsCategories extends Migration
 
     public function down()
     {
-        Schema::create('movement_categories', function (Blueprint $table) {
-            $table->dropColumn(['id', 'name']);
-        });
+        Schema::dropIfExists('movement_categories');
     }
 }

@@ -28,10 +28,12 @@ class CreateMovementsTable extends Migration
             $table->integer('deleted_by')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients');

@@ -14,7 +14,7 @@ class CreateClientsTables extends Migration
     public function up()
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->integer('id')->unsigned()->primary();
             $table->boolean('active');
             $table->timestamps();
             $table->integer('deleted_by')->nullable();
