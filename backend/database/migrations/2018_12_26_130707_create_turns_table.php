@@ -15,7 +15,7 @@ class CreateTurnsTable extends Migration
     {
         Schema::create('turns', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id');
+            $table->integer('client_id')->unsigned()->nullable();
             $table->integer('given_user_id');
             $table->integer('attention_user_id');
             $table->integer('office_id')->nullable();
