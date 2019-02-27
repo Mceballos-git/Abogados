@@ -37,12 +37,16 @@ export class ClientsService extends RequestHelperService{
     ENDPOINT_LIST_ACTIVE : 'GET_LIST_ACTIVE',
   };
 
-  
-
   getClientsList(parameters) {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
     const headers = this.getRequestOptions(true);
     return this.http.post(url, parameters, headers);
+  }
+
+  getClientListForExport() {
+      const url = this.getURL(this.constants.REQUEST_MODULE, 'GET_LIST_EXCEL');
+      const headers = this.getRequestOptions(true);
+      return this.http.get(url, headers);
   }
 
   getClientsActiveList() {

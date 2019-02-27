@@ -215,24 +215,17 @@ export class ClientListComponent implements OnInit {
     }
 
     exportAsXLSX() {
-
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
-
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
-
-        /* save to file */
-        XLSX.writeFile(wb, 'cliente.xlsx');
-
+       this.excelService.exportAsExcelFile(this.tableData, 'Clientes Visualizados');
     }
 
-
     exportFullListAsXLSX() {
-        let excelList = [];
-        for (let i = 0, len = this.clients.length; i < len; i++) {
-            excelList.push(this.getClientObjectTranslated(this.clients[i]));
-        }
-        this.excelService.exportAsExcelFile(excelList, 'Listado De Clientes');
+        this._clientsService.getClientListForExport().subscribe((resp : any) => {
+            let clients = [];
+            for (let i = 0, len = resp.length; i < len; i++) {
+                clients.push(this.getClientObjectTranslated(resp[i]));
+            }
+            this.excelService.exportAsExcelFile(clients, 'Listado Total De Clientes');
+        });
     }
 
     getClientObjectTranslated(client) {
