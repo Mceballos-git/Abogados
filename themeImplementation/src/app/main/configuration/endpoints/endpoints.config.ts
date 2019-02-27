@@ -30,7 +30,7 @@ export class EndpointsConfig {
     CLIENTS = {
         CREATE: '/clients',
         UPDATE: '/clients/:id',
-        LIST: '/clients',
+        LIST: '/clients/getList',
         GET_ONE: '/clients/:id',
         DELETE: '/clients/:id',
         ACTIVATE: '/clients/activate',

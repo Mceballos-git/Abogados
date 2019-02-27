@@ -99,7 +99,7 @@ SELECT;
 
         $this->from = <<<FROM
 FROM 
-clients
+clients c
 FROM;
 
         $this->where = <<<WHERE
@@ -148,8 +148,9 @@ WHERE;
         $result = new \stdClass();
         $result->data = $queryResult;
         $result->draw = $this->draw;
-        $result->recordsTotal = $this->getTotal();
-        $result->recordsFiltered = count($queryResult);
+        $total =  $this->getTotal();
+        $result->recordsTotal = $total;
+        $result->recordsFiltered = $total;
         return $result;
     }
 
