@@ -75,6 +75,7 @@ export class MovementsListComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
+            
             ajax: (dataTablesParameters: any, callback) => {
                 that._movService.getList(dataTablesParameters).subscribe((resp : any) => {
                     that.tableData = resp.data;

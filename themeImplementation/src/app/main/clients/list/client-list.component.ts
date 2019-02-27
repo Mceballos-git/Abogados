@@ -30,6 +30,8 @@ export class ClientListComponent implements OnInit {
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
     pageSize = 10;
+    tableData : any;
+    dtOptions : any;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -61,32 +63,55 @@ export class ClientListComponent implements OnInit {
 
     ngOnInit() {
 
-        this._clientsService.getClientsList().subscribe(response => {
-            this.clients = response;
-            this.loaded = true;
+        // this._clientsService.getClientsList().subscribe(response => {
+        //     this.clients = response;
+        //     this.loaded = true;
 
+            // // Assign the data to the data source for the table to render
+            // this.dataSource = new MatTableDataSource(this.clients);
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+            // this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
+            // this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
+            //     if (length == 0 || pageSize == 0) {
+            //         return `0 de ${length}`;
+            //     }
+            //     length = Math.max(length, 0);
+            //     const startIndex = page * pageSize;
+            //     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+            //     return `${startIndex + 1} - ${endIndex} de ${length}`;
 
-            // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.clients);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
-                if (length == 0 || pageSize == 0) {
-                    return `0 de ${length}`;
-                }
-                length = Math.max(length, 0);
-                const startIndex = page * pageSize;
-                const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-                return `${startIndex + 1} - ${endIndex} de ${length}`;
+            // }
+            // //this.paginator.pageSize= 10;
 
-            }
-            //this.paginator.pageSize= 10;
+            // this.dtTrigger.next();
 
-            this.dtTrigger.next();
-        }, (error) => {
-            console.log(error);
-        });
+             // }, (error) => {
+        //     console.log(error);
+        // });
+
+            let that = this;
+            this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+            ajax: (dataTablesParameters: any, callback) => {
+                that._clientsService.getClientsList(dataTablesParameters).subscribe((resp : any) => {
+                    that.tableData = resp.data;
+                    that.loaded = true;
+                    
+                    this.dtTrigger.next();
+
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
 
 
     }
@@ -99,7 +124,7 @@ export class ClientListComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(index, deleteRowItem) {
+    openDeleteDialog(deleteRowItem) {
         const title = 'Eliminar Cliente'
         let content = 'Estas por Eliminar al Cliente: {row.first_name}, Deseas continuar?';
         content = content.replace('{row.first_name}', deleteRowItem.first_name);
@@ -110,26 +135,26 @@ export class ClientListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.delete(index, deleteRowItem);
+                this.delete(deleteRowItem);
             }
         });
     }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete(deleteRowItem) {
+        //const index = this.getElementIndex(pageElementIndex);
         this._clientsService.delete(deleteRowItem.id).subscribe((response) => {
-            this.handleDeletingSuccess(index)
+            this.handleDeletingSuccess(deleteRowItem)
         }, (error) => {
             this.handleDeletingError(error)
         });
     }
 
-    getElementIndex(elementPageIndex) {
-        if (this.paginator.pageIndex === 0) {
-            return elementPageIndex;
-        }
-        return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
-    }
+    // getElementIndex(elementPageIndex) {
+    //     if (this.paginator.pageIndex === 0) {
+    //         return elementPageIndex;
+    //     }
+    //     return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
+    // }
 
     /**
      * Update DataSource so entries get deleted from view.
@@ -142,9 +167,13 @@ export class ClientListComponent implements OnInit {
      * Handle Deletion process
      * @param deletedItemIndex
      */
-    handleDeletingSuccess(deletedItemIndex) {
-        this.clients.splice(deletedItemIndex, 1);
-        this.updateDataSource();
+    handleDeletingSuccess(deleteRowItem) {
+        //this.clients.splice(deletedItemIndex, 1);
+        let index = this.tableData.findIndex(function(element) {
+            return element.id === deleteRowItem.id;
+        });
+
+        this.tableData.splice(index, 1);
         console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');
         this._snackBar.open('Cliente eliminado correctamente', '', {
             duration: 4000,

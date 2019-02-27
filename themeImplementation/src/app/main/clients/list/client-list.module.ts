@@ -15,6 +15,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {MatCardModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material';
 import { ClientListComponent } from './client-list.component';
+import { DataTablesModule } from 'angular-datatables';
 
 // import {Mat}
 @NgModule({
@@ -35,6 +36,7 @@ import { ClientListComponent } from './client-list.component';
         MatTableModule,
         MatPaginatorModule,
         FuseSharedModule,
+        DataTablesModule,
     ],
     exports: [
         ClientListComponent

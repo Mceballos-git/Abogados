@@ -39,10 +39,10 @@ export class ClientsService extends RequestHelperService{
 
   
 
-  getClientsList() {
+  getClientsList(parameters) {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
     const headers = this.getRequestOptions(true);
-    return this.http.get(url, headers);
+    return this.http.post(url, parameters, headers);
   }
 
   getClientsActiveList() {
