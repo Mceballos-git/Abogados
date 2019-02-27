@@ -12,6 +12,7 @@ class DataTableService
     private $where;
     private $order;
     private $groupBy;
+    private $orderFields;
     private $searchFields;
     private $parameters = [];
     private $limit;
@@ -70,6 +71,39 @@ FROM;
 
         $this->where = <<<WHERE
 WHERE deleted_at IS NULL
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(true);
+        return $this->getResult($query);
+    }
+
+    public function getClientsDataTableList($requestParams)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'c.last_name', 'c.first_name', 'c.identification_number', 'c.city', 'c.balance'
+        ];
+
+        $this->orderFields = [
+            'c.last_name', 'c.first_name', 'c.identification_number', 'c.city', 'c.balance'
+        ];
+
+        $this->select = <<<SELECT
+SELECT c.last_name, c.first_name, c.identification_number, c.city, c.balance 
+SELECT;
+
+        $this->from = <<<FROM
+FROM 
+clients
+FROM;
+
+        $this->where = <<<WHERE
+WHERE deleted_by IS NULL
 WHERE;
 
         $this->setSearch($dataTableParams->searchTerm);
