@@ -105,6 +105,14 @@ class ClientController extends Controller
         return $this->successResponse($this->dataTableService->getClientsDataTableList($params));
     }
 
+    public function getListForExport() {
+        return $this->successResponse(
+            ClientModel::orderBy('last_name', 'asc')
+                ->whereNull('deleted_by')
+                ->get()
+        );
+    }
+
     public function getListActive()
     {
         return $this->successResponse(
