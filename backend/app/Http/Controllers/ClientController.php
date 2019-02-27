@@ -7,12 +7,33 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Services\FluffyQueryService;
+use App\Services\DataTableService;
+use Illuminate\Support\Facades\DB;
+use App\Services\ClientService;
 
 class ClientController extends Controller
 {
-    public function __construct(FluffyQueryService $clientService)
-    {
-        $this->FluffyQueryService = $clientService;
+    /**
+     * @var ClientService
+     */
+    protected $clientService;
+
+    /**
+     * @var DataTableService
+     */
+    protected $dataTableService;
+
+    /**
+     * MovementController constructor.
+     * @param ClientService $clientService
+     * @param DataTableService $dataTableService
+     */
+    public function __construct(
+        ClientService $clientService,
+        DataTableService $dataTableService
+    ) {
+        $this->clientService = $clientService;
+        $this->dataTableService = $dataTableService;
     }
 
     /**
@@ -78,11 +99,10 @@ class ClientController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList()
+    public function getList(Request $request)
     {
-        return $this->successResponse(
-            ClientModel::orderBy('last_name', 'asc')->get()
-        );
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getClientsDataTableList($params));
     }
 
     public function getListActive()
