@@ -5,17 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\MovementModel;
 use App\Services\ClientService;
 use App\Models\ClientModel;
+use App\Services\DataTableService;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MovementController extends Controller
 {
+    /**
+     * @var ClientService
+     */
     protected $clientService;
 
-    public function __construct(ClientService $clientService)
-    {
+    /**
+     * @var DataTableService
+     */
+    protected $dataTableService;
+
+    /**
+     * MovementController constructor.
+     * @param ClientService $clientService
+     * @param DataTableService $dataTableService
+     */
+    public function __construct(
+        ClientService $clientService,
+        DataTableService $dataTableService
+    ) {
         $this->clientService = $clientService;
+        $this->dataTableService = $dataTableService;
     }
 
     /**
@@ -74,21 +92,8 @@ class MovementController extends Controller
      */
     public function getList(Request $request)
     {
-        $dateFrom = $request->input('date_from', false);
-        $dateTo = $request->input('date_to', false);
-
-        $query = MovementModel::with(['user', 'client', 'movementCategory', 'movementType'])
-            ->orderBy('id', 'desc');
-
-        if ($dateFrom) {
-            $query->where('datetime', '>', $dateFrom);
-        }
-
-        if ($dateTo) {
-            $query->where('datetime', '<', $dateTo);
-        }
-
-        return $this->successResponse($query->get());
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getMovementsDataTableList($params));
     }
 
     /**

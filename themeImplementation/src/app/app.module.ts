@@ -8,12 +8,12 @@ import {MatButtonModule, MatIconModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import 'hammerjs';
 
+import { DataTablesModule } from 'angular-datatables';
+
 import {FuseModule} from '@fuse/fuse.module';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule} from '@fuse/components';
-
 import {fuseConfig} from 'app/fuse-config';
-
 import {AppComponent} from 'app/app.component';
 import {LayoutModule} from 'app/layout/layout.module';
 
@@ -41,9 +41,11 @@ import {UserFormModule} from "./main/users/user-form/user-form.module";
 // Dashboard
 import {DashboardModule} from './main/dashboard/dashboard.module';
 import {DashboardComponent} from './main/dashboard/dashboard.component';
+
 //clients
 import { ClientListComponent } from './main/clients/list/client-list.component';
 import { ClientListModule } from './main/clients/list/client-list.module';
+
 //mov categories
 import { MovementsCategoriesComponent } from './main/movements-categories/list/movements-categories.component';
 import { MovementsCategoriesModule } from './main/movements-categories/list/movements-categories.module';
@@ -68,6 +70,7 @@ import { ProceduresListModule } from './main/procedures/list/procedures-list.mod
 import { ProceduresListComponent } from './main/procedures/list/procedures-list.component';
 import { ProcedureFormModule } from './main/procedures/procedures-form/procedure-form.module';
 import { ProcedureFormComponent } from './main/procedures/procedures-form/procedure-form.component';
+
 
 const appRoutes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -254,6 +257,9 @@ const appRoutes: Routes = [
         HttpClientModule,
         RouterModule.forRoot(appRoutes),
         TranslateModule.forRoot(),
+
+        DataTablesModule,
+
 
         // Material moment date module
         MatMomentDateModule,

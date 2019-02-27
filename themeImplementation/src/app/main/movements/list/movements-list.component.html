@@ -1,4 +1,3 @@
-
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
     <h1 class="mat-headline">Listado de Movimientos</h1>
     <div *ngIf="!loaded">
@@ -13,92 +12,53 @@
             <span class="h2 green-400-fg">Balance: {{balance}}</span>
         </p>
 
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-        </mat-form-field>
-
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort>
-                <!-- lastName Column -->
-                <ng-container matColumnDef="datetime">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-                    <td nowrap mat-cell *matCellDef="let row"> {{row.datetime}} </td>
-                </ng-container>
-                <!-- Name Column -->
-                <ng-container matColumnDef="movement_category_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Rubro </th>
-                    <td nowrap mat-cell *matCellDef="let row"> 
-                        <p *ngIf="row.movement_category">
-                            {{row.movement_category.name}}
-                        </p> 
-                    </td>
-                </ng-container>
-
-                <!-- ID Column -->
-                <ng-container matColumnDef="client_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
-                    <td nowrap mat-cell *matCellDef="let row"> 
-                    <p *ngIf="row.client">
-                        {{row.client.first_name + ' ' + row.client.last_name}}
-                    </p>   
-                    </td>
-                </ng-container>
-                
-                
-                <ng-container matColumnDef="movement_type_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de movimiento </th>
-                    <td nowrap mat-cell *matCellDef="let row">
-                            <p *ngIf="row.movement_type">
-                                    {{row.movement_type.name}}
-                                </p>
-                </ng-container>
-
-                <!-- Email Column -->
-                <ng-container matColumnDef="concept">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Concepto </th>
-                    <td class="w20" mat-cell *matCellDef="let row"> {{row.concept}} </td>
-                </ng-container>
-
-                 <!-- Email Column -->
-                 <ng-container matColumnDef="amount">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
-                    <td nowrap mat-cell *matCellDef="let row"> {{row.amount}} </td>
-                </ng-container>
-
-                <!-- Balance Column -->
-                <ng-container matColumnDef="user_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ult. modif </th>
-                    <td nowrap mat-cell *matCellDef="let row"> 
-                        <p *ngIf="row.user">
-                            {{row.user.first_name + ' ' + row.user.last_name}}
-                        </p> 
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                    <td mat-cell *matCellDef="let row; let i = index" [style.color]="row.color">
+        <table datatable [dtOptions]="dtOptions" class="row-border hover">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Rubro</th>
+                <th>Cliente</th>
+                <th>Tipo de Movimiento</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+                <th>Ult. Modificacion</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="tableData?.length != 0">
+            <tr *ngFor="let row of tableData">
+                <td>{{row.datetime}}</td>
+                <td>{{row.movement_category_name}}</td>
+                <td>{{row.client_name}}</td>
+                <td>{{row.movement_type_name}}</td>
+                <td>{{row.concept}}</td>
+                <td>{{row.amount}}</td>
+                <td>{{row.user_name}}</td>
+                <td>
+                    <ng-container matColumnDef="actions">
                         <div class="clickeable">
-
                             <!-- edit -->
                             <mat-icon matSuffix class="secondary-text" color="primary"
-                            [routerLink]="['/movements/update', row.id]">edit</mat-icon>
+                                      [routerLink]="['/movements/update', row.id]">edit
+                            </mat-icon>
 
                             <!-- delete -->
                             <mat-icon matSuffix class="secondary-text" color="warn"
-                             (click)="openDeleteDialog(i, row)">delete</mat-icon>
+                                      (click)="openDeleteDialog(row)">delete
+                            </mat-icon>
                         </div>
-                    </td>
-                </ng-container>
+                    </ng-container>
+                </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="tableData?.length == 0">
+            <tr>
+                <td colspan="3" class="no-data-available"> No se encontraron Registros.</td>
+            </tr>
+            <tbody>
+        </table>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index">
-                </tr>
-            </table>
 
-            <mat-paginator   
-            [pageSize] = "pageSize"       
-            [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-        </div>
+
     </div>
 </div>
