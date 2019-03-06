@@ -2,6 +2,6 @@
 <!-- <p> Sasani Soft - Descripcion - mensaje otros.</p> -->
 
 <p>Para obtener acceso a tu cuenta, haz click en el siguiente enlace: </p>
-<a href="http://localhost:4200/reset-password/{{$token}}"> Acceder a mi cuenta </a>
+<a href="http://sassani.com.ar/reset-password/{{$token}}"> Acceder a mi cuenta </a>
 <p>Atentamente,</p>
 <p>Sassani-Soft Team </p>
