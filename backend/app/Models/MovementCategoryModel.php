@@ -9,7 +9,9 @@ class MovementCategoryModel extends Model
     protected $table = 'movement_categories';
 
     protected $fillable = [
+        'id',
         'name'
+
     ];
 
 

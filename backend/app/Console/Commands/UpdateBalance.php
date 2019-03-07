@@ -53,6 +53,10 @@ class updateBalance extends Command
         Schema::table('clients', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->change();
         });
+        Schema::table('movement_categories', function (Blueprint $table) {
+            $table->integer('id')->autoIncrement()->change();
+        });
+
 
 
         $this->info('Updating Clients Balances...');
