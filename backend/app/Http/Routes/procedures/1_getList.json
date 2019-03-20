@@ -1,7 +1,7 @@
 {
   "identifier": "getList",
-  "requestType": "GET",
-  "endpoint": "/",
+  "requestType": "POST",
+  "endpoint": "/getList",
   "controller": "App\\Http\\Controllers\\ProcedureController",
   "action": "getList",
   "authorizationMiddleware": "false",

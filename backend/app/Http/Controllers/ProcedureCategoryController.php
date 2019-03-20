@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClientModel;
-use App\Models\MovementModel;
-use App\Models\MovementTypeModel;
+//use App\Models\ClientModel;
+//use App\Models\MovementModel;
+//use App\Models\MovementTypeModel;
 use App\Models\ProcedureCategoryModel;
-use App\Models\TurnModel;
+//use App\Models\TurnModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
-use Nexmo\Client;
+//use Nexmo\Client;
+use App\Services\DataTableService;
+
 
 class ProcedureCategoryController extends Controller
 {
+    /**
+     * @var DataTableService
+     */
+    protected $dataTableService;
+
+    /**
+     * ProcedureCategoryController constructor.
+     * @param DataTableService $dataTableService
+     */
+    public function __construct(DataTableService $dataTableService) {
+        $this->dataTableService = $dataTableService;
+    }
+
     /**
      * Add Responses methods
      */
@@ -40,11 +55,10 @@ class ProcedureCategoryController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList()
+    public function getList(Request $request)
     {
-        return $this->successResponse(
-            ProcedureCategoryModel::get()
-        );
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getProcedureCategoryDataTableList($params));
     }
 
     /**

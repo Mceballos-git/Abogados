@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Services\DataTableService;
 use App\Models\UserModel;
 use App\Services\UserService;
 use App\Traits\ResponseHandlerTrait;
@@ -17,12 +17,10 @@ use App\Http\Middleware\ValidationMiddleware;
  */
 class UserController extends Controller
 {
-
-
     /**
-     * @var UserService
+     * @var DataTableService
      */
-    protected $userService;
+    protected $dataTableService;
 
     /**
      * Add Responses methods
@@ -31,11 +29,10 @@ class UserController extends Controller
 
     /**
      * UserController constructor.
-     * @param UserService $userService
+     * @param DataTableService $dataTableService
      */
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
+    public function __construct(DataTableService $dataTableService) {
+        $this->dataTableService = $dataTableService;
     }
 
     public function getProfile()
@@ -53,13 +50,10 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList()
+    public function getList(Request $request)
     {
-
-        return $this->successResponse(
-            UserModel::get()
-        );
-
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getUsersDataTableList($params));
     }
 
     /**
@@ -70,8 +64,6 @@ class UserController extends Controller
      */
     public function getOne($id)
     {
-
-
         $entry = UserModel::where('id', $id)->first();
         $entry->role_list = json_decode($entry->role_list);
         return $this->successResponse($entry);

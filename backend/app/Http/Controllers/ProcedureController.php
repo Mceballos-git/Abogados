@@ -10,13 +10,24 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Support\Facades\Auth;
 use Nexmo\Client;
+use App\Services\DataTableService;
+
 
 class ProcedureController extends Controller
 {
     /**
+     * @var DataTableService
+     */
+    protected $dataTableService;
+
+    /**
      * Add Responses methods
      */
     use ResponseHandlerTrait;
+
+    public function __construct(DataTableService $dataTableService) {
+        $this->dataTableService = $dataTableService;
+    }
 
     /**
      * @param Request $request
@@ -50,11 +61,17 @@ class ProcedureController extends Controller
         return $this->successResponse($result);
     }
 
+    public function getList(Request $request)
+    {
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getProcedureDataTableList($params));
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList(Request $request)
+    public function getListOld(Request $request)
     {
         $dateFrom = $request->input('date_from', false);
         $dateTo = $request->input('date_to', false);

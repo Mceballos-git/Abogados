@@ -11,14 +11,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Services\DataTableService;
+
 
 class MovementCategoryController extends Controller
 {
+    /**
+     * @var DataTableService
+     */
+    protected $dataTableService;
 
     /**
      * Add Responses methods
      */
     use ResponseHandlerTrait;
+
+    public function __construct(DataTableService $dataTableService) {
+        $this->dataTableService = $dataTableService;
+    }
 
     /**
      * @param Request $request
@@ -26,10 +36,8 @@ class MovementCategoryController extends Controller
      */
     public function getList(Request $request)
     {
-        $filtros = $request->only(array('name'));
-        $result = MovementCategoryModel::where($filtros)->orderBy('id', 'desc')->get();
-        return $this->successResponse($result);
-
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getMovementsCategoriesDataTableList($params));
     }
 
 

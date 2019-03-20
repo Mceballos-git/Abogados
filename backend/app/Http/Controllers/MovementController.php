@@ -97,6 +97,16 @@ class MovementController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getTotalBalance(Request $request)
+    {
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getBalanceDataTableList($params));
+    }
+
+    /**
      * Example for handling GET request to api/examples/{id}
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

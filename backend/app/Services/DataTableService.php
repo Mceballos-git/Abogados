@@ -4,6 +4,8 @@ namespace App\Services;
 
 
 use Illuminate\Support\Facades\DB;
+use stdClass;
+
 
 class DataTableService
 {
@@ -50,11 +52,11 @@ SELECT m.id as id,
  m.amount,
  mt.id as movement_type_id,
  CONCAT(
-    COALESCE(c.first_name, ''), ', ',
+    COALESCE(c.first_name, ''), 
     COALESCE(c.last_name, ''), ' '
 ) as client_name,
  CONCAT(
-    COALESCE(u.first_name, ''), ', ',
+    COALESCE(u.first_name, ''), 
     COALESCE(u.last_name, ''), ' '
 ) as user_name
 
@@ -76,9 +78,211 @@ WHERE;
         $this->setSearch($dataTableParams->searchTerm);
         $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
         $query = $this->getQuery(true);
-        return $this->getResult($query);
+        return $this->getResultForDatatable($query);
     }
 
+    /**
+     * @param $requestParams
+     * @return array
+     */
+    public function getMovementsCategoriesDataTableList($requestParams)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'mc.name'
+        ];
+
+        $this->orderFields = [
+            'mc.name'
+        ];
+
+        $this->select = <<<SELECT
+SELECT mc.id as id,
+mc.name as movement_category_name,
+SELECT;
+
+        $this->from = <<<FROM
+FROM movement_categories mc
+FROM;
+
+        $this->where = <<<WHERE
+1=1
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(true);
+        return $this->getResultForDatatable($query);
+    }
+
+    /**
+     * @param $requestParams
+     * @return array
+     */
+    public function getProcedureCategoryDataTableList($requestParams)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'pc.name'
+        ];
+
+        $this->orderFields = [
+            'pc.name'
+        ];
+
+        $this->select = <<<SELECT
+SELECT pc.id as id,
+pc.name as procedure_category_name,
+SELECT;
+
+        $this->from = <<<FROM
+FROM procedure_categories pc
+FROM;
+
+        $this->where = <<<WHERE
+1=1
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(true);
+        return $this->getResultForDatatable($query);
+    }
+
+    /**
+     * @param $requestParams
+     * @return array
+     */
+    public function getProcedureDataTableList($requestParams)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'p.name'
+        ];
+
+        $this->orderFields = [
+            'p.name'
+        ];
+
+        $this->select = <<<SELECT
+SELECT p.id as id,
+p.name as procedure_name,
+SELECT;
+
+        $this->from = <<<FROM
+FROM procedures p
+FROM;
+
+        $this->where = <<<WHERE
+1=1
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(true);
+        return $this->getResultForDatatable($query);
+    }
+
+    /**
+     * @param $requestParams
+     * @return array
+     */
+    public function getUsersDataTableList($requestParams)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'u.username', 'u.first_name', 'u.last_name'
+        ];
+
+        $this->orderFields = [
+            'u.name', 'u.first_name', 'u.last_name'
+        ];
+
+        $this->select = <<<SELECT
+SELECT u.id as id,
+ CONCAT(
+    COALESCE(u.first_name, ''), 
+    COALESCE(u.last_name, ''), ' '
+) as user_name
+SELECT;
+
+        $this->from = <<<FROM
+FROM users u
+FROM;
+
+        $this->where = <<<WHERE
+1=1
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(true);
+        return $this->getResultForDatatable($query);
+    }
+
+    /**
+     * @param $requestParams
+     * @return stdClass
+     */
+    public function getBalanceDataTableList($requestParams)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'm.type_id', 'm.amount'
+
+        ];
+
+        $this->orderFields = [
+            'm.type_id', 'm.amount'
+        ];
+
+        $this->select = <<<SELECT
+SELECT SUM(m.amount) as total,
+SUM( IF(m.movement_type_id = 1, m.amount, 0)) as egresos,
+SUM( IF(m.movement_type_id = 2, m.amount, 0)) as ingresos
+
+SELECT;
+
+        $this->from = <<<FROM
+FROM movements m
+FROM;
+
+        $this->where = <<<WHERE
+WHERE deleted_at IS NULL
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(false);
+        $result = DB::select($query, $this->parameters);
+
+        $response = new stdClass();
+        $response->incomes = $result[0]->ingresos;
+        $response->outcomes = $result[0]->egresos;
+        $response->balance = $result[0]->ingresos - $result[0]->egresos;
+
+        return $response;
+    }
+
+    /**
+     * @param $requestParams
+     * @return array
+     */
     public function getClientsDataTableList($requestParams)
     {
         $dataTableParams = $this->getData($requestParams);
@@ -109,7 +313,7 @@ WHERE;
         $this->setSearch($dataTableParams->searchTerm);
         $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
         $query = $this->getQuery(true);
-        return $this->getResult($query);
+        return $this->getResultForDatatable($query);
     }
 
     /**
@@ -142,13 +346,13 @@ WHERE;
      * @param bool $withPagination
      * @return array
      */
-    public function getResult($query)
+    private function getResultForDatatable($query)
     {
         $queryResult = DB::select($query, $this->parameters);
         $result = new \stdClass();
         $result->data = $queryResult;
         $result->draw = $this->draw;
-        $total =  $this->getTotal();
+        $total = $this->getTotal();
         $result->recordsTotal = $total;
         $result->recordsFiltered = $total;
         return $result;

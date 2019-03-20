@@ -1,0 +1,10 @@
+{
+  "identifier": "getTotalBalance",
+  "requestType": "POST",
+  "endpoint": "/getTotalBalance",
+  "controller": "App\\Http\\Controllers\\MovementController",
+  "action": "getTotalBalance",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}
