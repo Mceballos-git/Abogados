@@ -14,7 +14,9 @@ import { ProcedureCategoriesService } from 'app/main/services/procedure-categori
 })
 export class ProcedureCategoriesComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'actions'];
+  dtOptions : any;
+  tableData : any
+  displayedColumns: string[] = ['id', 'procedure_category_name', 'actions'];
   procedureCategories: any;
   dataSource: MatTableDataSource<any>;
   loaded: boolean;
@@ -50,26 +52,52 @@ export class ProcedureCategoriesComponent implements OnInit {
     }
 
   ngOnInit() {
-    this._procedureCategoriesService.getCategoriesList().subscribe(response => {
-    this.procedureCategories = response;
-    this.loaded = true;
+    let that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+            
+            ajax: (dataTablesParameters: any, callback) => {
+                that._procedureCategoriesService.getCategoriesList(dataTablesParameters).subscribe((resp : any) => {
+                    that.tableData = resp.data;
+                    that.loaded = true;                   
+                    this.dtTrigger.next();
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.procedureCategories);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-    this.paginator._intl.getRangeLabel =function(page, pageSize, length){
-        if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
-        const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
-        return `${startIndex + 1} - ${endIndex} de ${length}`;
-
-    }
-
-      this.dtTrigger.next();
-    }, (error) => {
-      console.log(error);
-    });
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
   }
 
   applyFilter(filterValue: string) {
@@ -80,10 +108,10 @@ export class ProcedureCategoriesComponent implements OnInit {
     }
   }
 
-  openDeleteDialog(index, deleteRowItem) {
+  openDeleteDialog(deleteRowItem) {
     const title = 'Eliminar Trámite'
-    let content = 'Estas por Eliminar trámite: {row.name}, Deseas continuar?';
-    content = content.replace('{row.name}', deleteRowItem.name);
+    let content = 'Estas por Eliminar trámite: {row.procedure_category_name}, Deseas continuar?';
+    content = content.replace('{row.procedure_category_name}', deleteRowItem.procedure_category_name);
 
     const dialogRef = this._dialog.open(GenericDialogComponent, {
         data: {title: title, content: content}
@@ -91,15 +119,14 @@ export class ProcedureCategoriesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
         if (result){
-            this.delete(index, deleteRowItem);
+            this.delete(deleteRowItem);
         }           
     });
   }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete(deleteRowItem) {        
         this._procedureCategoriesService.delete(deleteRowItem.id).subscribe((response) => {
-          this.handleDeletingSuccess(index)
+          this.handleDeletingSuccess(deleteRowItem)
       },(error) => { this.handleDeletingError(error)});
   }
 

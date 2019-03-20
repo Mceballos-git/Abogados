@@ -52,11 +52,11 @@ SELECT m.id as id,
  m.amount,
  mt.id as movement_type_id,
  CONCAT(
-    COALESCE(c.first_name, ''), 
+    COALESCE(c.first_name, ''), ' ',
     COALESCE(c.last_name, ''), ' '
 ) as client_name,
  CONCAT(
-    COALESCE(u.first_name, ''), 
+    COALESCE(u.first_name, ''), ' ',
     COALESCE(u.last_name, ''), ' '
 ) as user_name
 
@@ -109,7 +109,7 @@ FROM movement_categories mc
 FROM;
 
         $this->where = <<<WHERE
-1=1
+WHERE 1=1
 WHERE;
 
         $this->setSearch($dataTableParams->searchTerm);
@@ -146,7 +146,7 @@ FROM procedure_categories pc
 FROM;
 
         $this->where = <<<WHERE
-1=1
+WHERE 1=1
 WHERE;
 
         $this->setSearch($dataTableParams->searchTerm);

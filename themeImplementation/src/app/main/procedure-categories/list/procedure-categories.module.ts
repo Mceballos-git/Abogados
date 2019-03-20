@@ -16,6 +16,7 @@ import {
 } from '@angular/material';
 import {FuseSharedModule} from '@fuse/shared.module';
 import { ProcedureCategoriesComponent } from './procedure-categories.component';
+import { DataTablesModule } from 'angular-datatables';
 
 // import {Mat}
 @NgModule({
@@ -25,6 +26,7 @@ import { ProcedureCategoriesComponent } from './procedure-categories.component';
     ],
     imports: [
         RouterModule,
+        DataTablesModule,
         MatCardModule,
         MatButtonModule,
         MatGridListModule,

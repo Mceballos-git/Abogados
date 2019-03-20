@@ -8,11 +8,6 @@ import {FuseConfigService} from '@fuse/services/config.service';
 import {GenericDialogComponent} from 'app/main/common/generic-dialog/generic-dialog.component';
 import {ExcelService} from 'app/main/services/excel.service';
 
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
-
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     selector: 'client-list',
@@ -62,34 +57,6 @@ export class ClientListComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        // this._clientsService.getClientsList().subscribe(response => {
-        //     this.clients = response;
-        //     this.loaded = true;
-
-            // // Assign the data to the data source for the table to render
-            // this.dataSource = new MatTableDataSource(this.clients);
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-            // this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            // this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
-            //     if (length == 0 || pageSize == 0) {
-            //         return `0 de ${length}`;
-            //     }
-            //     length = Math.max(length, 0);
-            //     const startIndex = page * pageSize;
-            //     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-            //     return `${startIndex + 1} - ${endIndex} de ${length}`;
-
-            // }
-            // //this.paginator.pageSize= 10;
-
-            // this.dtTrigger.next();
-
-             // }, (error) => {
-        //     console.log(error);
-        // });
-
             let that = this;
             this.dtOptions = {
             pagingType: 'full_numbers',
@@ -110,10 +77,32 @@ export class ClientListComponent implements OnInit {
                     });
                 });
             },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
             // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
         };
-
-
     }
 
     applyFilter(filterValue: string) {

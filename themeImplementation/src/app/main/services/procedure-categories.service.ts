@@ -20,11 +20,11 @@ export class ProcedureCategoriesService extends RequestHelperService{
     ENDPOINT_DELETE : 'DELETE',
   };
 
-  getCategoriesList() {
+  getCategoriesList(parameters) {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
     
     const headers = this.getRequestOptions(true);
-    return this.http.get(url, headers);
+    return this.http.post(url, parameters, headers);
   }
 
   getOne(id){

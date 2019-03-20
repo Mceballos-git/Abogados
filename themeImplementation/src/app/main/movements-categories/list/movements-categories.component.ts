@@ -14,7 +14,9 @@ import { MovementCategoriesService } from 'app/main/services/movement-categories
 })
 export class MovementsCategoriesComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'actions'];
+  dtOptions : any;
+  tableData : any
+  displayedColumns: string[] = ['id', 'movement_category_name', 'actions'];
   movCategories: any;
   dataSource: MatTableDataSource<any>;
   loaded: boolean;
@@ -50,26 +52,73 @@ export class MovementsCategoriesComponent implements OnInit {
     }
 
   ngOnInit() {
-    this._movCategoriesService.getMovCategoriesList().subscribe(response => {
-    this.movCategories = response;
-    this.loaded = true;
+    // this._movCategoriesService.getMovCategoriesList().subscribe(response => {
+    // this.movCategories = response;
+    // this.loaded = true; 
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.movCategories);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-    this.paginator._intl.getRangeLabel =function(page, pageSize, length){
-        if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
-        const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
-        return `${startIndex + 1} - ${endIndex} de ${length}`;
+    // // Assign the data to the data source for the table to render
+    // this.dataSource = new MatTableDataSource(this.movCategories);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
+    // this.paginator._intl.getRangeLabel =function(page, pageSize, length){
+    //     if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
+    //     const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
+    //     return `${startIndex + 1} - ${endIndex} de ${length}`;
 
-    }
+    // }
 
-      this.dtTrigger.next();
-    }, (error) => {
-      console.log(error);
-    });
+    //   this.dtTrigger.next();
+    // }, (error) => {
+    //   console.log(error);
+    // });
+    let that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+            
+            ajax: (dataTablesParameters: any, callback) => {
+                that._movCategoriesService.getMovCategoriesList(dataTablesParameters).subscribe((resp : any) => {
+                    that.tableData = resp.data;
+                    that.loaded = true;                   
+                    this.dtTrigger.next();
+
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
+
   }
 
   applyFilter(filterValue: string) {
@@ -80,10 +129,10 @@ export class MovementsCategoriesComponent implements OnInit {
     }
   }
 
-  openDeleteDialog(index, deleteRowItem) {
+  openDeleteDialog(deleteRowItem) {
     const title = 'Eliminar Rubro'
-    let content = 'Estas por Eliminar rubro: {row.name}, Deseas continuar?';
-    content = content.replace('{row.name}', deleteRowItem.name);
+    let content = 'Estas por Eliminar rubro: {row.movement_category_name}, Deseas continuar?';
+    content = content.replace('{row.movement_category_name}', deleteRowItem.movement_category_name);
 
     const dialogRef = this._dialog.open(GenericDialogComponent, {
         data: {title: title, content: content}
@@ -91,15 +140,15 @@ export class MovementsCategoriesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
         if (result){
-            this.delete(index, deleteRowItem);
+            this.delete(deleteRowItem);
         }           
     });
   }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete(deleteRowItem) {
+        //const index = this.getElementIndex(pageElementIndex);
         this._movCategoriesService.delete(deleteRowItem.id).subscribe((response) => {
-          this.handleDeletingSuccess(index)
+          this.handleDeletingSuccess(deleteRowItem)
       },(error) => { this.handleDeletingError(error)});
   }
 

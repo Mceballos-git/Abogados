@@ -17,14 +17,14 @@
             </button>       
         </div>
 
-        <mat-form-field>
+        <!-- <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
         </mat-form-field>
 
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort #table>
                
-                <!-- Name Column -->
+               
                 <ng-container matColumnDef="procedure_category_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Trámite </th>
                     <td nowrap class="w20" mat-cell *matCellDef="let row"> 
@@ -34,7 +34,7 @@
                     </td>
                 </ng-container>
 
-                <!-- client Column -->
+                
                 <ng-container matColumnDef="client_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
                     <td nowrap class="w20" mat-cell *matCellDef="let row"> 
@@ -64,7 +64,7 @@
                     <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_corte_suprema}} </td>
                 </ng-container>
 
-                 <!-- Email Column -->
+                 
                  <ng-container matColumnDef="inicio_de_ejecucion">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio de ejecución </th>
                     <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.inicio_de_ejecucion}} </td>
@@ -80,11 +80,11 @@
                     <td mat-cell *matCellDef="let row; let i = index" [style.color]="row.color">
                         <div class="clickeable">
 
-                            <!-- edit -->
+                           
                             <mat-icon matSuffix class="secondary-text" color="primary"
                             [routerLink]="['/procedure/update', row.id]">edit</mat-icon>
 
-                            <!-- delete -->
+                            
                             <mat-icon matSuffix class="secondary-text" color="warn"
                              (click)="openDeleteDialog(i, row)">delete</mat-icon>
                         </div>
@@ -99,6 +99,57 @@
             <mat-paginator   
             [pageSize] = "pageSize"       
             [pageSizeOptions]="[5, 10, 25, 100, 250,500]"></mat-paginator>
-        </div>
+        </div> -->
+
+        <table datatable [dtOptions]="dtOptions" class="row-border hover">
+            <thead>
+            <tr>
+                <th>Trámite</th>
+                <th>Cliente</th>
+                <th>Inicio demanda</th>
+                <th>Sentencia primera instancia</th>
+                <th>Sentencia segunda instancia</th>
+                <th>Sentencia Corte Suprema</th>
+                <th>Inicio de ejecución</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="tableData?.length != 0">
+            <tr *ngFor="let row of tableData">
+                <td>{{row.datetime}}</td>
+                <td>{{row.movement_category_name}}</td>
+                <td>{{row.client_name}}</td>
+                <td>{{row.movement_type_name}}</td>
+                <td>{{row.concept}}</td>
+                <td>{{row.amount}}</td>
+                <td>{{row.user_name}}</td>
+                <td>
+                    <ng-container matColumnDef="actions">
+                        <div class="clickeable">
+                            <!-- edit -->
+                            <mat-icon matSuffix class="secondary-text" color="primary"
+                                      [routerLink]="['/movements/update', row.id]">edit
+                            </mat-icon>
+
+                            <!-- delete -->
+                            <mat-icon matSuffix class="secondary-text" color="warn"
+                                      (click)="openDeleteDialog(row)">delete
+                            </mat-icon>
+                        </div>
+                    </ng-container>
+                </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="tableData?.length == 0">
+            <tr>
+                <td colspan="3" class="no-data-available"> No se encontraron Registros.</td>
+            </tr>
+            <tbody>
+        </table>
+
+
+
+
     </div>
 </div>
