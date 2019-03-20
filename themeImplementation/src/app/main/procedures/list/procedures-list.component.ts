@@ -40,9 +40,12 @@ export const MY_FORMATS = {
 
 export class ProceduresListComponent implements OnInit {
 
+    dtOptions : any;
+    tableData : any;
+
     @ViewChild('TABLE',{ read: ElementRef }) table: ElementRef;
 
-    displayedColumns: string[] = ['procedure_category_id', 'client_id', 'inicio_demanda', 'sentencia_primera_instancia', 
+    displayedColumns: string[] = ['procedure_name', 'client_name', 'inicio_demanda', 'sentencia_primera_instancia',
         'sentencia_segunda_instancia', 'sentencia_corte_suprema', 'inicio_de_ejecucion', 'observaciones', 'actions'];
     procedures: any;
     dataSource: MatTableDataSource<any>;
@@ -83,49 +86,74 @@ export class ProceduresListComponent implements OnInit {
 
     ngOnInit() {
 
-        this._proceduresService.getList().subscribe(response => {
-            console.log(response);
-            this.procedures = response;
-            this.loaded = true;
-           
-            for(let i = 0, len = this.procedures.length; i < len; i++){
-                if(this.procedures[i].inicio_demanda){
-                    this.procedures[i].inicio_demanda= moment(this.procedures[i].inicio_demanda).format('DD-MM-Y');
-                }
-                if(this.procedures[i].sentencia_primera_instancia){
-                    this.procedures[i].sentencia_primera_instancia= moment(this.procedures[i].sentencia_primera_instancia).format('DD-MM-Y');
-                }
-                if(this.procedures[i].sentencia_segunda_instancia){
-                    this.procedures[i].sentencia_segunda_instancia= moment(this.procedures[i].sentencia_segunda_instancia).format('DD-MM-Y');
-                }
-                if(this.procedures[i].sentencia_corte_suprema){
-                    this.procedures[i].sentencia_corte_suprema= moment(this.procedures[i].sentencia_corte_suprema).format('DD-MM-Y');
-                }
-                if(this.procedures[i].inicio_de_ejecucion){
-                    this.procedures[i].inicio_de_ejecucion= moment(this.procedures[i].inicio_de_ejecucion).format('DD-MM-Y');
+        let that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+
+            ajax: (dataTablesParameters: any, callback) => {
+                that._proceduresService.getList(dataTablesParameters).subscribe((resp : any) => {
+                    console.log(resp);
+                        this.procedures = resp;
+                        this.loaded = true;
+
+                        for(let i = 0, len = this.procedures.length; i < len; i++){
+                            if(this.procedures[i].inicio_demanda){
+                                this.procedures[i].inicio_demanda= moment(this.procedures[i].inicio_demanda).format('DD-MM-Y');
+                            }
+                            if(this.procedures[i].sentencia_primera_instancia){
+                                this.procedures[i].sentencia_primera_instancia= moment(this.procedures[i].sentencia_primera_instancia).format('DD-MM-Y');
+                            }
+                            if(this.procedures[i].sentencia_segunda_instancia){
+                                this.procedures[i].sentencia_segunda_instancia= moment(this.procedures[i].sentencia_segunda_instancia).format('DD-MM-Y');
+                            }
+                            if(this.procedures[i].sentencia_corte_suprema){
+                                this.procedures[i].sentencia_corte_suprema= moment(this.procedures[i].sentencia_corte_suprema).format('DD-MM-Y');
+                            }
+                            if(this.procedures[i].inicio_de_ejecucion){
+                                this.procedures[i].inicio_de_ejecucion= moment(this.procedures[i].inicio_de_ejecucion).format('DD-MM-Y');
+                            }
+                        }
+                    that.tableData = resp.data;
+                    that.loaded = true;
+                    this.dtTrigger.next();
+
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
             }
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
 
-            // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.procedures);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
-                if (length == 0 || pageSize == 0) {
-                    return `0 de ${length}`;
-                }
-                length = Math.max(length, 0);
-                const startIndex = page * pageSize;
-                const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-                return `${startIndex + 1} - ${endIndex} de ${length}`;
-
-            }
-
-            this.dtTrigger.next();
-        }, (error) => {
-            console.log(error);
-        });
 
     }   
 
@@ -139,8 +167,8 @@ export class ProceduresListComponent implements OnInit {
 
     openDeleteDialog(index, deleteRowItem) {
         const title = 'Eliminar Trámite'
-        let content = 'Estas por Eliminar al trámite: {row.procedure_category.name}, Deseas continuar?';
-        content = content.replace('{row.procedure_category.name}', deleteRowItem.procedure_category.name);
+        let content = 'Estas por Eliminar al trámite: {row.procedure_name}, Deseas continuar?';
+        content = content.replace('{row.procedure_name}', deleteRowItem.procedure_name);
 
         const dialogRef = this._dialog.open(GenericDialogComponent, {
             data: {title: title, content: content}

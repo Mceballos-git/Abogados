@@ -33,10 +33,10 @@ export class UsersService extends RequestHelperService {
         return this.http.get(url, headers);
     }
 
-    getUsersList() {
+    getUsersList(parameters) {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
         const headers = this.getRequestOptions(true);
-        return this.http.get(url, headers);
+        return this.http.post(url, parameters, headers);
     }
 
     getOne(id){

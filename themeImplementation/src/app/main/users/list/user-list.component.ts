@@ -15,7 +15,9 @@ import { UserSecurityService } from 'app/main/services/user-security.service';
 
 export class UserListComponent implements OnInit {
 
-    displayedColumns: string[] = ['id', 'username', 'first_name', 'last_name', 'active', 'actions'];
+    dtOptions:any;
+    tableData:any;
+    displayedColumns: string[] = ['username', 'first_name', 'last_name', 'active', 'actions'];
     users: any;
     dataSource: MatTableDataSource<any>;
     loaded: boolean;
@@ -54,26 +56,52 @@ export class UserListComponent implements OnInit {
 
     ngOnInit() {
 
-        this._usersService.getUsersList().subscribe(response => {
-            this.users = response;
-            this.loaded = true;              
+        let that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
 
-            // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.users);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            this.paginator._intl.getRangeLabel =function(page, pageSize, length){
-                if (length == 0 || pageSize == 0) { return `0 de ${length}`; } length = Math.max(length, 0); 
-                const startIndex = page * pageSize; const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize; 
-                return `${startIndex + 1} - ${endIndex} de ${length}`;
+            ajax: (dataTablesParameters: any, callback) => {
+                that._usersService.getUsersList(dataTablesParameters).subscribe((resp : any) => {
+                    that.tableData = resp.data;
+                    that.loaded = true;
+                    this.dtTrigger.next();
 
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
             }
-
-            this.dtTrigger.next();
-        }, (error) => {
-            console.log(error);
-        });
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
 
 
     }

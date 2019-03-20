@@ -92,7 +92,7 @@ WHERE;
 
 
         $this->searchFields = [
-            'mc.name'
+            'mc.id'
         ];
 
         $this->orderFields = [
@@ -101,7 +101,7 @@ WHERE;
 
         $this->select = <<<SELECT
 SELECT mc.id as id,
-mc.name as movement_category_name,
+mc.name as movement_category_name
 SELECT;
 
         $this->from = <<<FROM
@@ -129,7 +129,7 @@ WHERE;
 
 
         $this->searchFields = [
-            'pc.name'
+            'pc.id'
         ];
 
         $this->orderFields = [
@@ -138,7 +138,8 @@ WHERE;
 
         $this->select = <<<SELECT
 SELECT pc.id as id,
-pc.name as procedure_category_name,
+pc.name as procedure_category_name
+
 SELECT;
 
         $this->from = <<<FROM
@@ -166,24 +167,39 @@ WHERE;
 
 
         $this->searchFields = [
-            'p.name'
+            'pc.name', 'p.inicio_demanda', 'p.inicio_de_ejecucion', 'p.observaciones', 'p.sentencia_corte_suprema',
+            'p.sentencia_primera_instancia', 'p.sentencia_segunda_instancia'
         ];
 
         $this->orderFields = [
-            'p.name'
+            'p.id', 'c.id', 'client_name'
         ];
 
         $this->select = <<<SELECT
 SELECT p.id as id,
-p.name as procedure_name,
+pc.name as procedure_name,
+p.inicio_demanda,
+p.inicio_de_ejecucion,
+p.observaciones,
+pc.id as procedure_category_id,
+p.sentencia_corte_suprema,
+p.sentencia_primera_instancia,
+p.sentencia_segunda_instancia,
+ CONCAT(
+    COALESCE(c.first_name, ''), ' ',
+    COALESCE(c.last_name, ''), ' '
+) as client_name
+
 SELECT;
 
         $this->from = <<<FROM
 FROM procedures p
+LEFT JOIN procedure_categories pc ON pc.id = p.procedure_category_id
+LEFT JOIN clients c ON c.id = p.client_id
 FROM;
 
         $this->where = <<<WHERE
-1=1
+WHERE 1=1
 WHERE;
 
         $this->setSearch($dataTableParams->searchTerm);
@@ -212,10 +228,13 @@ WHERE;
 
         $this->select = <<<SELECT
 SELECT u.id as id,
- CONCAT(
-    COALESCE(u.first_name, ''), 
-    COALESCE(u.last_name, ''), ' '
-) as user_name
+u.username,
+u.first_name, 
+u.last_name,
+u.active,
+u.shift_start,
+u.shift_end
+
 SELECT;
 
         $this->from = <<<FROM
@@ -223,7 +242,7 @@ FROM users u
 FROM;
 
         $this->where = <<<WHERE
-1=1
+WHERE 1=1
 WHERE;
 
         $this->setSearch($dataTableParams->searchTerm);
@@ -298,7 +317,7 @@ WHERE;
         ];
 
         $this->select = <<<SELECT
-SELECT c.last_name, c.first_name, c.identification_number, c.city, c.balance 
+SELECT c.id, c.last_name, c.first_name, c.identification_number, c.city, c.balance, c.active 
 SELECT;
 
         $this->from = <<<FROM

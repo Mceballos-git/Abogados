@@ -117,19 +117,20 @@
             </thead>
             <tbody *ngIf="tableData?.length != 0">
             <tr *ngFor="let row of tableData">
-                <td>{{row.datetime}}</td>
-                <td>{{row.movement_category_name}}</td>
+                <td>{{row.procedure_name}}</td>
                 <td>{{row.client_name}}</td>
-                <td>{{row.movement_type_name}}</td>
-                <td>{{row.concept}}</td>
-                <td>{{row.amount}}</td>
-                <td>{{row.user_name}}</td>
+                <td>{{row.inicio_demanda}}</td>
+                <td>{{row.sentencia_primera_instancia}}</td>
+                <td>{{row.sentencia_segunda_instancia}}</td>
+                <td>{{row.sentencia_corte_suprema}}</td>
+                <td>{{row.inicio_de_ejecucion}}</td>
+                <td>{{row.observaciones}}</td>
                 <td>
                     <ng-container matColumnDef="actions">
                         <div class="clickeable">
                             <!-- edit -->
                             <mat-icon matSuffix class="secondary-text" color="primary"
-                                      [routerLink]="['/movements/update', row.id]">edit
+                                      [routerLink]="['/procedure/update', row.id]">edit
                             </mat-icon>
 
                             <!-- delete -->
