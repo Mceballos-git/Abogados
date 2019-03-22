@@ -18,6 +18,7 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
+import { PARAMETERS } from '@angular/core/src/util/decorators';
 
 const moment = _moment;
 
@@ -118,54 +119,49 @@ export class ProcedureFormComponent implements OnInit {
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
        
-        let clients = this._clientsService.getClientsActiveList();
-        let procCategories = this._procedureCategoryService.getCategoriesList();
+        // let clients = this._clientsService.getClientsActiveList();
+        // let procCategories = this._procedureCategoryService.getCategoriesList();
 
-        forkJoin([ clients, procCategories]).subscribe((responseList)=>{
+        // forkJoin([ clients, procCategories]).subscribe((responseList)=>{
             
-            this.responseClients = responseList[0];
-            this.responseProcedureCategories = responseList[1];
+        //     this.responseClients = responseList[0];
+        //     this.responseProcedureCategories = responseList[1];
 
-            console.log("Done");   
+        //     console.log("Done");   
 
 
-            for(var i=0;i<this.responseClients.length;i++){
-                this.client[i] = new Clients();
+        //     for(var i=0;i<this.responseClients.length;i++){
+        //         this.client[i] = new Clients();
 
-                this.client[i].value = this.responseClients[i].id;
-                if(this.responseClients[i].last_name === null){
-                    this.last_name = '';
-                }
-                else{
-                    this.last_name = this.responseClients[i].last_name;
-                }
-                this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
-            }
+        //         this.client[i].value = this.responseClients[i].id;
+        //         if(this.responseClients[i].last_name === null){
+        //             this.last_name = '';
+        //         }
+        //         else{
+        //             this.last_name = this.responseClients[i].last_name;
+        //         }
+        //         this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
+        //     }
 
-            for(var i=0;i<this.responseProcedureCategories.length;i++){
-                this.procedureCategory[i] = new ProcedureCategory();
+        //     for(var i=0;i<this.responseProcedureCategories.length;i++){
+        //         this.procedureCategory[i] = new ProcedureCategory();
 
-                this.procedureCategory[i].value = this.responseProcedureCategories[i].id;
-                this.procedureCategory[i].viewValue = this.responseProcedureCategories[i].name;
-            }
+        //         this.procedureCategory[i].value = this.responseProcedureCategories[i].id;
+        //         this.procedureCategory[i].viewValue = this.responseProcedureCategories[i].name;
+        //     }
 
-            if (this.action === 2) {
-                this.res = this._activatedRoute.snapshot.paramMap.get('id');
-                return this.initUpdate(this.res);
-            }
+        //     if (this.action === 2) {
+        //         this.res = this._activatedRoute.snapshot.paramMap.get('id');
+        //         return this.initUpdate(this.res);
+        //     }
     
-            return this.initCreate();
+        //     return this.initCreate();
             
-        }, (error)=>{
-            console.log(error);            
-        });
+        // }, (error)=>{
+        //     console.log(error);            
+        // });
 
-        // if (this.action === 2) {
-        //     this.res = this._activatedRoute.snapshot.paramMap.get('id');
-        //     return this.initUpdate(this.res);
-        // }
-
-        // return this.initCreate();
+        
     }
 
     /**

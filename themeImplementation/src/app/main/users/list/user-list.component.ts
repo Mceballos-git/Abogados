@@ -150,7 +150,7 @@ export class UserListComponent implements OnInit {
      * Update DataSource so entries get deleted from view.
      */
     updateDataSource() {
-        this.dataSource.data = this.users;
+        this.dataSource = this.tableData;
     }
 
     /**
@@ -182,7 +182,7 @@ export class UserListComponent implements OnInit {
     activate(id, index){        
         this._userSecurityService.activate(id).subscribe((response)=>{
             console.log('user activated ok'); 
-            this.users[index].active = 1;         
+            this.tableData[index].active = 1;         
             this.updateDataSource();
         }, (error)=>{
             console.log(error);            
@@ -192,7 +192,7 @@ export class UserListComponent implements OnInit {
     deactivate(id, index){
         this._userSecurityService.deactivate(id).subscribe((response)=>{
             console.log('user deactivated ok');   
-            this.users[index].active = 0;       
+            this.tableData[index].active = 0;       
             this.updateDataSource();
         }, (error)=>{
             console.log(error);

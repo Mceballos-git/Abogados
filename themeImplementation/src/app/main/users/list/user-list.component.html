@@ -85,7 +85,7 @@
             </tr>
             </thead>
             <tbody *ngIf="tableData?.length != 0">
-            <tr *ngFor="let row of tableData">
+            <tr *ngFor="let row of tableData, let i = index">
                 <td>{{row.first_name}}</td>
                 <td>{{row.last_name}}</td>
                 <td>{{row.username}}</td>

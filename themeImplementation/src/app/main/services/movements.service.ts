@@ -23,6 +23,7 @@ export class MovementsService extends RequestHelperService {
         ENDPOINT_DELETE: 'DELETE',
     };
 
+    
     /**
      *
      * @param parameters
@@ -32,6 +33,12 @@ export class MovementsService extends RequestHelperService {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
         let options = this.getRequestOptions(true);
         return this.http.post(url, parameters, options);
+    }
+
+    getTotalBalance(parameters){
+        let url = this.getURL(this.constants.REQUEST_MODULE, 'GET_TOTAL_BALANCE');
+        const headers = this.getRequestOptions(true);        
+        return this.http.post(url, parameters, headers);
     }
 
     getOne(id) {

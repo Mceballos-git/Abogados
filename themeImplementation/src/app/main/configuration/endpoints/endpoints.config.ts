@@ -51,6 +51,7 @@ export class EndpointsConfig {
         LIST: '/movements/getList',
         GET_ONE: '/movements/:id',
         DELETE: '/movements/:id',
+        GET_TOTAL_BALANCE: '/movements/getTotalBalance',
     };
     OFFICES = {
         CREATE: '/offices',

@@ -28,7 +28,7 @@
             </tr>
             </thead>
             <tbody *ngIf="tableData?.length != 0">
-            <tr *ngFor="let row of tableData">
+            <tr *ngFor="let row of tableData, let i = index">
                 <td>{{row.last_name}}</td>
                 <td>{{row.first_name}}</td>
                 <td>{{row.identification_number}}</td>
@@ -36,7 +36,7 @@
                 <td>{{row.balance}}</td>                
                 <td>
                     <ng-container matColumnDef="actions">
-                        <div class="clickeable">
+                        <div class="clickeable"> 
 
                             <!-- activate/deactivate -->
                             <mat-icon matSuffix class="secondary-text"

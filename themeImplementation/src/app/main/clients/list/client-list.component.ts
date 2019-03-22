@@ -149,7 +149,7 @@ export class ClientListComponent implements OnInit {
      * Update DataSource so entries get deleted from view.
      */
     updateDataSource() {
-        this.dataSource.data = this.clients;
+        this.dataSource = this.tableData;
     }
 
     /**
@@ -185,7 +185,7 @@ export class ClientListComponent implements OnInit {
     activate(id, index) {
         this._clientsService.activate(id).subscribe((response) => {
             console.log('client activated ok');
-            this.clients[index].active = 1;
+            this.tableData[index].active = 1;
             this.updateDataSource();
         }, (error) => {
             console.log(error);
@@ -195,7 +195,7 @@ export class ClientListComponent implements OnInit {
     deactivate(id, index) {
         this._clientsService.deactivate(id).subscribe((response) => {
             console.log('client deactivated ok');
-            this.clients[index].active = 0;
+            this.tableData[index].active = 0;
             this.updateDataSource();
         }, (error) => {
             console.log(error);

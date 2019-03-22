@@ -262,12 +262,12 @@ WHERE;
 
 
         $this->searchFields = [
-            'm.type_id', 'm.amount'
+            'm.movement_type_id', 'm.amount'
 
         ];
 
         $this->orderFields = [
-            'm.type_id', 'm.amount'
+            'm.movement_type_id', 'm.amount'
         ];
 
         $this->select = <<<SELECT

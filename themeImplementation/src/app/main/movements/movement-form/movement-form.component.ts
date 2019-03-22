@@ -7,7 +7,6 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component"
 import {MatDialog, MatDialogConfig, MatSnackBar} from '@angular/material';
 import { MovementsService } from 'app/main/services/movements.service';
-import { OfficesService } from 'app/main/services/offices.service';
 import { ClientsService } from 'app/main/services/clients.service';
 import { MovementCategoriesService } from 'app/main/services/movement-categories.service';
 
@@ -19,6 +18,7 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
+import { PARAMETERS } from '@angular/core/src/util/decorators';
 
 const moment = _moment;
 
@@ -98,7 +98,6 @@ export class MovementFormComponent implements OnInit {
         private _dialog: MatDialog,
         private _snackBar:MatSnackBar,
         private _router: Router,
-        private _officesService:OfficesService,
         private _clientsService:ClientsService,
         private _movCategoryService:MovementCategoriesService
 
@@ -131,62 +130,48 @@ export class MovementFormComponent implements OnInit {
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
        
+        // let clients = this._clientsService.getClientsActiveList();
+        // let movCategories = this._movCategoryService.getMovCategoriesList();
 
-        //let offices = this._officesService.getList();
-        let clients = this._clientsService.getClientsActiveList();
-        let movCategories = this._movCategoryService.getMovCategoriesList();
-
-        forkJoin([ clients, movCategories]).subscribe((responseList)=>{
-            //this.responseOffices = responseList[0]; 
-            this.responseClients = responseList[0];
-            this.responseMovCategories = responseList[1];
-
-            console.log("Done");   
-
-            // for(var i=0;i<this.responseOffices.length;i++){
-            //     this.office[i] = new Offices();
-
-            //     this.office[i].value = this.responseOffices[i].id;
-            //     this.office[i].viewValue = this.responseOffices[i].name;
-            // }
-
-            for(var i=0;i<this.responseClients.length;i++){
-                this.client[i] = new Clients();
-
-                this.client[i].value = this.responseClients[i].id;
-                if(this.responseClients[i].last_name === null){
-                    this.last_name = '';
-                }
-                else{
-                    this.last_name = this.responseClients[i].last_name;
-                }
-                this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
-            }
-
-            for(var i=0;i<this.responseMovCategories.length;i++){
-                this.movCategory[i] = new MovCategory();
-
-                this.movCategory[i].value = this.responseMovCategories[i].id;
-                this.movCategory[i].viewValue = this.responseMovCategories[i].name;
-            }
-
-            if (this.action === 2) {
-                this.res = this._activatedRoute.snapshot.paramMap.get('id');
-                return this.initUpdate(this.res);
-            }
-    
-            return this.initCreate();
+        // forkJoin([ clients, movCategories]).subscribe((responseList)=>{
             
-        }, (error)=>{
-            console.log(error);            
-        });
+        //     this.responseClients = responseList[0];
+        //     this.responseMovCategories = responseList[1];
 
-        // if (this.action === 2) {
-        //     this.res = this._activatedRoute.snapshot.paramMap.get('id');
-        //     return this.initUpdate(this.res);
-        // }
+        //     console.log("Done");              
 
-        // return this.initCreate();
+        //     for(var i=0;i<this.responseClients.length;i++){
+        //         this.client[i] = new Clients();
+
+        //         this.client[i].value = this.responseClients[i].id;
+        //         if(this.responseClients[i].last_name === null){
+        //             this.last_name = '';
+        //         }
+        //         else{
+        //             this.last_name = this.responseClients[i].last_name;
+        //         }
+        //         this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
+        //     }
+
+        //     for(var i=0;i<this.responseMovCategories.length;i++){
+        //         this.movCategory[i] = new MovCategory();
+
+        //         this.movCategory[i].value = this.responseMovCategories[i].id;
+        //         this.movCategory[i].viewValue = this.responseMovCategories[i].name;
+        //     }
+
+        //     if (this.action === 2) {
+        //         this.res = this._activatedRoute.snapshot.paramMap.get('id');
+        //         return this.initUpdate(this.res);
+        //     }
+    
+        //     return this.initCreate();
+            
+        // }, (error)=>{
+        //     console.log(error);            
+        // });
+
+        
     }
 
     /**

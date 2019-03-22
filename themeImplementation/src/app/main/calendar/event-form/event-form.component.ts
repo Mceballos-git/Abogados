@@ -16,6 +16,7 @@ import {ClientsService} from 'app/main/services/clients.service';
 import {UsersService} from 'app/main/services/users.service';
 import { AuthenticationService } from 'app/main/services/authentication.service';
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component";
+import { PARAMETERS } from '@angular/core/src/util/decorators';
 
 
 const moment = _moment;
@@ -114,51 +115,46 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
     ngOnInit() {
 
-        this.loading = true;
+        // this.loading = true;
        
-        let clients = this._clientsService.getClientsActiveList();
-        let users = this._usersService.getUsersList();
+        // let clients = this._clientsService.getClientsActiveList();
+        // let users = this._usersService.getUsersList();
 
-        forkJoin([clients, users]).subscribe((responseList) => {
-            this.responseClients = responseList[0];
-            this.responseUsers = responseList[1];
+        // forkJoin([clients, users]).subscribe((responseList) => {
+        //     this.responseClients = responseList[0];
+        //     this.responseUsers = responseList[1];
 
-            for (let i = 0; i < this.responseClients.length; i++) {
-                this.client[i] = new Person();
-                this.client[i].value = this.responseClients[i].id;
-                this.client[i].phoneNumber = this.responseClients[i].phone_number;
-                this.phone_number = this.responseClients[i].phone_number === null ? '' : this.responseClients[i].phone_number;
-                let lastName = this.responseClients[i].last_name === null ? '' : this.responseClients[i].last_name;
-                this.first_name = this.responseClients[i].first_name === null ? '' : this.responseClients[i].first_name;
-                this.id_type = this.responseClients[i].identification_type === null ? '' : this.responseClients[i].identification_type;
-                this.id_number = this.responseClients[i].identification_number === null ? '' : this.responseClients[i].	identification_number;
-                this.clientData = lastName + ' ' + this.first_name + ' ' + '(' + this.id_type + ' ' + this.id_number + ')';
-                this.client[i].viewValue = this.clientData;
-            }
+        //     for (let i = 0; i < this.responseClients.length; i++) {
+        //         this.client[i] = new Person();
+        //         this.client[i].value = this.responseClients[i].id;
+        //         this.client[i].phoneNumber = this.responseClients[i].phone_number;
+        //         this.phone_number = this.responseClients[i].phone_number === null ? '' : this.responseClients[i].phone_number;
+        //         let lastName = this.responseClients[i].last_name === null ? '' : this.responseClients[i].last_name;
+        //         this.first_name = this.responseClients[i].first_name === null ? '' : this.responseClients[i].first_name;
+        //         this.id_type = this.responseClients[i].identification_type === null ? '' : this.responseClients[i].identification_type;
+        //         this.id_number = this.responseClients[i].identification_number === null ? '' : this.responseClients[i].	identification_number;
+        //         this.clientData = lastName + ' ' + this.first_name + ' ' + '(' + this.id_type + ' ' + this.id_number + ')';
+        //         this.client[i].viewValue = this.clientData;
+        //     }
 
 
-            for (let i = 0; i < this.responseUsers.length; i++) {
-                this.user[i] = new Person();
-                this.user[i].value = this.responseUsers[i].id;
-                this.user[i].viewValue = this.responseUsers[i].username;
-            }
+        //     for (let i = 0; i < this.responseUsers.length; i++) {
+        //         this.user[i] = new Person();
+        //         this.user[i].value = this.responseUsers[i].id;
+        //         this.user[i].viewValue = this.responseUsers[i].username;
+        //     }
 
-            if (this.action === 'edit') {
+        //     if (this.action === 'edit') {
            
-                this.createEventFormEdit(this.event);
-                return;
-            }
-            this.eventForm = this.createEventFormNew();
+        //         this.createEventFormEdit(this.event);
+        //         return;
+        //     }
+        //     this.eventForm = this.createEventFormNew();
 
-        }, (error) => {});
+        // }, (error) => {});
 
 
-        // if (this.action === 'edit') {
-           
-        //     this.createEventFormEdit(this.event);
-        //     return;
-        // }
-        // this.eventForm = this.createEventFormNew();
+        
     }
 
     /**

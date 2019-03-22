@@ -80,7 +80,7 @@ export class MovementsListComponent implements OnInit {
                 that._movService.getList(dataTablesParameters).subscribe((resp : any) => {
                     that.tableData = resp.data;
                     that.loaded = true;
-                    this.getBalance();
+                    this.getBalance(dataTablesParameters);
                     this.dtTrigger.next();
 
                     callback({
@@ -119,12 +119,21 @@ export class MovementsListComponent implements OnInit {
 
     }
 
-    getBalance() {
+    getBalance(parameters) {
         this.balance = 0;
         this.incomes = 0;
         this.outcomes = 0;
 
         // Hacer Request a nuevo Endpoint que devuelva esa info calculada desde el server.
+        this._movService.getTotalBalance(parameters).subscribe((response:any)=>{
+            console.log(response);
+            this.balance = response.balance;
+            this.incomes = response.incomes;
+            this.outcomes = response.outcomes;
+        }, error=>{
+            console.log(error);
+            
+        });
 
     }
 
@@ -153,7 +162,7 @@ export class MovementsListComponent implements OnInit {
         });
     }
 
-    delete( deleteRowItem) {
+    delete(deleteRowItem) {
         this._movService.delete(deleteRowItem.id).subscribe((response) => {
             this.handleDeletingSuccess(deleteRowItem);
         }, (error) => {
@@ -173,7 +182,7 @@ export class MovementsListComponent implements OnInit {
 
         console.log(index);
         this.tableData.splice(index, 1);
-        this.getBalance();
+        //this.getBalance();
         console.log('Delete movement successfuly');
         this._snackBar.open('Movimiento eliminado correctamente', '', {
             duration: 4000,
