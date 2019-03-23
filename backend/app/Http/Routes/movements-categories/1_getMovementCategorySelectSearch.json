@@ -1,0 +1,10 @@
+{
+  "identifier": "getMovementCategorySelectSearch",
+  "requestType": "POST",
+  "endpoint": "/getMovementCategorySelectSearch",
+  "controller": "App\\Http\\Controllers\\MovementCategoryController",
+  "action": "getMovementCategorySelectSearch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

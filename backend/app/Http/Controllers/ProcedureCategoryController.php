@@ -24,7 +24,8 @@ class ProcedureCategoryController extends Controller
      * ProcedureCategoryController constructor.
      * @param DataTableService $dataTableService
      */
-    public function __construct(DataTableService $dataTableService) {
+    public function __construct(DataTableService $dataTableService)
+    {
         $this->dataTableService = $dataTableService;
     }
 
@@ -59,6 +60,12 @@ class ProcedureCategoryController extends Controller
     {
         $params = $request->all();
         return $this->successResponse($this->dataTableService->getProcedureCategoryDataTableList($params));
+    }
+
+    public function getProcedureCategorySelectSearch(Request $request)
+    {
+        $filtro = $request->input('filtro');
+        ProcedureCategoryModel::select('name')->where('campo', 'like', 'valor%');
     }
 
     /**

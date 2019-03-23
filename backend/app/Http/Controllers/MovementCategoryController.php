@@ -40,6 +40,12 @@ class MovementCategoryController extends Controller
         return $this->successResponse($this->dataTableService->getMovementsCategoriesDataTableList($params));
     }
 
+    public function getMovementCategorySelectSearch(Request $request)
+    {
+        $filtro = $request->input('filtro');
+        MovementCategoryModel::select('name')->where('campo', 'like', 'valor%');
+    }
+
 
     /**
      * Busca en la base de datos la categoria de movimiento con el id provisto.

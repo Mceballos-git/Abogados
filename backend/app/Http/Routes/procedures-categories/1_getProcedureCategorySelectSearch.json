@@ -1,0 +1,10 @@
+{
+  "identifier": "getProcedureCategorySelectSearch",
+  "requestType": "POST",
+  "endpoint": "/getProcedureCategorySelectSearch",
+  "controller": "App\\Http\\Controllers\\ProcedureCategoryController",
+  "action": "getProcedureCategorySelectSearch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

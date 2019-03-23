@@ -1,0 +1,10 @@
+{
+  "identifier": "getUsersSelectSearch",
+  "requestType": "POST",
+  "endpoint": "/getUsersSelectSearch",
+  "controller": "App\\Http\\Controllers\\UserController",
+  "action": "getUsersSelectSearch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

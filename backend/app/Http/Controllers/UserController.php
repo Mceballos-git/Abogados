@@ -44,6 +44,12 @@ class UserController extends Controller
         return $this->successResponse($entry);
     }
 
+    public function getUsersSelectSearch(Request $request)
+    {
+        $filtro = $request->input('filtro');
+        UserModel::select('name')->where('campo', 'like', 'valor%');
+    }
+
     /**
      * Get user list.
      *

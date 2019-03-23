@@ -1,0 +1,10 @@
+{
+  "identifier": "getActiveClientsSelectSearch",
+  "requestType": "POST",
+  "endpoint": "/getActiveClientsSelectSearch",
+  "controller": "App\\Http\\Controllers\\ClientController",
+  "action": "getActiveClientsSelectSearch",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}
