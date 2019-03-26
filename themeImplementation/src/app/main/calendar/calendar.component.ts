@@ -106,6 +106,8 @@ export class CalendarComponent implements OnInit {
 
     setEvents(): void {
         this._calendarService.getEvents().subscribe(response => {
+            
+            
             this.events = [];
             for (let i = 0, len = response.length; i < len; i++) {
                 const turn = response[i];
@@ -224,7 +226,8 @@ export class CalendarComponent implements OnInit {
             switch (actionType) {
                 case 'save':
                     this._calendarService.updateEvent(eventApiId, formData.value).subscribe(reqResponse => {
-                        const event = this.getEventFromTurn(reqResponse);
+                        const event = this.getEventFromTurn(reqResponse);                 
+                        
                         this.events[eventIndex] = Object.assign(this.events[eventIndex], event);
                         this.refresh.next(true);
                         this._snackBar.open('Turno editado correctamente', '',{
@@ -260,6 +263,9 @@ export class CalendarComponent implements OnInit {
                 return;
             }
 
+            console.log(response.value);
+            
+
             this._calendarService.createEvent(response.value).subscribe(reqResponse => {
                 const event = this.getEventFromTurn(reqResponse);
                 this.events.push(event);
@@ -284,10 +290,18 @@ export class CalendarComponent implements OnInit {
      * @returns {CalendarEventModel}
      */
     getEventFromTurn(turn) {
+        
+        let dataClient;
+        if (turn.client){
+            dataClient = turn.client.first_name + ' ' + turn.client.last_name;
+        }
+        else{
+            dataClient = '';
+        }
         let itemData = {
             start : moment(turn.turn_date + ' ' + turn.turn_time_start ),
             end: moment(turn.turn_date + ' ' + turn.turn_time_end ),
-            title: turn.title,
+            title: turn.turn_time_start + ' a ' + turn.turn_time_end + ' - ' + dataClient,
             color: {
                 primary: null,
                 secondary: null

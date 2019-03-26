@@ -1,4 +1,4 @@
-import {Component, Inject, ViewEncapsulation, OnInit} from '@angular/core';
+import {Component, Inject, ViewEncapsulation, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CalendarEvent} from 'angular-calendar';
@@ -18,6 +18,8 @@ import { AuthenticationService } from 'app/main/services/authentication.service'
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component";
 import { PARAMETERS } from '@angular/core/src/util/decorators';
 
+import { Subject, Observable, of, concat } from 'rxjs';
+import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
 
 const moment = _moment;
 
@@ -33,14 +35,16 @@ export const MY_FORMATS = {
     },
 };
 
-class Person {
-    value: number[];
-    viewValue: string[];
-    phoneNumber:string[];
+interface Person {
+    id: string;
+    isActive: boolean;    
+    name: string;
+    last_name:string
 }
 
 @Component({
     selector: 'calendar-event-form-dialog',
+    changeDetection: ChangeDetectionStrategy.Default,
     templateUrl: './event-form.component.html',
     styleUrls: ['./event-form.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -50,6 +54,12 @@ class Person {
 })
 
 export class CalendarEventFormDialogComponent implements OnInit {
+
+    people3$: any;
+    people3Loading = false;
+    people3input$ = new Subject<string>();
+    
+
     action: string;
     event: CalendarEventModel;
     eventForm: FormGroup;
@@ -115,6 +125,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
     ngOnInit() {
 
+        this.loadPeople3();
         // this.loading = true;
        
         // let clients = this._clientsService.getClientsActiveList();
@@ -153,7 +164,12 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
         // }, (error) => {});
 
-
+        if (this.action === 'edit') {
+           
+            this.createEventFormEdit(this.event);
+            return;
+        }
+        this.eventForm = this.createEventFormNew();
         
     }
 
@@ -166,6 +182,10 @@ export class CalendarEventFormDialogComponent implements OnInit {
         const data = {
             active: 1,
             client_id: '',
+            client :{
+                first_name:'',
+                last_name:''
+            },
             given_user_id: '',
             attention_user_id: '',
             register_date: '',
@@ -187,6 +207,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
      */
     createEventFormEdit(event) {
         this.eventDate = moment(event.originalData.turn_date).format('DD-MM-YYYY')
+                
         return this.createEventForm(event.originalData);
     }
 
@@ -198,21 +219,50 @@ export class CalendarEventFormDialogComponent implements OnInit {
     createEventForm(data): FormGroup {
         this.eventForm = new FormGroup({
             'active': new FormControl(data.active),
-            'client_id': new FormControl(data.client_id, Validators.required),
-            'given_user_id': new FormControl(data.given_user_id, Validators.required),
-            'attention_user_id': new FormControl(data.attention_user_id, Validators.required),
+            'client_id': new FormControl(data.client_id),
+            // 'given_user_id': new FormControl(data.given_user_id, Validators.required),
+            // 'attention_user_id': new FormControl(data.attention_user_id, Validators.required),      
+            
+            'given_user_id': new FormControl(11),
+            'attention_user_id': new FormControl(11),         
             'register_date': new FormControl(moment().format('YYYY-MM-DD')),
             'turn_date': new FormControl(data.turn_date),
             'turn_time_start': new FormControl(data.turn_time_start, Validators.required),
             'turn_time_end': new FormControl(data.turn_time_end, Validators.required),
             'phone_number_ref': new FormControl(data.phone_number_ref, Validators.required),
-            'priority': new FormControl(data.priority),
+            'priority': new FormControl(data.priority, Validators.required),
             'comments': new FormControl(data.comments),
-            'title': new FormControl(data.title,  Validators.required)
+            'title': new FormControl('')
         });
+
+        if (this.action === 'edit') {
+           
+            this.eventForm = new FormGroup({
+                'active': new FormControl(data.active),
+                'client_id': new FormControl(data.client.first_name + ' ' + data.client.last_name ),
+                // 'given_user_id': new FormControl(data.given_user_id, Validators.required),
+                // 'attention_user_id': new FormControl(data.attention_user_id, Validators.required),      
+                
+                'given_user_id': new FormControl(11),
+                'attention_user_id': new FormControl(11),         
+                'register_date': new FormControl(moment().format('YYYY-MM-DD')),
+                'turn_date': new FormControl(data.turn_date),
+                'turn_time_start': new FormControl(data.turn_time_start, Validators.required),
+                'turn_time_end': new FormControl(data.turn_time_end, Validators.required),
+                'phone_number_ref': new FormControl(data.phone_number_ref, Validators.required),
+                'priority': new FormControl(data.priority, Validators.required),
+                'comments': new FormControl(data.comments),
+                'title': new FormControl('')
+            });
+        }
+
+
+
 
         this.loading=false;
         return this.eventForm;
+
+      
     }
 
     clientPhone(id){     
@@ -224,5 +274,23 @@ export class CalendarEventFormDialogComponent implements OnInit {
                 this.eventForm.get('phone_number_ref').setValue(this.client[i].phoneNumber) ;
             }
         }        
+    }
+
+    private loadPeople3() {          
+            this.people3$ = concat(
+            of([]), // default items
+            this.people3input$.pipe(
+               debounceTime(200),
+               distinctUntilChanged(),
+               tap(() => this.people3Loading = true),
+               switchMap(term => this._clientsService.getClientsActiveListSelectSearch(term).pipe(
+                   
+                  
+                   catchError(() => of([])), // empty list on error
+                   tap(() => this.people3Loading = false)
+               )) 
+            )            
+        );     
+        
     }
 }

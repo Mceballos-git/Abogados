@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TurnModel;
+use App\Models\ClientModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 
@@ -63,7 +64,7 @@ class TurnController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            TurnModel::get()
+            TurnModel::with(['client'])->get()
         );
     }
 
@@ -74,7 +75,7 @@ class TurnController extends Controller
      */
     public function getOne($id)
     {
-        $entry = TurnModel::where('id', $id)->first();
+        $entry = TurnModel::with(['clients'])->where('id', $id)->first();
         return $this->successResponse($entry);
     }
 

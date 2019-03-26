@@ -18,6 +18,9 @@ import { CalendarEventFormDialogComponent } from 'app/main/calendar/event-form/e
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+
 registerLocaleData(localeEs);
 
 const routes: Routes = [
@@ -58,7 +61,9 @@ const routes: Routes = [
         ColorPickerModule,
 
         FuseSharedModule,
-        FuseConfirmDialogModule
+        FuseConfirmDialogModule,
+
+        NgSelectModule, FormsModule,
     ],
     providers      : [
         CalendarService

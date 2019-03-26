@@ -36,7 +36,8 @@ export class EndpointsConfig {
         ACTIVATE: '/clients/activate',
         DEACTIVATE: '/clients/deactivate',
         GET_LIST_ACTIVE:'/clients/getListActive',
-        GET_LIST_EXCEL : '/clients/getListForExport'
+        GET_LIST_EXCEL : '/clients/getListForExport',
+        GET_LIST_ACTIVE_SELECT_SEARCH:'/clients/getActiveClientsSelectSearch',
     };
     MOVEMENTS_CATEGORIES = {
         CREATE: '/movements-categories',

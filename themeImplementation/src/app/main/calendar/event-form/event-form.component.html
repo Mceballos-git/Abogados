@@ -19,14 +19,6 @@
                 <strong>Fecha: {{eventDate}}</strong>
             </div>
 
-            <mat-form-field appearance="outline" class="w-100-p">
-                <mat-label>Titulo</mat-label>
-                <input matInput formControlName="title">
-                <mat-error *ngIf="eventForm.get('title').hasError('required') && eventForm.get('title').touched">
-                   Título Requerido
-                </mat-error>        
-            </mat-form-field>
-
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
@@ -46,8 +38,8 @@
                 </mat-form-field>
             </div>
 
-            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
-                <mat-form-field appearance="outline" class="pr-sm-8">
+            <!-- <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
+                 <mat-form-field appearance="outline" class="pr-sm-8">
 
                     <mat-label>Cliente</mat-label>
                     <mat-select placeholder="Cliente" formControlName="client_id" (selectionChange)="clientPhone($event)">
@@ -59,7 +51,27 @@
                         </mat-error>
                     </mat-select>
                 </mat-form-field>
+              
+            </div> -->           
+            <div>
+                <ng-select
+                    [items]="people3$ | async"
+                    bindLabel="text"
+                    placeholder="Cliente"
+                    [addTag]="true"
+                    [multiple]="false"
+                    [hideSelected]="true"
+                    [loading]="people3Loading"
+                    [typeahead]="people3input$"                              
+                    formControlName="client_id"
+                    required>                
+                </ng-select>
+
+                
+
+
             </div>
+            
 
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 

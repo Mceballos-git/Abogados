@@ -24,5 +24,9 @@ class TurnModel extends Model
         'title',
         'active'
     ];
+
+    public function client(){
+        return $this->belongsTo(ClientModel::class, 'client_id', 'id');
+    }
 }
 
