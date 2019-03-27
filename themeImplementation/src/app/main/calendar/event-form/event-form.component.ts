@@ -17,6 +17,7 @@ import {UsersService} from 'app/main/services/users.service';
 import { AuthenticationService } from 'app/main/services/authentication.service';
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component";
 import { PARAMETERS } from '@angular/core/src/util/decorators';
+import {NgSelectConfig} from "@ng-select/ng-select";
 
 import { Subject, Observable, of, concat } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
@@ -103,8 +104,14 @@ export class CalendarEventFormDialogComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _auth: AuthenticationService,
         private _clientsService: ClientsService,
-        private _usersService: UsersService
+        private _usersService: UsersService,
+        private config: NgSelectConfig,
     ) {
+        this.config.typeToSearchText = 'Escriba para buscar';
+        this.config.notFoundText = 'No se encontraron coincidencias';
+        this.config.loadingText = 'Cargando...';
+        this.config.addTagText = 'Agregue letras';
+        this.config.clearAllText = 'Borrar todo';
         this.event = _data.event;
         this.action = _data.action;
         this.eventDate = moment(_data.date).format('DD-MM-YYYY');

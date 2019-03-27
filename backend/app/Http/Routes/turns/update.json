@@ -18,7 +18,6 @@
     "phone_number_ref": "required|string",
     "priority": "required|string",
     "comments": "sometimes",
-    "title": "required|string",
     "active": "required|integer"
   }
 }
