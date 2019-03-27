@@ -75,8 +75,8 @@ class TurnController extends Controller
      */
     public function getOne($id)
     {
-        $entry = TurnModel::with(['clients'])->where('id', $id)->first();
-        return $this->successResponse($entry);
+        $entry = TurnModel::with(['client'])->where('id', $id)->first();
+        return $this->successResponse($entry);        
     }
 
     /**

@@ -4,6 +4,8 @@ import { MatProgressSpinnerModule, MatButtonModule, MatCheckboxModule, MatFormFi
 import { FuseSharedModule } from '@fuse/shared.module';
 import { LoadingDialogComponent } from '../../common/loading-dialog/loading-dialog.component';
 import { MovementFormComponent } from './movement-form.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 // import {Mat}
 @NgModule({
     declarations: [
@@ -20,7 +22,9 @@ import { MovementFormComponent } from './movement-form.component';
         MatIconModule,
         MatInputModule,
         FuseSharedModule,
-        MatSelectModule, MatSnackBarModule, MatDatepickerModule
+        MatSelectModule, MatSnackBarModule, MatDatepickerModule,
+
+        NgSelectModule, FormsModule
     ],
     exports: [
         MovementFormComponent

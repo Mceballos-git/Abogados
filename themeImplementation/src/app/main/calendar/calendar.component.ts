@@ -225,6 +225,8 @@ export class CalendarComponent implements OnInit {
             const formData: FormGroup = response[1];
             switch (actionType) {
                 case 'save':
+                    console.log(formData.value);
+                    
                     this._calendarService.updateEvent(eventApiId, formData.value).subscribe(reqResponse => {
                         const event = this.getEventFromTurn(reqResponse);                 
                         
@@ -264,9 +266,10 @@ export class CalendarComponent implements OnInit {
             }
 
             console.log(response.value);
-            
+                     
 
-            this._calendarService.createEvent(response.value).subscribe(reqResponse => {
+            this._calendarService.createEvent(response.value).subscribe(reqResponse => {               
+                
                 const event = this.getEventFromTurn(reqResponse);
                 this.events.push(event);
                 this.refresh.next(true);
@@ -289,7 +292,7 @@ export class CalendarComponent implements OnInit {
      * @param turn
      * @returns {CalendarEventModel}
      */
-    getEventFromTurn(turn) {
+    getEventFromTurn(turn) {          
         
         let dataClient;
         if (turn.client){
@@ -300,7 +303,7 @@ export class CalendarComponent implements OnInit {
         }
         let itemData = {
             start : moment(turn.turn_date + ' ' + turn.turn_time_start ),
-            end: moment(turn.turn_date + ' ' + turn.turn_time_end ),
+            end: moment(turn.turn_date + ' ' + turn.turn_time_end) ,
             title: turn.turn_time_start + ' a ' + turn.turn_time_end + ' - ' + dataClient,
             color: {
                 primary: null,
@@ -314,6 +317,8 @@ export class CalendarComponent implements OnInit {
 
         let event = new CalendarEventModel(itemData);
         event.originalData = turn;
+        
+        
         return event;
 
     }

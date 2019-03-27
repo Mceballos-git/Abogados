@@ -23,7 +23,11 @@
 
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
                     <mat-label>Hora inicio</mat-label>
-                    <input matInput type="time" formControlName="turn_time_start">
+                    <mat-select placeholder="Hora Inicio" formControlName="turn_time_start">
+                        <mat-option *ngFor="let id of horarios" [value]="id">
+                            {{id}}
+                        </mat-option>
+                    </mat-select>                    
                     <mat-error *ngIf="eventForm.get('turn_time_start').hasError('required') && eventForm.get('turn_time_start').touched">
                         Horario inicio requerido
                     </mat-error>
@@ -31,7 +35,11 @@
 
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
                     <mat-label>Hora fin</mat-label>
-                    <input matInput type="time" formControlName="turn_time_end">
+                    <mat-select placeholder="Hora Inicio" formControlName="turn_time_end">
+                        <mat-option *ngFor="let id of horarios" [value]="id">
+                            {{id}}
+                        </mat-option>
+                    </mat-select>                       
                     <mat-error *ngIf="eventForm.get('turn_time_end').hasError('required') && eventForm.get('turn_time_end').touched">
                         Horario fin requerido
                     </mat-error>
@@ -64,12 +72,9 @@
                     [loading]="people3Loading"
                     [typeahead]="people3input$"                              
                     formControlName="client_id"
+                    (change) = "clientPhone($event)"
                     required>                
                 </ng-select>
-
-                
-
-
             </div>
             
 

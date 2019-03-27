@@ -16,9 +16,9 @@
     "turn_time_start": "required|date_format:H:i:s",
     "turn_time_end": "required|date_format:H:i:s",
     "phone_number_ref": "required|string",
-    "priority": "required|string",
+    "priority": "sometimes",
     "comments": "sometimes",
-    "title": "required|string",
+    "title": "sometimes",
     "active": "required|integer"
   }
 }

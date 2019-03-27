@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {FuseConfigService} from "../../../../@fuse/services/config.service";
 import {Router, ActivatedRoute} from '@angular/router';
@@ -11,14 +10,16 @@ import { ClientsService } from 'app/main/services/clients.service';
 import { MovementCategoriesService } from 'app/main/services/movement-categories.service';
 
 
-import {Observable} from 'rxjs';
+
 import { forkJoin } from "rxjs/observable/forkJoin";
 
 //para dar formato a la fecha
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
-import { PARAMETERS } from '@angular/core/src/util/decorators';
+
+import { Subject, Observable, of, concat } from 'rxjs';
+import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
 
 const moment = _moment;
 
@@ -56,6 +57,7 @@ class MovCategory {
 
 @Component({
     selector: 'movement-form',
+    changeDetection: ChangeDetectionStrategy.Default,
     templateUrl: './movement-form.component.html',
     styleUrls: ['./movement-form.component.scss'],
     providers: [{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
