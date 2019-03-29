@@ -40,7 +40,7 @@ class DataTableService
         ];
 
         $this->orderFields = [
-            'm.datetime', 'mc.name', 'client_name', 'mt.name', 'm.concept', 'm.amount', 'user_name',
+            'm.id'
         ];
 
         $this->select = <<<SELECT
@@ -92,11 +92,11 @@ WHERE;
 
 
         $this->searchFields = [
-            'mc.id'
+            'mc.id', 'mc.name'
         ];
 
         $this->orderFields = [
-            'mc.name'
+           'mc.id', 'mc.name', 'mc.id'
         ];
 
         $this->select = <<<SELECT
@@ -129,11 +129,11 @@ WHERE;
 
 
         $this->searchFields = [
-            'pc.id'
+            'pc.id', 'pc.name'
         ];
 
         $this->orderFields = [
-            'pc.name'
+            'pc.id', 'pc.name', 'pc.id'
         ];
 
         $this->select = <<<SELECT
@@ -433,8 +433,7 @@ WHERE;
     public function setOrder($orderField, $orderDirection)
     {
         $order = 'ASC';
-
-        if (!isset($this->searchFields[$orderField])) {
+        if (!isset($this->orderFields[$orderField])) {
             return false;
         }
 
@@ -442,6 +441,6 @@ WHERE;
             $order = $this->sortOptions[$orderDirection];
         }
 
-        $this->order = "ORDER BY {$this->searchFields[$orderField]} {$order}";
+        $this->order = "ORDER BY {$this->orderFields[$orderField]} {$order}";
     }
 }

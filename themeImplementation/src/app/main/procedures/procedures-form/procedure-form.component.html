@@ -9,31 +9,45 @@
 
             <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
                 <!-- client  -->
-                <mat-form-field appearance="outline" >
-                     <mat-label>Cliente</mat-label>
-                     <mat-select placeholder="Cliente" formControlName="client_id">
-                         <mat-option *ngFor="let id of client" [value]="id.value">
-                             {{id.viewValue}}
-                         </mat-option>
-                     </mat-select>
-                     <mat-error *ngIf="form.get('client_id').hasError('required') && form.get('client_id').touched">
-                            Debe seleccionar un cliente
-                        </mat-error>
-                 </mat-form-field>
-
-                 <!-- procedure category  -->
-                 <mat-form-field appearance="outline">
-                     <mat-label>Trámite</mat-label>
-                     <mat-select placeholder="Rubro" formControlName="procedure_category_id">
-                         <mat-option *ngFor="let id of procedureCategory" [value]="id.value">
-                             {{id.viewValue}}
-                         </mat-option>
-                     </mat-select>
-                     <mat-error *ngIf="form.get('procedure_category_id').hasError('required') && form.get('procedure_category_id').touched">
-                        Debe seleccionar un tipo de trámite
+                <div>
+                    <ng-select class="custom"
+                        [items]="people3$ | async"
+                        bindLabel="text"
+                        placeholder="Cliente"
+                        [addTag]="false"
+                        [multiple]="false"
+                        [hideSelected]="true"
+                        [loading]="people3Loading"
+                        [typeahead]="people3input$"                              
+                        formControlName="client_id"                        
+                        >                
+                    </ng-select>
+                    <mat-error *ngIf="form.get('client_id').hasError('required') && form.get('client_id').touched">
+                        Debe seleccionar un cliente
                     </mat-error>
-                 </mat-form-field>
-                                
+                </div>
+                    
+                 
+                 <!-- procedure category  -->
+                 <div>
+                    <ng-select class="custom"
+                        [items]="procedureCat | async"
+                        bindLabel="text"
+                        placeholder="Trámite:"
+                        [addTag]="false"
+                        [multiple]="false"
+                        [hideSelected]="true"
+                        [loading]="procedureCatLoading"
+                        [typeahead]="procedureCatInput"                              
+                        formControlName="procedure_category_id"                    
+                        required>     
+                        <mat-error *ngIf="form.get('procedure_category_id').hasError('required') && form.get('procedure_category_id').touched">
+                            Debe seleccionar un tipo de trámite
+                        </mat-error>        
+                    </ng-select>
+                </div>
+                     
+                
                
                 <mat-form-field appearance="outline" fxLayoutAlign="rigth"  class="w-50-p" >
                     <mat-label> Inicio demanda</mat-label>

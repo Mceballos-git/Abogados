@@ -28,5 +28,13 @@ class TurnModel extends Model
     public function client(){
         return $this->belongsTo(ClientModel::class, 'client_id', 'id');
     }
+
+    public function givenUser(){
+        return $this->belongsTo(UserModel::class, 'given_user_id', 'id');
+    }
+
+    public function attentionUser(){
+        return $this->belongsTo(UserModel::class, 'attention_user_id', 'id');
+    }
 }
 

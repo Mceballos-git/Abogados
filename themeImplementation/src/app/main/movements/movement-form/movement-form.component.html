@@ -31,36 +31,54 @@
                 </mat-form-field>
 
                <!-- client  -->
-               <mat-form-field appearance="outline" >
+               <!-- <mat-form-field appearance="outline" >
                     <mat-label>Cliente</mat-label>
                     <mat-select placeholder="Cliente" formControlName="client_id">
                         <mat-option *ngFor="let id of client" [value]="id.value">
                             {{id.viewValue}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
+
+                <div>
+                    <ng-select class="custom"
+                        [items]="people3$ | async"
+                        bindLabel="text"
+                        placeholder="Cliente"
+                        [addTag]="false"
+                        [multiple]="false"
+                        [hideSelected]="true"
+                        [loading]="people3Loading"
+                        [typeahead]="people3input$"                              
+                        formControlName="client_id"                        
+                        >                
+                    </ng-select>
+                </div>
 
                 <!-- mov category  -->
-                <mat-form-field appearance="outline">
+                <!-- <mat-form-field appearance="outline">
                     <mat-label>Rubro</mat-label>
                     <mat-select placeholder="Rubro" formControlName="movement_category_id">
                         <mat-option *ngFor="let id of movCategory" [value]="id.value">
                             {{id.viewValue}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field>             -->
 
-                <!-- office  -->
-                <!-- <mat-form-field appearance="outline" >
-                    <mat-label>Caja</mat-label>
-                    <mat-select placeholder="Caja" formControlName="movement_type_id">
-                        <mat-option *ngFor="let id of office" [value]="id.value">
-                            {{id.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
-               
+                <div>
+                    <ng-select class="custom"
+                        [items]="movCat | async"
+                        bindLabel="text"
+                        placeholder="Rubro"
+                        [addTag]="false"
+                        [multiple]="false"
+                        [hideSelected]="true"
+                        [loading]="movCatLoading"
+                        [typeahead]="movCatInput"                              
+                        formControlName="movement_category_id"                    
+                        >                
+                    </ng-select>                   
+                </div>
 
                 <!--amount-->
                 <mat-form-field appearance="outline" class="w-30-p">

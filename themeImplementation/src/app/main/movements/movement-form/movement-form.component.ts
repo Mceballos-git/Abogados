@@ -20,6 +20,7 @@ import * as _moment from 'moment';
 
 import { Subject, Observable, of, concat } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 const moment = _moment;
 
@@ -92,6 +93,14 @@ export class MovementFormComponent implements OnInit {
     public responseOffices: any;
     public responseClients: any;
     public responseMovCategories: any;
+
+    people3$: any;
+    people3Loading = false;
+    people3input$ = new Subject<string>();
+
+    movCat: any;
+    movCatLoading = false;
+    movCatInput = new Subject<string>();
     
     constructor(
         private _fuseConfigService: FuseConfigService,
@@ -101,9 +110,17 @@ export class MovementFormComponent implements OnInit {
         private _snackBar:MatSnackBar,
         private _router: Router,
         private _clientsService:ClientsService,
-        private _movCategoryService:MovementCategoriesService
+        private _movCategoryService:MovementCategoriesService,
+        private config:NgSelectConfig
 
     ) {
+        this.config.typeToSearchText = 'Escriba para buscar';
+        this.config.notFoundText = 'No se encontraron coincidencias';
+        this.config.loadingText = 'Cargando...';
+        this.config.addTagText = 'Agregue letras';
+        this.config.clearAllText = 'Borrar todo';
+
+
         this._fuseConfigService.config = {
             layout: {
                 navbar: {
@@ -129,50 +146,19 @@ export class MovementFormComponent implements OnInit {
 
         this.loading = true;
 
+        this.loadPeople3();
+        this.loadMovCategories();
+
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
        
-        // let clients = this._clientsService.getClientsActiveList();
-        // let movCategories = this._movCategoryService.getMovCategoriesList();
+        
+        if (this.action === 2) {
+            this.res = this._activatedRoute.snapshot.paramMap.get('id');
+            return this.initUpdate(this.res);
+        }
 
-        // forkJoin([ clients, movCategories]).subscribe((responseList)=>{
-            
-        //     this.responseClients = responseList[0];
-        //     this.responseMovCategories = responseList[1];
-
-        //     console.log("Done");              
-
-        //     for(var i=0;i<this.responseClients.length;i++){
-        //         this.client[i] = new Clients();
-
-        //         this.client[i].value = this.responseClients[i].id;
-        //         if(this.responseClients[i].last_name === null){
-        //             this.last_name = '';
-        //         }
-        //         else{
-        //             this.last_name = this.responseClients[i].last_name;
-        //         }
-        //         this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
-        //     }
-
-        //     for(var i=0;i<this.responseMovCategories.length;i++){
-        //         this.movCategory[i] = new MovCategory();
-
-        //         this.movCategory[i].value = this.responseMovCategories[i].id;
-        //         this.movCategory[i].viewValue = this.responseMovCategories[i].name;
-        //     }
-
-        //     if (this.action === 2) {
-        //         this.res = this._activatedRoute.snapshot.paramMap.get('id');
-        //         return this.initUpdate(this.res);
-        //     }
-    
-        //     return this.initCreate();
-            
-        // }, (error)=>{
-        //     console.log(error);            
-        // });
-
+        return this.initCreate();
         
     }
 
@@ -193,6 +179,8 @@ export class MovementFormComponent implements OnInit {
         this._movementService.getOne(resourceId).subscribe(response => {
             this.resource = response;
             this.createForm(response);
+            console.log(response);
+            
             this.loading = false;
             this.dtTrigger.next();
         }, (error) => {
@@ -208,6 +196,7 @@ export class MovementFormComponent implements OnInit {
     private createForm(data) {
         const formData = this.getInitialFormData(data);
 
+        
         this.form = new FormGroup({
             'datetime': new FormControl(moment()),     
             'amount': new FormControl(formData.amount, Validators.required),
@@ -217,6 +206,31 @@ export class MovementFormComponent implements OnInit {
             'client_id': new FormControl(formData.client_id),
             
         });
+
+        if (this.action === 2) {
+            
+            let dataClient;
+            let movCatName;
+            if (formData.client) {
+                dataClient = formData.client.first_name + ' ' + formData.client.last_name;
+            }
+            else {
+                dataClient = '';
+            }
+
+            if (formData.movement_category) {
+                movCatName = formData.movement_category.name;
+            }
+            else {
+                movCatName = '';
+            }
+
+            this.form.get('client_id').setValue(dataClient);
+            this.form.get('movement_category_id').setValue(movCatName);           
+
+        }
+        
+        
     }
 
     /**
@@ -233,8 +247,12 @@ export class MovementFormComponent implements OnInit {
             'concept': data ? data.concept : '',
             'movement_type_id': data ? data.movement_type_id : '',
             'movement_category_id': data ? data.movement_category_id : '',   
+            'movement_category': data ? data.movement_category : '',   
             'client_id':  data ? data.client_id : '',    
+            'client':  data ? data.client : '',    
         }
+
+        
     }
 
     /**
@@ -326,6 +344,42 @@ export class MovementFormComponent implements OnInit {
                 panelClass: ['warn']
             });
         }   
+    }
+
+    private loadPeople3() {
+        this.people3$ = concat(
+            of([]), // default items
+            this.people3input$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.people3Loading = true),
+                switchMap(term => this._clientsService.getClientsActiveListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.people3Loading = false)
+                ))
+            )
+        );
+
+    }
+
+    private loadMovCategories() {
+        this.movCat = concat(
+            of([]), // default items
+            this.movCatInput.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.movCatLoading = true),
+                switchMap(term => this._movCategoryService.getMovCatListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.movCatLoading = false)
+                ))
+            )
+        );
+
     }
 
 }

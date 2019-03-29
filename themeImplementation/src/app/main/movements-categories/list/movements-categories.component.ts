@@ -78,6 +78,7 @@ export class MovementsCategoriesComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
+            bAutoWidth: false,
             
             ajax: (dataTablesParameters: any, callback) => {
                 that._movCategoriesService.getMovCategoriesList(dataTablesParameters).subscribe((resp : any) => {

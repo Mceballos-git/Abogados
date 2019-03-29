@@ -15,6 +15,7 @@
         <table datatable [dtOptions]="dtOptions" class="row-border hover">
             <thead>
             <tr>
+                
                 <th>Fecha</th>
                 <th>Rubro</th>
                 <th>Cliente</th>
@@ -27,6 +28,7 @@
             </thead>
             <tbody *ngIf="tableData?.length != 0">
             <tr *ngFor="let row of tableData">
+               
                 <td>{{row.datetime}}</td>
                 <td>{{row.movement_category_name}}</td>
                 <td>{{row.client_name}}</td>

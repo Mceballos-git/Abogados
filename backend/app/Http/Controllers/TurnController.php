@@ -54,7 +54,9 @@ class TurnController extends Controller
             'office_id' => 1
         ]);
 
-        return $this->successResponse($result);
+        return $this->successResponse( 
+            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $result->id)->first()
+        );
     }
 
     /**
@@ -64,7 +66,7 @@ class TurnController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            TurnModel::with(['client'])->get()
+            TurnModel::with(['client', 'attentionUser', 'givenUser'])->get()
         );
     }
 
@@ -75,7 +77,7 @@ class TurnController extends Controller
      */
     public function getOne($id)
     {
-        $entry = TurnModel::with(['client'])->where('id', $id)->first();
+        $entry = TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $id)->first();
         return $this->successResponse($entry);        
     }
 
@@ -103,7 +105,9 @@ class TurnController extends Controller
             'active'
         ));
         TurnModel::where('id', $id)->update($requestData);
-        return $this->successResponse(TurnModel::where('id', $id)->first());
+        return $this->successResponse( 
+            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $id)->first()
+        );
     }
 
     /**

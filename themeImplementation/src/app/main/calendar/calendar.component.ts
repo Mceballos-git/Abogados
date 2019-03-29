@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
-import {Subject} from 'rxjs';
-import {startOfDay, isSameDay, isSameMonth} from 'date-fns';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { Subject } from 'rxjs';
+import { startOfDay, isSameDay, isSameMonth } from 'date-fns';
 import {
     CalendarEvent,
     CalendarEventAction,
@@ -10,13 +10,13 @@ import {
     CalendarMonthViewDay
 } from 'angular-calendar';
 
-import {FuseConfirmDialogComponent} from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import {fuseAnimations} from '@fuse/animations';
+import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
+import { fuseAnimations } from '@fuse/animations';
 
-import {CalendarService} from 'app/main/calendar/calendar.service';
-import {CalendarEventModel} from 'app/main/calendar/event.model';
-import {CalendarEventFormDialogComponent} from 'app/main/calendar/event-form/event-form.component';
-import {FuseConfigService} from '@fuse/services/config.service';
+import { CalendarService } from 'app/main/calendar/calendar.service';
+import { CalendarEventModel } from 'app/main/calendar/event.model';
+import { CalendarEventFormDialogComponent } from 'app/main/calendar/event-form/event-form.component';
+import { FuseConfigService } from '@fuse/services/config.service';
 
 import * as _moment from 'moment';
 
@@ -71,16 +71,16 @@ export class CalendarComponent implements OnInit {
         this.view = 'month';
         this.viewDate = new Date();
         this.activeDayIsOpen = true;
-        this.selectedDay = {date: startOfDay(new Date())};
+        this.selectedDay = { date: startOfDay(new Date()) };
 
         this.actions = [{
             label: '<i class="material-icons s-16">edit</i>',
-            onClick: ({event}: { event: CalendarEventModel }): void => {
+            onClick: ({ event }: { event: CalendarEventModel }): void => {
                 this.editEvent('edit', event);
             }
         }, {
             label: '<i class="material-icons s-16">delete</i>',
-            onClick: ({event}: { event: CalendarEventModel }): void => {
+            onClick: ({ event }: { event: CalendarEventModel }): void => {
                 this.deleteEvent(event);
             }
         }];
@@ -106,8 +106,8 @@ export class CalendarComponent implements OnInit {
 
     setEvents(): void {
         this._calendarService.getEvents().subscribe(response => {
-            
-            
+
+
             this.events = [];
             for (let i = 0, len = response.length; i < len; i++) {
                 const turn = response[i];
@@ -121,7 +121,7 @@ export class CalendarComponent implements OnInit {
 
     }
 
-    beforeMonthViewRender({header, body}): void {
+    beforeMonthViewRender({ header, body }): void {
         /**
          * Get the selected day
          */
@@ -158,7 +158,34 @@ export class CalendarComponent implements OnInit {
     }
 
 
-    eventTimesChanged({event, newStart, newEnd}: any): void {
+    eventTimesChanged({ event, newStart, newEnd }: any): void {
+
+        console.log('AAAAAAAAAAAAAAAA')
+        console.log(event);
+        if (event.originalData.client) {
+            let client = {
+                id: event.originalData.client.id,
+                text: event.originalData.client.first_name + ' ' + event.originalData.client.last_name
+            };
+            event.originalData.client_id = client;
+        }
+
+        if (event.originalData.given_user) {
+            let givenUser = {
+                id: event.originalData.given_user.id,
+                text: event.originalData.given_user.first_name + ' ' + event.originalData.given_user.last_name
+            };
+            event.originalData.given_user_id = givenUser;
+        }
+
+        if (event.originalData.attention_user) {
+            let attentionUser = {
+                id: event.originalData.attention_user.id,
+                text: event.originalData.attention_user.first_name + ' ' + event.originalData.attention_user.last_name
+            };
+            event.originalData.attention_user_id = attentionUser;
+        }
+
         event.start = newStart;
         event.end = newEnd;
         event.originalData.turn_date = moment(newStart).format('YYYY-MM-DD');
@@ -170,14 +197,14 @@ export class CalendarComponent implements OnInit {
         this.refresh.next(true);
     }
 
-    deleteEvent(event): void {        
+    deleteEvent(event): void {
 
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
         this.confirmDialogRef.componentInstance.confirmMessage = 'Esta seguro que desea eliminar el turno?';
-       
+
 
         const eventApiId = event.originalData.id;
         this.confirmDialogRef.afterClosed().subscribe(result => {
@@ -187,21 +214,21 @@ export class CalendarComponent implements OnInit {
                     const eventIndex = this.events.indexOf(event);
                     this.events.splice(eventIndex, 1);
                     this.refresh.next(true);
-                    this._snackBar.open('Turno eliminado correctamente', '',{
+                    this._snackBar.open('Turno eliminado correctamente', '', {
                         duration: 3000,
                         panelClass: ['green']
                     });
-                }, (error)=>{
-                    this._snackBar.open('Se ha producido un error al eliminar el turno', '',{
+                }, (error) => {
+                    this._snackBar.open('Se ha producido un error al eliminar el turno', '', {
                         duration: 3000,
                         panelClass: ['warn']
-                    });   
+                    });
                 });
 
 
             }
             this.confirmDialogRef = null;
-        });  
+        });
     }
 
     editEvent(action: string, event: CalendarEventModel): void {
@@ -226,21 +253,21 @@ export class CalendarComponent implements OnInit {
             switch (actionType) {
                 case 'save':
                     console.log(formData.value);
-                    
+
                     this._calendarService.updateEvent(eventApiId, formData.value).subscribe(reqResponse => {
-                        const event = this.getEventFromTurn(reqResponse);                 
-                        
+                        const event = this.getEventFromTurn(reqResponse);
+
                         this.events[eventIndex] = Object.assign(this.events[eventIndex], event);
                         this.refresh.next(true);
-                        this._snackBar.open('Turno editado correctamente', '',{
+                        this._snackBar.open('Turno editado correctamente', '', {
                             duration: 3000,
                             panelClass: ['green']
                         });
-                    }, (error)=>{
-                        this._snackBar.open('Se ha producido un error al editar el turno', '',{
+                    }, (error) => {
+                        this._snackBar.open('Se ha producido un error al editar el turno', '', {
                             duration: 3000,
                             panelClass: ['warn']
-                        });   
+                        });
                     });
                     break;
                 case 'delete':
@@ -266,22 +293,22 @@ export class CalendarComponent implements OnInit {
             }
 
             console.log(response.value);
-                     
 
-            this._calendarService.createEvent(response.value).subscribe(reqResponse => {               
-                
+
+            this._calendarService.createEvent(response.value).subscribe(reqResponse => {
+
                 const event = this.getEventFromTurn(reqResponse);
                 this.events.push(event);
                 this.refresh.next(true);
-                this._snackBar.open('Turno creado correctamente', '',{
+                this._snackBar.open('Turno creado correctamente', '', {
                     duration: 3000,
                     panelClass: ['green']
                 });
-            }, (error)=>{
-                this._snackBar.open('Se ha producido un error al crear el turno', '',{
+            }, (error) => {
+                this._snackBar.open('Se ha producido un error al crear el turno', '', {
                     duration: 3000,
                     panelClass: ['warn']
-                });   
+                });
             });
         });
     }
@@ -292,18 +319,18 @@ export class CalendarComponent implements OnInit {
      * @param turn
      * @returns {CalendarEventModel}
      */
-    getEventFromTurn(turn) {          
-        
+    getEventFromTurn(turn) {
+
         let dataClient;
-        if (turn.client){
+        if (turn.client) {
             dataClient = turn.client.first_name + ' ' + turn.client.last_name;
         }
-        else{
+        else {
             dataClient = '';
         }
         let itemData = {
-            start : moment(turn.turn_date + ' ' + turn.turn_time_start ),
-            end: moment(turn.turn_date + ' ' + turn.turn_time_end) ,
+            start: moment(turn.turn_date + ' ' + turn.turn_time_start),
+            end: moment(turn.turn_date + ' ' + turn.turn_time_end),
             title: turn.turn_time_start + ' a ' + turn.turn_time_end + ' - ' + dataClient,
             color: {
                 primary: null,
@@ -317,8 +344,8 @@ export class CalendarComponent implements OnInit {
 
         let event = new CalendarEventModel(itemData);
         event.originalData = turn;
-        
-        
+
+
         return event;
 
     }

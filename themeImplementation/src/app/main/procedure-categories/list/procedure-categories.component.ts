@@ -58,7 +58,7 @@ export class ProcedureCategoriesComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
-            
+            bAutoWidth: false,
             ajax: (dataTablesParameters: any, callback) => {
                 that._procedureCategoriesService.getCategoriesList(dataTablesParameters).subscribe((resp : any) => {
                     that.tableData = resp.data;

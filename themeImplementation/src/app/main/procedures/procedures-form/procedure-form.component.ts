@@ -20,6 +20,7 @@ import * as _moment from 'moment';
 
 import { Subject, Observable, of, concat } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 const moment = _moment;
 
@@ -51,6 +52,8 @@ class ProcedureCategory {
     viewValue: string[];
 }
 
+
+
 @Component({
     selector: 'procedure-form',
     changeDetection: ChangeDetectionStrategy.Default,
@@ -78,6 +81,14 @@ export class ProcedureFormComponent implements OnInit {
     procedureCategory:any = [];
     last_name:string;    
 
+    people3$: any;
+    people3Loading = false;
+    people3input$ = new Subject<string>();
+
+    procedureCat: any;
+    procedureCatLoading = false;
+    procedureCatInput = new Subject<string>();
+
     //forkJoinResponse    
     public responseClients: any;
     public responseProcedureCategories: any;
@@ -90,9 +101,17 @@ export class ProcedureFormComponent implements OnInit {
         private _snackBar:MatSnackBar,
         private _router: Router,
         private _clientsService:ClientsService,
-        private _procedureCategoryService:ProcedureCategoriesService
+        private _procedureCategoryService:ProcedureCategoriesService,
+        private config:NgSelectConfig,
 
     ) {
+
+        this.config.typeToSearchText = 'Escriba para buscar';
+        this.config.notFoundText = 'No se encontraron coincidencias';
+        this.config.loadingText = 'Cargando...';
+        this.config.addTagText = 'Agregue letras';
+        this.config.clearAllText = 'Borrar todo';
+
         this._fuseConfigService.config = {
             layout: {
                 navbar: {
@@ -117,6 +136,9 @@ export class ProcedureFormComponent implements OnInit {
     ngOnInit() {
 
         this.loading = true;
+
+        this.loadPeople3();
+        this.loadProcedureCategories();
 
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
@@ -163,6 +185,12 @@ export class ProcedureFormComponent implements OnInit {
         //     console.log(error);            
         // });
 
+        if (this.action === 2) {
+            this.res = this._activatedRoute.snapshot.paramMap.get('id');
+            return this.initUpdate(this.res);
+        }
+
+        return this.initCreate();
         
     }
 
@@ -334,6 +362,42 @@ export class ProcedureFormComponent implements OnInit {
                 panelClass: ['warn']
             });
         }   
+    }
+
+    private loadPeople3() {
+        this.people3$ = concat(
+            of([]), // default items
+            this.people3input$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.people3Loading = true),
+                switchMap(term => this._clientsService.getClientsActiveListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.people3Loading = false)
+                ))
+            )
+        );
+
+    }
+
+    private loadProcedureCategories() {
+        this.procedureCat = concat(
+            of([]), // default items
+            this.procedureCatInput.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.procedureCatLoading = true),
+                switchMap(term => this._procedureCategoryService.getProcCatListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.procedureCatLoading = false)
+                ))
+            )
+        );
+
     }
 
   

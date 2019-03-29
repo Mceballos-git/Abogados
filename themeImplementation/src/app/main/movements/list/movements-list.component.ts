@@ -65,7 +65,7 @@ export class MovementsListComponent implements OnInit {
         };
     }
 
-
+    dataTableParameters: any;
     tableData : any
     ngOnInit() {
 
@@ -75,8 +75,12 @@ export class MovementsListComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
+            bAutoWidth: false,
+            order: [0, 'desc'],           
+
             
             ajax: (dataTablesParameters: any, callback) => {
+                that.dataTableParameters = dataTablesParameters;
                 that._movService.getList(dataTablesParameters).subscribe((resp : any) => {
                     that.tableData = resp.data;
                     that.loaded = true;
@@ -126,7 +130,7 @@ export class MovementsListComponent implements OnInit {
 
         // Hacer Request a nuevo Endpoint que devuelva esa info calculada desde el server.
         this._movService.getTotalBalance(parameters).subscribe((response:any)=>{
-            console.log(response);
+           // console.log(response);
             this.balance = response.balance;
             this.incomes = response.incomes;
             this.outcomes = response.outcomes;
@@ -182,7 +186,7 @@ export class MovementsListComponent implements OnInit {
 
         console.log(index);
         this.tableData.splice(index, 1);
-        //this.getBalance();
+        this.getBalance(this.dataTableParameters);
         console.log('Delete movement successfuly');
         this._snackBar.open('Movimiento eliminado correctamente', '', {
             duration: 4000,

@@ -121,7 +121,7 @@ class ClientController extends Controller
 
         $filterValue = $filter .'%';
         $fieldsToFilter = ['first_name', 'last_name'];
-        $query = ClientModel::select('id', 'first_name', 'last_name')
+        $query = ClientModel::select('id', 'first_name', 'last_name', 'phone_number')
             ->where('active', 1)
             ->whereNull('deleted_by')
             ->where(function($q) use ($fieldsToFilter, $filterValue) {
@@ -148,6 +148,7 @@ class ClientController extends Controller
             $obj = new \stdClass();
             $obj->id = $entry->id;
             $obj->text = $entry->first_name . ' ' . $entry->last_name;
+            $obj->phone = $entry->phone_number;
             array_push($data, $obj);
         }
 

@@ -59,16 +59,34 @@ export class MovementsService extends RequestHelperService {
     }
 
     create(formData) {
+        let dataToSend = formData;
+        dataToSend = {
+          datetime:formData.datetime,
+          amount:formData.amount,
+          concept:formData.concept,
+          movement_type_id:formData.movement_type_id,
+          movement_category_id:formData.movement_category_id.id,   
+          client_id:formData.client_id.id,
+        }
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_CREATE);
         const headers = this.getRequestOptions(true);
-        let requestBody = this.getFormRequestBody(formData);
+        let requestBody = this.getFormRequestBody(dataToSend);
         return this.http.post(url, requestBody, headers);
     }
 
     update(id, data) {
+        let dataToSend = data;
+        dataToSend = {
+          datetime:data.datetime,
+          amount:data.amount,
+          concept:data.concept,
+          movement_type_id:data.movement_type_id,
+          movement_category_id:data.movement_category_id.id,   
+          client_id:data.client_id.id,
+        }
         let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_UPDATE);
         const headers = this.getRequestOptions(true);
-        let requestBody = this.getFormRequestBody(data);
+        let requestBody = this.getFormRequestBody(dataToSend);
         url = url.replace(':id', id);
 
         return this.http.put(url, requestBody, headers);

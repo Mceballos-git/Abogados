@@ -30,8 +30,8 @@ export class CalendarService extends RequestHelperService {
         let dataToSend ={
             active: 1,
             client_id: turnData.client_id.id,
-            given_user_id: turnData.given_user_id,
-            attention_user_id:turnData. attention_user_id,
+            given_user_id: turnData.given_user_id.id,
+            attention_user_id:turnData.attention_user_id.id,
             register_date:turnData.register_date,
             turn_date:turnData.turn_date,
             turn_time_start:turnData.turn_time_start,
@@ -51,8 +51,8 @@ export class CalendarService extends RequestHelperService {
         let dataToSend ={ 
             active: 1,
             client_id: turnData.client_id.id,
-            given_user_id: turnData.given_user_id,
-            attention_user_id:turnData. attention_user_id,
+            given_user_id: turnData.given_user_id.id,
+            attention_user_id:turnData. attention_user_id.id,
             register_date: turnData.register_date,
             turn_date:turnData.turn_date,
             turn_time_start: turnData.turn_time_start,

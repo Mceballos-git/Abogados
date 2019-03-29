@@ -25,7 +25,8 @@ export class EndpointsConfig {
         LIST: '/users/getList',
         GET_ONE: '/users/:id',
         DELETE: '/users/:id',
-        GET_PROFILE:'/users/getProfile'
+        GET_PROFILE:'/users/getProfile',
+        GET_LIST_ACTIVE_SELECT_SEARCH:'/users/getUsersSelectSearch',
     };
     CLIENTS = {
         CREATE: '/clients',
@@ -45,6 +46,7 @@ export class EndpointsConfig {
         LIST: '/movements-categories/getList',
         GET_ONE: '/movements-categories/:id',
         DELETE: '/movements-categories/:id',
+        GET_LIST_SELECT_SEARCH:'/movements-categories/getMovementCategorySelectSearch'
     };
     MOVEMENTS = {
         CREATE: '/movements',
@@ -74,6 +76,7 @@ export class EndpointsConfig {
         LIST: '/procedures-categories/getList',
         GET_ONE: '/procedures-categories/:id',
         DELETE: '/procedures-categories/:id',
+        GET_LIST_SELECT_SEARCH:'/procedures-categories/getMovementCategorySelectSearch'
     };
     PROCEDURES = {
         CREATE: '/procedures',
