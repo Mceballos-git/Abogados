@@ -61,6 +61,7 @@ class ProcedureCategory {
     styleUrls: ['./procedure-form.component.scss'],
     providers: [{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
   ],
 
 })
@@ -143,48 +144,6 @@ export class ProcedureFormComponent implements OnInit {
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
        
-        // let clients = this._clientsService.getClientsActiveList();
-        // let procCategories = this._procedureCategoryService.getCategoriesList();
-
-        // forkJoin([ clients, procCategories]).subscribe((responseList)=>{
-            
-        //     this.responseClients = responseList[0];
-        //     this.responseProcedureCategories = responseList[1];
-
-        //     console.log("Done");   
-
-
-        //     for(var i=0;i<this.responseClients.length;i++){
-        //         this.client[i] = new Clients();
-
-        //         this.client[i].value = this.responseClients[i].id;
-        //         if(this.responseClients[i].last_name === null){
-        //             this.last_name = '';
-        //         }
-        //         else{
-        //             this.last_name = this.responseClients[i].last_name;
-        //         }
-        //         this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
-        //     }
-
-        //     for(var i=0;i<this.responseProcedureCategories.length;i++){
-        //         this.procedureCategory[i] = new ProcedureCategory();
-
-        //         this.procedureCategory[i].value = this.responseProcedureCategories[i].id;
-        //         this.procedureCategory[i].viewValue = this.responseProcedureCategories[i].name;
-        //     }
-
-        //     if (this.action === 2) {
-        //         this.res = this._activatedRoute.snapshot.paramMap.get('id');
-        //         return this.initUpdate(this.res);
-        //     }
-    
-        //     return this.initCreate();
-            
-        // }, (error)=>{
-        //     console.log(error);            
-        // });
-
         if (this.action === 2) {
             this.res = this._activatedRoute.snapshot.paramMap.get('id');
             return this.initUpdate(this.res);
@@ -209,6 +168,7 @@ export class ProcedureFormComponent implements OnInit {
     initUpdate(resourceId) {
         this.resourceId = this.resourceId;
         this._procedureService.getOne(resourceId).subscribe(response => {
+            
             this.resource = response;
             this.createForm(response);
             this.loading = false;
@@ -237,6 +197,13 @@ export class ProcedureFormComponent implements OnInit {
             'client_id': new FormControl(formData.client_id),
             
         });
+
+        if (this.action === 2){
+            let client = { id: data.client.id, text: data.client.first_name + ' ' + data.client.last_name };
+            this.form.get('client_id').setValue(client);
+            let procedure = {id: data.procedure_category.id, text: data.procedure_category.name}
+            this.form.get('procedure_category_id').setValue(procedure);
+        }
     }
 
     /**
@@ -297,7 +264,9 @@ export class ProcedureFormComponent implements OnInit {
         }            
         
 
+        console.log(data);
         this._procedureService.update(this.res, data).subscribe((response) => {
+            
             this.handleSubmitSuccess(response); 
         }, (error) => {
             this.handleSubmitError(error);   

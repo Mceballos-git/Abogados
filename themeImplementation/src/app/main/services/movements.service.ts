@@ -66,7 +66,7 @@ export class MovementsService extends RequestHelperService {
           concept:formData.concept,
           movement_type_id:formData.movement_type_id,
           movement_category_id:formData.movement_category_id.id,   
-          client_id:formData.client_id.id,
+          client_id:formData.client_id ? formData.client_id.id : '',
         }
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_CREATE);
         const headers = this.getRequestOptions(true);
@@ -82,7 +82,7 @@ export class MovementsService extends RequestHelperService {
           concept:data.concept,
           movement_type_id:data.movement_type_id,
           movement_category_id:data.movement_category_id.id,   
-          client_id:data.client_id.id,
+          client_id:data.client_id ? data.client_id.id : '',
         }
         let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_UPDATE);
         const headers = this.getRequestOptions(true);

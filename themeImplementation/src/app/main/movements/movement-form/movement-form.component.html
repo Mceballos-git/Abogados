@@ -31,15 +31,6 @@
                 </mat-form-field>
 
                <!-- client  -->
-               <!-- <mat-form-field appearance="outline" >
-                    <mat-label>Cliente</mat-label>
-                    <mat-select placeholder="Cliente" formControlName="client_id">
-                        <mat-option *ngFor="let id of client" [value]="id.value">
-                            {{id.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
                 <div>
                     <ng-select class="custom"
                         [items]="people3$ | async"
@@ -56,15 +47,6 @@
                 </div>
 
                 <!-- mov category  -->
-                <!-- <mat-form-field appearance="outline">
-                    <mat-label>Rubro</mat-label>
-                    <mat-select placeholder="Rubro" formControlName="movement_category_id">
-                        <mat-option *ngFor="let id of movCategory" [value]="id.value">
-                            {{id.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>             -->
-
                 <div>
                     <ng-select class="custom"
                         [items]="movCat | async"

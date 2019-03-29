@@ -62,6 +62,7 @@ export class UserListComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
+            bAutoWidth: false,
 
             ajax: (dataTablesParameters: any, callback) => {
                 that._usersService.getUsersList(dataTablesParameters).subscribe((resp : any) => {
@@ -114,7 +115,7 @@ export class UserListComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(index, deleteRowItem) {
+    openDeleteDialog(deleteRowItem) {
         const title = 'Eliminar Operador'
         let content = 'Estas por Eliminar al Operador: {row.first_name}, Deseas continuar?';
         content = content.replace('{row.first_name}', deleteRowItem.first_name);
@@ -125,15 +126,15 @@ export class UserListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.delete(index, deleteRowItem);
+                this.delete(deleteRowItem);
             }
         });
     }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete( deleteRowItem) {
+        
         this._usersService.delete(deleteRowItem.id).subscribe((response) => {
-            this.handleDeletingSuccess(index)
+            this.handleDeletingSuccess(deleteRowItem)
         }, (error) => {
             this.handleDeletingError(error)
         });
@@ -158,8 +159,10 @@ export class UserListComponent implements OnInit {
      * @param deletedItemIndex
      */
     handleDeletingSuccess(deletedItemIndex) {
-        this.users.splice(deletedItemIndex, 1);
-        this.updateDataSource();
+        let index = this.tableData.findIndex(function(element) {
+            return element.id === deletedItemIndex.id;
+        });
+        this.tableData.splice(index, 1);
         console.log('Delete user successfuly. Todo: Mostrar mensaje delete exitoso');
         this._snackBar.open('Operador eliminado correctamente', '',{
             duration: 4000,

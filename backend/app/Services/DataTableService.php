@@ -45,7 +45,7 @@ class DataTableService
 
         $this->select = <<<SELECT
 SELECT m.id as id,
- m.datetime,
+ m.datetime, 
  mc.name as movement_category_name,
  mt.name as movement_type_name,
  m.concept,
@@ -185,6 +185,7 @@ pc.id as procedure_category_id,
 p.sentencia_corte_suprema,
 p.sentencia_primera_instancia,
 p.sentencia_segunda_instancia,
+c.id as client_id,
  CONCAT(
     COALESCE(c.first_name, ''), ' ',
     COALESCE(c.last_name, ''), ' '
@@ -223,7 +224,7 @@ WHERE;
         ];
 
         $this->orderFields = [
-            'u.name', 'u.first_name', 'u.last_name'
+            'u.username', 'u.first_name', 'u.last_name'
         ];
 
         $this->select = <<<SELECT

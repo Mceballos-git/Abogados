@@ -76,7 +76,7 @@ export class EndpointsConfig {
         LIST: '/procedures-categories/getList',
         GET_ONE: '/procedures-categories/:id',
         DELETE: '/procedures-categories/:id',
-        GET_LIST_SELECT_SEARCH:'/procedures-categories/getMovementCategorySelectSearch'
+        GET_LIST_SELECT_SEARCH:'/procedures-categories/getProcedureCategorySelectSearch'
     };
     PROCEDURES = {
         CREATE: '/procedures',
@@ -84,5 +84,6 @@ export class EndpointsConfig {
         LIST: '/procedures/getList',
         GET_ONE: '/procedures/:id',
         DELETE: '/procedures/:id',
+        GET_LIST_EXCEL : '/procedures/getListForExport',
     };
 }

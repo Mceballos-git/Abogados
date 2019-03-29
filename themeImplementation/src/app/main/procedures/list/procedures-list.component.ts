@@ -92,10 +92,12 @@ export class ProceduresListComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
+            bAutoWidth: false,
+            order:[0, 'desc'],
 
             ajax: (dataTablesParameters: any, callback) => {
                 that._proceduresService.getList(dataTablesParameters).subscribe((resp : any) => {
-                    console.log(resp);
+                    //console.log(resp);
                         this.procedures = resp;
                         this.loaded = true;
 
@@ -165,9 +167,9 @@ export class ProceduresListComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(index, deleteRowItem) {
+    openDeleteDialog(deleteRowItem) {
         const title = 'Eliminar Trámite'
-        let content = 'Estas por Eliminar al trámite: {row.procedure_name}, Deseas continuar?';
+        let content = 'Estas por Eliminar el trámite: {row.procedure_name}, deseas continuar?';
         content = content.replace('{row.procedure_name}', deleteRowItem.procedure_name);
 
         const dialogRef = this._dialog.open(GenericDialogComponent, {
@@ -176,15 +178,15 @@ export class ProceduresListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.delete(index, deleteRowItem);
+                this.delete(deleteRowItem);
             }
         });
     }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete( deleteRowItem) {
+        
         this._proceduresService.delete(deleteRowItem.id).subscribe((response) => {
-            this.handleDeletingSuccess(index)
+            this.handleDeletingSuccess(deleteRowItem)
         }, (error) => {
             this.handleDeletingError(error)
         });
@@ -197,23 +199,19 @@ export class ProceduresListComponent implements OnInit {
         return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
     }
 
-    /**
-     * Update DataSource so entries get deleted from view.
-     */
-    updateDataSource() {
-        this.dataSource.data = this.procedures;
-        this.dataSource.paginator = this.paginator;
-    }
+   
 
     /**
      * Handle Deletion process
      * @param deletedItemIndex
      */
     handleDeletingSuccess(deletedItemIndex) {
-        this.procedures.splice(deletedItemIndex, 1);
-        this.updateDataSource();
-        
-        console.log('Delete procedure successfuly');
+        let index = this.tableData.findIndex(function(element) {
+            return element.id === deletedItemIndex.id;
+        });
+        this.tableData.splice(index, 1);
+                
+        //console.log('Delete procedure successfuly');
         this._snackBar.open('Trámite eliminado correctamente', '', {
             duration: 4000,
             panelClass: ['green']
@@ -225,7 +223,7 @@ export class ProceduresListComponent implements OnInit {
      * @param response
      */
     handleDeletingError(response) {
-        console.log('There was an error while trying to delete procedure');
+        //console.log('There was an error while trying to delete procedure');
         this._snackBar.open('Se ha producido un error al eliminar el trámite', '', {
             duration: 4000,
             panelClass: ['warn']
@@ -234,22 +232,36 @@ export class ProceduresListComponent implements OnInit {
 
     exportAsXLSX(){        
     
-        const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);    
+        let data = [];
+        for(let i = 0, len = this.tableData.length; i < len; i++){
+            let procedureData = {
+                "Trámite" : this.tableData[i].procedure_name,
+                "Cliente" : this.tableData[i].client_name,
+                "Inicio demanda" : this.tableData[i].inicio_demanda,
+                "Sentencia primera instancia" : this.tableData[i].sentencia_primera_instancia,
+                "Sentencia segunda instancia" : this.tableData[i].sentencia_segunda_instancia,
+                "Sentencia corte suprema" : this.tableData[i].sentencia_corte_suprema,
+                "Inicio ejecución" : this.tableData[i].inicio_de_ejecucion,
+                "Observaciones" : this.tableData[i].observaciones,
+            }
+            data.push(procedureData)
+        }
+        
 
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
-
-      /* save to file */
-      XLSX.writeFile(wb, 'tramites.xlsx');
+        this._excelService.exportAsExcelFile(data, 'Tramites');
     
     }
 
     exportFullListAsXLSX(){
-        let excelList = [];
-        for(let i = 0, len = this.procedures.length; i < len; i++) {
-           excelList.push(this.getObjectTranslated(this.procedures[i]));
-        }
-        this._excelService.exportAsExcelFile(excelList, 'Listado De trámites');
+
+        this._proceduresService.getListForExport().subscribe((resp : any) => {
+            let excelList = [];
+            for(let i = 0, len = resp.length; i < len; i++) {
+                excelList.push(this.getObjectTranslated(resp[i]));
+             }
+             this._excelService.exportAsExcelFile(excelList, 'Listado De trámites');
+        });
+        
     }
 
     getObjectTranslated(procedureData) {

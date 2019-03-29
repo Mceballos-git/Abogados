@@ -98,8 +98,19 @@ class ProcedureController extends Controller
      */
     public function getOne($id)
     {
-        $entry = ProcedureModel::with(['client'])->where('id', $id)->first();
+        $entry = ProcedureModel::with(['client'])
+            ->with(['procedureCategory'])->where('id', $id)->first();
         return $this->successResponse($entry);
+    }
+
+    //Para exportar a excel
+    public function getListForExport()
+    {
+        return $this->successResponse(
+            ProcedureModel::with(['procedureCategory'])
+                ->with(['client'])->orderBy('id', 'desc')
+                ->get()
+        );
     }
 
     /**

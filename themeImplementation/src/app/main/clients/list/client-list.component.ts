@@ -63,6 +63,7 @@ export class ClientListComponent implements OnInit {
             pageLength: 10,
             serverSide: true,
             processing: true,
+            bAutoWidth: false,
             ajax: (dataTablesParameters: any, callback) => {
                 that._clientsService.getClientsList(dataTablesParameters).subscribe((resp : any) => {
                     that.tableData = resp.data;
@@ -130,7 +131,7 @@ export class ClientListComponent implements OnInit {
     }
 
     delete(deleteRowItem) {
-        //const index = this.getElementIndex(pageElementIndex);
+       
         this._clientsService.delete(deleteRowItem.id).subscribe((response) => {
             this.handleDeletingSuccess(deleteRowItem)
         }, (error) => {
@@ -138,12 +139,7 @@ export class ClientListComponent implements OnInit {
         });
     }
 
-    // getElementIndex(elementPageIndex) {
-    //     if (this.paginator.pageIndex === 0) {
-    //         return elementPageIndex;
-    //     }
-    //     return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
-    // }
+    
 
     /**
      * Update DataSource so entries get deleted from view.
@@ -199,12 +195,40 @@ export class ClientListComponent implements OnInit {
             this.updateDataSource();
         }, (error) => {
             console.log(error);
-
+ 
         });
     }
 
     exportAsXLSX() {
-       this.excelService.exportAsExcelFile(this.tableData, 'Clientes Visualizados');
+
+        let data = [];
+       
+        for(let i = 0, len = this.tableData.length; i < len; i++){
+            let clientData = {
+                "Nombre": this.tableData[i].first_name,
+                "Apellido": this.tableData[i].last_name,
+                "Tipo doc": this.tableData[i].identification_type,
+                "Numero doc": this.tableData[i].identification_number,
+                "CUIL-CUIT": this.tableData[i].tin_number,
+                "Fecha Nacimiento": this.tableData[i].date_of_birth,
+                "Numero de Telefono": this.tableData[i].phone_number,
+                "email": this.tableData[i].email,
+                "Direccion calle": this.tableData[i].street_address,
+                "Direccion numero": this.tableData[i].number_address,
+                "Piso": this.tableData[i].floor_address,
+                "Dpto": this.tableData[i].department_address,
+                "Pais": this.tableData[i].country,
+                "Provincia": this.tableData[i].state,
+                "Ciudad": this.tableData[i].city,
+                "Nacionalidad": this.tableData[i].nationality,
+                "Observaciones": this.tableData[i].observations,
+                "Saldo": this.tableData[i].balance,
+                "Activo": this.tableData[i].active,
+            }
+        
+            data.push(clientData);
+        }
+       this.excelService.exportAsExcelFile(data, 'Clientes Visualizados');
     }
 
     exportFullListAsXLSX() {

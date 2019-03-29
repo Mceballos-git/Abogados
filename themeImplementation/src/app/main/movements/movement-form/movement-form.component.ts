@@ -177,6 +177,8 @@ export class MovementFormComponent implements OnInit {
     initUpdate(resourceId) {
         this.resourceId = this.resourceId;
         this._movementService.getOne(resourceId).subscribe(response => {
+            console.log(response);
+            
             this.resource = response;
             this.createForm(response);
             console.log(response);
@@ -198,7 +200,7 @@ export class MovementFormComponent implements OnInit {
 
         
         this.form = new FormGroup({
-            'datetime': new FormControl(moment()),     
+            'datetime': new FormControl(formData.datetime),     
             'amount': new FormControl(formData.amount, Validators.required),
             'concept': new FormControl(formData.concept, Validators.required),
             'movement_type_id': new FormControl(formData.movement_type_id, Validators.required),
@@ -209,28 +211,16 @@ export class MovementFormComponent implements OnInit {
 
         if (this.action === 2) {
             
-            let dataClient;
-            let movCatName;
-            if (formData.client) {
-                dataClient = formData.client.first_name + ' ' + formData.client.last_name;
+            if(data.client){
+                let dataClient = {id: data.client.id, text: data.client.first_name + ' ' + data.client.last_name};
+                this.form.get('client_id').setValue(dataClient);
             }
-            else {
-                dataClient = '';
+           
+            if(data.movement_category){
+                let movCatName = {id: data.movement_category.id, text: data.movement_category.name};
+                this.form.get('movement_category_id').setValue(movCatName);           
             }
-
-            if (formData.movement_category) {
-                movCatName = formData.movement_category.name;
-            }
-            else {
-                movCatName = '';
-            }
-
-            this.form.get('client_id').setValue(dataClient);
-            this.form.get('movement_category_id').setValue(movCatName);           
-
-        }
-        
-        
+        }        
     }
 
     /**
@@ -242,14 +232,12 @@ export class MovementFormComponent implements OnInit {
     private getInitialFormData(data) {
         return {
 
-            'datetime':  data ? data.datetime : '',
+            'datetime':  data ? data.created_at : '',
             'amount': data ? data.amount : 0,
             'concept': data ? data.concept : '',
             'movement_type_id': data ? data.movement_type_id : '',
-            'movement_category_id': data ? data.movement_category_id : '',   
-            'movement_category': data ? data.movement_category : '',   
-            'client_id':  data ? data.client_id : '',    
-            'client':  data ? data.client : '',    
+            'movement_category_id': data ? data.movement_category_id : '',                
+            'client_id':  data ? data.client_id : '',                    
         }
 
         

@@ -16,102 +16,19 @@
                 Exportar listado completo a Excel
             </button>       
         </div>
+        
 
-        <!-- <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-        </mat-form-field>
-
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort #table>
-               
-               
-                <ng-container matColumnDef="procedure_category_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Trámite </th>
-                    <td nowrap class="w20" mat-cell *matCellDef="let row"> 
-                        <p *ngIf="row.procedure_category">
-                            {{row.procedure_category.name}}
-                        </p> 
-                    </td>
-                </ng-container>
-
-                
-                <ng-container matColumnDef="client_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
-                    <td nowrap class="w20" mat-cell *matCellDef="let row"> 
-                    <p *ngIf="row.client">
-                        {{row.client.first_name + ' ' + row.client.last_name}}
-                    </p>   
-                    </td>
-                </ng-container>
-                
-                <ng-container matColumnDef="inicio_demanda">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio demanda </th>
-                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.inicio_demanda}} </td>
-                </ng-container>
-                
-                <ng-container matColumnDef="sentencia_primera_instancia">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sentencia primera instancia </th>
-                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_primera_instancia}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="sentencia_segunda_instancia">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sentencia segunda instancia </th>
-                    <td  nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_segunda_instancia}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="sentencia_corte_suprema">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sentencia Corte Suprema </th>
-                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.sentencia_corte_suprema}} </td>
-                </ng-container>
-
-                 
-                 <ng-container matColumnDef="inicio_de_ejecucion">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio de ejecución </th>
-                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.inicio_de_ejecucion}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="observaciones">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones </th>
-                    <td nowrap class="w15" mat-cell *matCellDef="let row"> {{row.observaciones}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                    <td mat-cell *matCellDef="let row; let i = index" [style.color]="row.color">
-                        <div class="clickeable">
-
-                           
-                            <mat-icon matSuffix class="secondary-text" color="primary"
-                            [routerLink]="['/procedure/update', row.id]">edit</mat-icon>
-
-                            
-                            <mat-icon matSuffix class="secondary-text" color="warn"
-                             (click)="openDeleteDialog(i, row)">delete</mat-icon>
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index">
-                </tr>
-            </table>
-
-            <mat-paginator   
-            [pageSize] = "pageSize"       
-            [pageSizeOptions]="[5, 10, 25, 100, 250,500]"></mat-paginator>
-        </div> -->
-
-        <table datatable [dtOptions]="dtOptions" class="row-border hover">
+        <table datatable [dtOptions]="dtOptions" class="row-border hover design">
             <thead>
             <tr>
-                <th>Trámite</th>
-                <th>Cliente</th>
-                <th>Inicio demanda</th>
-                <th>Sentencia primera instancia</th>
-                <th>Sentencia segunda instancia</th>
-                <th>Sentencia Corte Suprema</th>
-                <th>Inicio de ejecución</th>
-                <th>Observaciones</th>
+                <th >Trámite</th>
+                <th >Cliente</th>
+                <th >Inicio demanda</th>
+                <th >Sentencia primera instancia</th>
+                <th >Sentencia segunda instancia</th>
+                <th >Sentencia Corte Suprema</th>
+                <th >Inicio de ejecución</th>
+                <th >Observaciones</th>
                 <th>Acciones</th>
             </tr>
             </thead>

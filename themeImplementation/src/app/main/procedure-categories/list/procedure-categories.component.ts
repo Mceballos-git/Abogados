@@ -59,6 +59,7 @@ export class ProcedureCategoriesComponent implements OnInit {
             serverSide: true,
             processing: true,
             bAutoWidth: false,
+            order: [0,'desc'],
             ajax: (dataTablesParameters: any, callback) => {
                 that._procedureCategoriesService.getCategoriesList(dataTablesParameters).subscribe((resp : any) => {
                     that.tableData = resp.data;
@@ -149,10 +150,10 @@ export class ProcedureCategoriesComponent implements OnInit {
    * @param deletedItemIndex
    */
   handleDeletingSuccess(deletedItemIndex) {
-      this.procedureCategories.splice(deletedItemIndex, 1);
-      console.log(deletedItemIndex);
-      
-      this.updateDataSource();
+        let index = this.tableData.findIndex(function(element) {
+            return element.id === deletedItemIndex.id;
+        });
+        this.tableData.splice(index, 1);
       console.log('Delete procedure-category successfuly. Todo: Mostrar mensaje delete exitoso');
       this._snackBar.open('Trámite eliminado correctamente', '',{
         duration: 4000,
