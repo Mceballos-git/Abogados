@@ -13,7 +13,7 @@
     "last_name": "required|string",
     "nationality": "string",
     "identification_type": "string",
-    "identification_number": "string",
+    "identification_number": "sometimes",
     "date_of_birth": "nullable",
     "phone_number": "string",
     "email": "string",
