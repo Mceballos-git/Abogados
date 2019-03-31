@@ -21,6 +21,7 @@ import * as _moment from 'moment';
 import { Subject, Observable, of, concat } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { validateBasis } from '@angular/flex-layout';
 
 const moment = _moment;
 
@@ -187,7 +188,7 @@ export class ProcedureFormComponent implements OnInit {
         const formData = this.getInitialFormData(data);       
         
         this.form = new FormGroup({
-            'procedure_category_id': new FormControl(formData.procedure_category_id),     
+            'procedure_category_id': new FormControl(formData.procedure_category_id,Validators.required),     
             'inicio_demanda': new FormControl(formData.inicio_demanda),
             'sentencia_primera_instancia': new FormControl(formData.sentencia_primera_instancia),
             'sentencia_segunda_instancia': new FormControl(formData.sentencia_segunda_instancia),

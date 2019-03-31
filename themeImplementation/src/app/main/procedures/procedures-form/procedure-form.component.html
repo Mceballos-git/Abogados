@@ -20,7 +20,7 @@
                         [loading]="people3Loading"
                         [typeahead]="people3input$"                              
                         formControlName="client_id"                        
-                        >                
+                        required>                
                     </ng-select>
                     <mat-error *ngIf="form.get('client_id').hasError('required') && form.get('client_id').touched">
                         Debe seleccionar un cliente
@@ -40,11 +40,11 @@
                         [loading]="procedureCatLoading"
                         [typeahead]="procedureCatInput"                              
                         formControlName="procedure_category_id"                    
-                        required>     
-                        <mat-error *ngIf="form.get('procedure_category_id').hasError('required') && form.get('procedure_category_id').touched">
-                            Debe seleccionar un tipo de trámite
-                        </mat-error>        
+                        required>                              
                     </ng-select>
+                    <mat-error *ngIf="form.get('procedure_category_id').hasError('required') && form.get('procedure_category_id').touched">
+                        Debe seleccionar un tipo de trámite
+                    </mat-error>   
                 </div>
                      
                 
