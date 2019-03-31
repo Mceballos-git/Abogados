@@ -1,7 +1,7 @@
 {
   "identifier": "getList",
-  "requestType": "GET",
-  "endpoint": "/",
+  "requestType": "POST",
+  "endpoint": "/getList",
   "controller": "App\\Http\\Controllers\\UserController",
   "action": "getList",
   "authenticationMiddleware": "true",

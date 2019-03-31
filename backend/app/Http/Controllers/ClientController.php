@@ -7,12 +7,35 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Services\FluffyQueryService;
+use App\Services\DataTableService;
+use Illuminate\Support\Facades\DB;
+use App\Services\ClientService;
+use stdClass;
 
 class ClientController extends Controller
 {
-    public function __construct(FluffyQueryService $clientService)
+    /**
+     * @var ClientService
+     */
+    protected $clientService;
+
+    /**
+     * @var DataTableService
+     */
+    protected $dataTableService;
+
+    /**
+     * MovementController constructor.
+     * @param ClientService $clientService
+     * @param DataTableService $dataTableService
+     */
+    public function __construct(
+        ClientService $clientService,
+        DataTableService $dataTableService
+    )
     {
-        $this->FluffyQueryService = $clientService;
+        $this->clientService = $clientService;
+        $this->dataTableService = $dataTableService;
     }
 
     /**
@@ -74,14 +97,71 @@ class ClientController extends Controller
 
         return $this->successResponse($result);
     }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList()
+    public function getList(Request $request)
+    {
+        $params = $request->all();
+        return $this->successResponse($this->dataTableService->getClientsDataTableList($params));
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function getActiveClientsSelectSearch(Request $request)
+    {
+        // Si no proveen ningun filtro vamos a retornar vacio, no queremos retonar todos
+        // los clientes para evitar problemas de performance
+        if (!$filter = $request->input('filter')) {
+            return $this->successResponse([]);
+        }
+
+        $filterValue = $filter .'%';
+        $fieldsToFilter = ['first_name', 'last_name'];
+        $query = ClientModel::select('id', 'first_name', 'last_name', 'phone_number')
+            ->where('active', 1)
+            ->whereNull('deleted_by')
+            ->where(function($q) use ($fieldsToFilter, $filterValue) {
+                foreach ($fieldsToFilter as $k => $field) {
+                    if ($k === 0) {
+                        $q->where($field, 'like', $filterValue);
+                        continue;
+                    }
+                    $q->orWhere($field, 'like', $filterValue);
+                }
+            });
+
+        $entries = $query->get();
+
+        // Si la query no devolvio ningun resultado devolvemos un array vacio.
+        if (!count($entries)) {
+            return $this->successResponse([]);
+
+        }
+        // por cada uno de las entradas devueltas por las queries Creamos un objecto nuevo con Id y Texto
+        // que se van a mostrar en la ui, y lo incluimos en el array que vamos a mandar a la ui
+        $data = [];
+        foreach ($entries as $entry) {
+            $obj = new \stdClass();
+            $obj->id = $entry->id;
+            $obj->text = $entry->first_name . ' ' . $entry->last_name;
+            $obj->phone = $entry->phone_number;
+            array_push($data, $obj);
+        }
+
+        return $this->successResponse($data);
+    }
+
+
+    public function getListForExport()
     {
         return $this->successResponse(
-            ClientModel::orderBy('last_name', 'asc')->get()
+            ClientModel::orderBy('last_name', 'asc')
+                ->whereNull('deleted_by')
+                ->get()
         );
     }
 

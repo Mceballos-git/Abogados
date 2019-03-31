@@ -19,19 +19,15 @@
                 <strong>Fecha: {{eventDate}}</strong>
             </div>
 
-            <mat-form-field appearance="outline" class="w-100-p">
-                <mat-label>Titulo</mat-label>
-                <input matInput formControlName="title">
-                <mat-error *ngIf="eventForm.get('title').hasError('required') && eventForm.get('title').touched">
-                   Título Requerido
-                </mat-error>        
-            </mat-form-field>
-
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
                     <mat-label>Hora inicio</mat-label>
-                    <input matInput type="time" formControlName="turn_time_start">
+                    <mat-select placeholder="Hora Inicio" formControlName="turn_time_start">
+                        <mat-option *ngFor="let id of horarios" [value]="id">
+                            {{id}}
+                        </mat-option>
+                    </mat-select>                    
                     <mat-error *ngIf="eventForm.get('turn_time_start').hasError('required') && eventForm.get('turn_time_start').touched">
                         Horario inicio requerido
                     </mat-error>
@@ -39,56 +35,74 @@
 
                 <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="50">
                     <mat-label>Hora fin</mat-label>
-                    <input matInput type="time" formControlName="turn_time_end">
+                    <mat-select placeholder="Hora Inicio" formControlName="turn_time_end">
+                        <mat-option *ngFor="let id of horarios" [value]="id">
+                            {{id}}
+                        </mat-option>
+                    </mat-select>                       
                     <mat-error *ngIf="eventForm.get('turn_time_end').hasError('required') && eventForm.get('turn_time_end').touched">
                         Horario fin requerido
                     </mat-error>
                 </mat-form-field>
             </div>
-
-            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
-                <mat-form-field appearance="outline" class="pr-sm-8">
-
-                    <mat-label>Cliente</mat-label>
-                    <mat-select placeholder="Cliente" formControlName="client_id" (selectionChange)="clientPhone($event)">
-                        <mat-option *ngFor="let c of client" [value]="c.value">
-                            {{c.viewValue}}
-                        </mat-option>
-                        <mat-error *ngIf="eventForm.get('client_id').hasError('required') && eventForm.get('client_id').touched">
-                            Debe seleccionar un cliente
-                        </mat-error>
-                    </mat-select>
-                </mat-form-field>
+                    
+            <div>
+                <ng-select class="custom"
+                    [items]="people3$ | async"
+                    bindLabel="text"
+                    placeholder="Cliente"
+                    [addTag]="false"
+                    [multiple]="false"
+                    [hideSelected]="true"
+                    [loading]="people3Loading"
+                    [typeahead]="people3input$"                              
+                    formControlName="client_id"
+                    (change) = "clientPhone($event)"
+                    required>                
+                </ng-select>
+                <mat-error *ngIf="eventForm.get('client_id').hasError('required') && eventForm.get('client_id').touched">
+                    Debe seleccionar un cliente
+                </mat-error>
             </div>
 
-            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
-
-                <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
-
-                    <mat-label>Turno dado por:</mat-label>
-                    <mat-select placeholder="Turno dado por:" formControlName="given_user_id">
-                        <mat-option *ngFor="let id of user" [value]="id.value">
-                            {{id.viewValue}}
-                        </mat-option>
-                        <mat-error *ngIf="eventForm.get('given_user_id').hasError('required') && eventForm.get('given_user_id').touched">
-                            Debe indicar quien da el turno
-                        </mat-error>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
-                    <mat-label>Turno atendido por:</mat-label>
-                    <mat-select placeholder="Turno atendido por:" formControlName="attention_user_id" >
-                        <mat-option *ngFor="let id of user" [value]="id.value">
-                            {{id.viewValue}}
-                        </mat-option>
-                        <mat-error *ngIf="eventForm.get('attention_user_id').hasError('required') && eventForm.get('attention_user_id').touched">
-                            Debe indicar quien atenderá el turno
-                        </mat-error>
-                    </mat-select>
-                </mat-form-field>
-
+            <div>
+                <ng-select class="custom"
+                    [items]="users | async"
+                    bindLabel="text"
+                    placeholder="Turno dado por:"
+                    [addTag]="false"
+                    [multiple]="false"
+                    [hideSelected]="true"
+                    [loading]="usersLoading"
+                    [typeahead]="userInput"                              
+                    formControlName="given_user_id"                    
+                    required>                
+                </ng-select>
+                <mat-error *ngIf="eventForm.get('given_user_id').hasError('required') && eventForm.get('given_user_id').touched">
+                    Debe indicar quien da el turno
+                </mat-error>
             </div>
+
+            <div>
+                <ng-select class="custom"
+                    [items]="users | async"
+                    bindLabel="text"
+                    placeholder="Turno atendido por:"
+                    [addTag]="false"
+                    [multiple]="false"
+                    [hideSelected]="true"
+                    [loading]="usersLoading"
+                    [typeahead]="userInput"                              
+                    formControlName="attention_user_id"                    
+                    required>     
+                    <mat-error *ngIf="eventForm.get('attention_user_id').hasError('required') && eventForm.get('attention_user_id').touched">
+                        Debe indicar quien atenderá el turno
+                    </mat-error>           
+                </ng-select>
+            </div>
+            
+
+           
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 
                 <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">

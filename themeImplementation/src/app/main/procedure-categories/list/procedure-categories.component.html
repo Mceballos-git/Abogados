@@ -3,48 +3,42 @@
   <div *ngIf="!loaded">
       cargando....
   </div>
-  <div [hidden]="!loaded">
-      <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-      </mat-form-field>
+  <div [hidden]="!loaded" class="design">
+      
+      <table datatable [dtOptions]="dtOptions" class="row-border hover">
+        <thead>
+        <tr>
+            <!-- <th class="w5">ID</th> -->
+            <th>Nombre</th>            
+            <th class="w5">Acciones</th>            
+        </tr>
+        </thead>
+        <tbody *ngIf="tableData?.length != 0">
+        <tr *ngFor="let row of tableData">
+            <!-- <td>{{row.id}}</td> -->
+            <td>{{row.procedure_category_name}}</td>            
+            <td>
+                <ng-container matColumnDef="actions">
+                    <div class="clickeable">
+                        <!-- edit -->
+                        <mat-icon matSuffix class="secondary-text" color="primary"
+                                  [routerLink]="['/procedure-categories/update', row.id]">edit
+                        </mat-icon>
 
-      <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort>
-
-              <!-- ID Column -->
-              <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                  <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-              </ng-container>
-
-              <!-- name Column -->
-              <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-                  <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                  <td mat-cell *matCellDef="let row; let i = index;" [style.color]="row.color">
-                      
-                      <div class="clickeable">
-                          <mat-icon matSuffix class="secondary-text" color="primary"
-                            [routerLink]="['/procedure-categories/update', row.id]">edit</mat-icon>
-                          <mat-icon matSuffix class="secondary-text clickeable" color="warn"
-                           (click)="openDeleteDialog(i, row)">delete</mat-icon>
-                      </div>
-                      
-                  </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
-              </tr>
-          </table>
-
-          <mat-paginator 
-          [pageSize] = "pageSize"
-          [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-      </div>
+                        <!-- delete -->
+                        <mat-icon matSuffix class="secondary-text" color="warn"
+                                  (click)="openDeleteDialog(row)">delete
+                        </mat-icon>
+                    </div>
+                </ng-container>
+            </td>
+        </tr>
+        </tbody>
+        <tbody *ngIf="tableData?.length == 0">
+        <tr>
+            <td colspan="3" class="no-data-available"> No se encontraron Registros.</td>
+        </tr>
+        <tbody>
+    </table>
   </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TurnModel;
+use App\Models\ClientModel;
 use Illuminate\Http\Request;
 use App\Traits\ResponseHandlerTrait;
 
@@ -53,7 +54,9 @@ class TurnController extends Controller
             'office_id' => 1
         ]);
 
-        return $this->successResponse($result);
+        return $this->successResponse( 
+            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $result->id)->first()
+        );
     }
 
     /**
@@ -63,7 +66,7 @@ class TurnController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            TurnModel::get()
+            TurnModel::with(['client', 'attentionUser', 'givenUser'])->get()
         );
     }
 
@@ -74,8 +77,8 @@ class TurnController extends Controller
      */
     public function getOne($id)
     {
-        $entry = TurnModel::where('id', $id)->first();
-        return $this->successResponse($entry);
+        $entry = TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $id)->first();
+        return $this->successResponse($entry);        
     }
 
     /**
@@ -102,7 +105,9 @@ class TurnController extends Controller
             'active'
         ));
         TurnModel::where('id', $id)->update($requestData);
-        return $this->successResponse(TurnModel::where('id', $id)->first());
+        return $this->successResponse( 
+            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $id)->first()
+        );
     }
 
     /**

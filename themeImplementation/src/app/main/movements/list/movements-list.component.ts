@@ -13,8 +13,17 @@ import {MovementsService} from 'app/main/services/movements.service';
     templateUrl: './movements-list.component.html',
 
 })
+//
+// class DataTablesResponse {
+//     data: any[];
+//     draw: number;
+//     recordsFiltered: number;
+//     recordsTotal: number;
+// }
 
 export class MovementsListComponent implements OnInit {
+
+    dtOptions : any;
 
     displayedColumns: string[] = ['datetime', 'movement_category_id', 'client_id', 'movement_type_id', 'amount', 'concept', 'user_id', 'actions'];
     movements: any;
@@ -29,12 +38,15 @@ export class MovementsListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private _movService: MovementsService,
-                private _fuseConfigService: FuseConfigService,
-                private _dialog: MatDialog,
-                private _snackBar: MatSnackBar) {
-        this.loaded = false;
+    constructor(
+        private _movService: MovementsService,
+        private _fuseConfigService: FuseConfigService,
+        private _dialog: MatDialog,
+        private _snackBar: MatSnackBar
+    ) {
+
         // Configure the layout
+        this.loaded = false;
         this._fuseConfigService.config = {
             layout: {
                 navbar: {
@@ -53,57 +65,80 @@ export class MovementsListComponent implements OnInit {
         };
     }
 
+    dataTableParameters: any;
+    tableData : any
     ngOnInit() {
 
-        this._movService.getList().subscribe(response => {
-            //console.log(response);
-            this.movements = response;
-            this.loaded = true;
-            this.balance = this.getBalance();
+        let that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+            bAutoWidth: false,
+            order: [0, 'desc'],           
 
+            
+            ajax: (dataTablesParameters: any, callback) => {
+                that.dataTableParameters = dataTablesParameters;
+                that._movService.getList(dataTablesParameters).subscribe((resp : any) => {
+                    that.tableData = resp.data;
+                    that.loaded = true;
+                    this.getBalance(dataTablesParameters);
+                    this.dtTrigger.next();
 
-            // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.movements);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
-                if (length == 0 || pageSize == 0) {
-                    return `0 de ${length}`;
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
-                length = Math.max(length, 0);
-                const startIndex = page * pageSize;
-                const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-                return `${startIndex + 1} - ${endIndex} de ${length}`;
-
             }
-
-            this.dtTrigger.next();
-        }, (error) => {
-            console.log(error);
-        });
-
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
 
     }
 
-    getBalance() {
+    getBalance(parameters) {
         this.balance = 0;
         this.incomes = 0;
         this.outcomes = 0;
-        for (let i = 0, len = this.movements.length; i < len; i++) {
 
-            if (this.movements[i].movement_type_id === 1) {
-                this.balance = this.balance - this.movements[i].amount;
-                this.outcomes = this.outcomes + this.movements[i].amount;
-            }
+        // Hacer Request a nuevo Endpoint que devuelva esa info calculada desde el server.
+        this._movService.getTotalBalance(parameters).subscribe((response:any)=>{
+           // console.log(response);
+            this.balance = response.balance;
+            this.incomes = response.incomes;
+            this.outcomes = response.outcomes;
+        }, error=>{
+            console.log(error);
+            
+        });
 
-            if (this.movements[i].movement_type_id === 2) {
-                this.balance = this.balance + this.movements[i].amount;
-                this.incomes = this.incomes + this.movements[i].amount;
-            }
-
-        }
-        return this.balance;
     }
 
 
@@ -115,7 +150,7 @@ export class MovementsListComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(index, deleteRowItem) {
+    openDeleteDialog(deleteRowItem) {
         const title = 'Eliminar Movimiento'
         let content = 'Estas por Eliminar al movimiento: {row.concept}, Deseas continuar?';
         content = content.replace('{row.concept}', deleteRowItem.concept);
@@ -126,43 +161,32 @@ export class MovementsListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.delete(index, deleteRowItem);
+                this.delete(deleteRowItem);
             }
         });
     }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete(deleteRowItem) {
         this._movService.delete(deleteRowItem.id).subscribe((response) => {
-            this.handleDeletingSuccess(index)
+            this.handleDeletingSuccess(deleteRowItem);
         }, (error) => {
             this.handleDeletingError(error)
         });
-    }
-
-    getElementIndex(elementPageIndex) {
-        if (this.paginator.pageIndex === 0) {
-            return elementPageIndex;
-        }
-        return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
-    }
-
-    /**
-     * Update DataSource so entries get deleted from view.
-     */
-    updateDataSource() {
-        this.dataSource.data = this.movements;
-        this.dataSource.paginator = this.paginator;
     }
 
     /**
      * Handle Deletion process
      * @param deletedItemIndex
      */
-    handleDeletingSuccess(deletedItemIndex) {
-        this.movements.splice(deletedItemIndex, 1);
-        this.updateDataSource();
-        this.getBalance();
+    handleDeletingSuccess(deleteRowItem) {
+
+        let index = this.tableData.findIndex(function(element) {
+            return element.id === deleteRowItem.id;
+        });
+
+        console.log(index);
+        this.tableData.splice(index, 1);
+        this.getBalance(this.dataTableParameters);
         console.log('Delete movement successfuly');
         this._snackBar.open('Movimiento eliminado correctamente', '', {
             duration: 4000,

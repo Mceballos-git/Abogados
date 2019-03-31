@@ -22,34 +22,39 @@ export class EndpointsConfig {
     USERS = {
         CREATE: '/users',
         UPDATE: '/users/:id',
-        LIST: '/users',
+        LIST: '/users/getList',
         GET_ONE: '/users/:id',
         DELETE: '/users/:id',
-        GET_PROFILE:'/users/getProfile'
+        GET_PROFILE:'/users/getProfile',
+        GET_LIST_ACTIVE_SELECT_SEARCH:'/users/getUsersSelectSearch',
     };
     CLIENTS = {
         CREATE: '/clients',
         UPDATE: '/clients/:id',
-        LIST: '/clients',
+        LIST: '/clients/getList',
         GET_ONE: '/clients/:id',
         DELETE: '/clients/:id',
         ACTIVATE: '/clients/activate',
         DEACTIVATE: '/clients/deactivate',
-        GET_LIST_ACTIVE:'/clients/getListActive'
+        GET_LIST_ACTIVE:'/clients/getListActive',
+        GET_LIST_EXCEL : '/clients/getListForExport',
+        GET_LIST_ACTIVE_SELECT_SEARCH:'/clients/getActiveClientsSelectSearch',
     };
     MOVEMENTS_CATEGORIES = {
         CREATE: '/movements-categories',
         UPDATE: '/movements-categories/:id',
-        LIST: '/movements-categories',
+        LIST: '/movements-categories/getList',
         GET_ONE: '/movements-categories/:id',
         DELETE: '/movements-categories/:id',
+        GET_LIST_SELECT_SEARCH:'/movements-categories/getMovementCategorySelectSearch'
     };
     MOVEMENTS = {
         CREATE: '/movements',
         UPDATE: '/movements/:id',
-        LIST: '/movements',
+        LIST: '/movements/getList',
         GET_ONE: '/movements/:id',
         DELETE: '/movements/:id',
+        GET_TOTAL_BALANCE: '/movements/getTotalBalance',
     };
     OFFICES = {
         CREATE: '/offices',
@@ -68,15 +73,17 @@ export class EndpointsConfig {
     PROCEDURES_CATEGORIES = {
         CREATE: '/procedures-categories',
         UPDATE: '/procedures-categories/:id',
-        LIST: '/procedures-categories',
+        LIST: '/procedures-categories/getList',
         GET_ONE: '/procedures-categories/:id',
         DELETE: '/procedures-categories/:id',
+        GET_LIST_SELECT_SEARCH:'/procedures-categories/getProcedureCategorySelectSearch'
     };
     PROCEDURES = {
         CREATE: '/procedures',
         UPDATE: '/procedures/:id',
-        LIST: '/procedures',
+        LIST: '/procedures/getList',
         GET_ONE: '/procedures/:id',
         DELETE: '/procedures/:id',
+        GET_LIST_EXCEL : '/procedures/getListForExport',
     };
 }

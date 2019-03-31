@@ -8,11 +8,6 @@ import {FuseConfigService} from '@fuse/services/config.service';
 import {GenericDialogComponent} from 'app/main/common/generic-dialog/generic-dialog.component';
 import {ExcelService} from 'app/main/services/excel.service';
 
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
-
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     selector: 'client-list',
@@ -30,6 +25,8 @@ export class ClientListComponent implements OnInit {
     loaded: boolean;
     dtTrigger: Subject<any> = new Subject();
     pageSize = 10;
+    tableData : any;
+    dtOptions : any;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -60,35 +57,53 @@ export class ClientListComponent implements OnInit {
     }
 
     ngOnInit() {
+            let that = this;
+            this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+            bAutoWidth: false,
+            ajax: (dataTablesParameters: any, callback) => {
+                that._clientsService.getClientsList(dataTablesParameters).subscribe((resp : any) => {
+                    that.tableData = resp.data;
+                    that.loaded = true;
+                    
+                    this.dtTrigger.next();
 
-        this._clientsService.getClientsList().subscribe(response => {
-            this.clients = response;
-            this.loaded = true;
-
-
-            // Assign the data to the data source for the table to render
-            this.dataSource = new MatTableDataSource(this.clients);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
-            this.paginator._intl.getRangeLabel = function (page, pageSize, length) {
-                if (length == 0 || pageSize == 0) {
-                    return `0 de ${length}`;
+                    callback({
+                        recordsTotal: resp.recordsTotal,
+                        recordsFiltered: resp.recordsFiltered,
+                        data: []
+                    });
+                });
+            },
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
-                length = Math.max(length, 0);
-                const startIndex = page * pageSize;
-                const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-                return `${startIndex + 1} - ${endIndex} de ${length}`;
-
             }
-            //this.paginator.pageSize= 10;
-
-            this.dtTrigger.next();
-        }, (error) => {
-            console.log(error);
-        });
-
-
+            // columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+        };
     }
 
     applyFilter(filterValue: string) {
@@ -99,7 +114,7 @@ export class ClientListComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(index, deleteRowItem) {
+    openDeleteDialog(deleteRowItem) {
         const title = 'Eliminar Cliente'
         let content = 'Estas por Eliminar al Cliente: {row.first_name}, Deseas continuar?';
         content = content.replace('{row.first_name}', deleteRowItem.first_name);
@@ -110,41 +125,40 @@ export class ClientListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.delete(index, deleteRowItem);
+                this.delete(deleteRowItem);
             }
         });
     }
 
-    delete(pageElementIndex, deleteRowItem) {
-        const index = this.getElementIndex(pageElementIndex);
+    delete(deleteRowItem) {
+       
         this._clientsService.delete(deleteRowItem.id).subscribe((response) => {
-            this.handleDeletingSuccess(index)
+            this.handleDeletingSuccess(deleteRowItem)
         }, (error) => {
             this.handleDeletingError(error)
         });
     }
 
-    getElementIndex(elementPageIndex) {
-        if (this.paginator.pageIndex === 0) {
-            return elementPageIndex;
-        }
-        return (this.paginator.pageSize * this.paginator.pageIndex) + elementPageIndex;
-    }
+    
 
     /**
      * Update DataSource so entries get deleted from view.
      */
     updateDataSource() {
-        this.dataSource.data = this.clients;
+        this.dataSource = this.tableData;
     }
 
     /**
      * Handle Deletion process
      * @param deletedItemIndex
      */
-    handleDeletingSuccess(deletedItemIndex) {
-        this.clients.splice(deletedItemIndex, 1);
-        this.updateDataSource();
+    handleDeletingSuccess(deleteRowItem) {
+        //this.clients.splice(deletedItemIndex, 1);
+        let index = this.tableData.findIndex(function(element) {
+            return element.id === deleteRowItem.id;
+        });
+
+        this.tableData.splice(index, 1);
         console.log('Delete client successfuly. Todo: Mostrar mensaje delete exitoso');
         this._snackBar.open('Cliente eliminado correctamente', '', {
             duration: 4000,
@@ -167,7 +181,7 @@ export class ClientListComponent implements OnInit {
     activate(id, index) {
         this._clientsService.activate(id).subscribe((response) => {
             console.log('client activated ok');
-            this.clients[index].active = 1;
+            this.tableData[index].active = 1;
             this.updateDataSource();
         }, (error) => {
             console.log(error);
@@ -177,33 +191,54 @@ export class ClientListComponent implements OnInit {
     deactivate(id, index) {
         this._clientsService.deactivate(id).subscribe((response) => {
             console.log('client deactivated ok');
-            this.clients[index].active = 0;
+            this.tableData[index].active = 0;
             this.updateDataSource();
         }, (error) => {
             console.log(error);
-
+ 
         });
     }
 
     exportAsXLSX() {
 
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
-
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
-
-        /* save to file */
-        XLSX.writeFile(wb, 'cliente.xlsx');
-
+        let data = [];
+       
+        for(let i = 0, len = this.tableData.length; i < len; i++){
+            let clientData = {
+                "Nombre": this.tableData[i].first_name,
+                "Apellido": this.tableData[i].last_name,
+                "Tipo doc": this.tableData[i].identification_type,
+                "Numero doc": this.tableData[i].identification_number,
+                "CUIL-CUIT": this.tableData[i].tin_number,
+                "Fecha Nacimiento": this.tableData[i].date_of_birth,
+                "Numero de Telefono": this.tableData[i].phone_number,
+                "email": this.tableData[i].email,
+                "Direccion calle": this.tableData[i].street_address,
+                "Direccion numero": this.tableData[i].number_address,
+                "Piso": this.tableData[i].floor_address,
+                "Dpto": this.tableData[i].department_address,
+                "Pais": this.tableData[i].country,
+                "Provincia": this.tableData[i].state,
+                "Ciudad": this.tableData[i].city,
+                "Nacionalidad": this.tableData[i].nationality,
+                "Observaciones": this.tableData[i].observations,
+                "Saldo": this.tableData[i].balance,
+                "Activo": this.tableData[i].active,
+            }
+        
+            data.push(clientData);
+        }
+       this.excelService.exportAsExcelFile(data, 'Clientes Visualizados');
     }
 
-
     exportFullListAsXLSX() {
-        let excelList = [];
-        for (let i = 0, len = this.clients.length; i < len; i++) {
-            excelList.push(this.getClientObjectTranslated(this.clients[i]));
-        }
-        this.excelService.exportAsExcelFile(excelList, 'Listado De Clientes');
+        this._clientsService.getClientListForExport().subscribe((resp : any) => {
+            let clients = [];
+            for (let i = 0, len = resp.length; i < len; i++) {
+                clients.push(this.getClientObjectTranslated(resp[i]));
+            }
+            this.excelService.exportAsExcelFile(clients, 'Listado Total De Clientes');
+        });
     }
 
     getClientObjectTranslated(client) {

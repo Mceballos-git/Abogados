@@ -1,9 +1,9 @@
 {
-  "identifier": "getList",
+  "identifier": "getListForExport",
   "requestType": "GET",
-  "endpoint": "/",
+  "endpoint": "/getListForExport",
   "controller": "App\\Http\\Controllers\\ClientController",
-  "action": "getList",
+  "action": "getListForExport",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "true",
   "validationMiddleware": "false"

@@ -33,10 +33,17 @@ export class UsersService extends RequestHelperService {
         return this.http.get(url, headers);
     }
 
-    getUsersList() {
+    getUsersList(parameters) {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
         const headers = this.getRequestOptions(true);
-        return this.http.get(url, headers);
+        return this.http.post(url, parameters, headers);
+    }
+
+    getUserActiveListSelectSearch(term){
+        const url = this.getURL(this.constants.REQUEST_MODULE, 'GET_LIST_ACTIVE_SELECT_SEARCH');
+        const headers = this.getRequestOptions(true);
+        let requestBody = this.getFilter(term);
+        return this.http.post(url, requestBody, headers);    
     }
 
     getOne(id){
@@ -128,6 +135,12 @@ export class UsersService extends RequestHelperService {
     getRoleFromArray(roles){
         return roles[0];
     }
+
+    private getFilter(term) {
+        return {   
+          filter: term
+        };
+    } 
 
     
 }

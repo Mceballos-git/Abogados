@@ -20,11 +20,18 @@ export class MovementCategoriesService extends RequestHelperService{
     ENDPOINT_DELETE : 'DELETE',
   };
 
-  getMovCategoriesList() {
+  getMovCategoriesList(parameters) {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
     
     const headers = this.getRequestOptions(true);
-    return this.http.get(url, headers);
+    return this.http.post(url, parameters, headers);
+  }
+
+  getMovCatListSelectSearch(term){    
+    const url = this.getURL(this.constants.REQUEST_MODULE, 'GET_LIST_SELECT_SEARCH');
+        const headers = this.getRequestOptions(true);
+        let requestBody = this.getFilter(term);
+        return this.http.post(url, requestBody, headers);
   }
 
   getOne(id){
@@ -44,11 +51,11 @@ export class MovementCategoriesService extends RequestHelperService{
     return this.http.delete(url, headers);
   }
 
-  create(formData) {
+  create(formData) {   
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_CREATE);
     const headers = this.getRequestOptions(true);
     let requestBody = this.getFormRequestBody(formData);
-    return this.http.post(url, requestBody, headers);
+    return this.http.post(url, formData, headers);
   }
 
   updateMovCategories(id, data){
@@ -75,5 +82,10 @@ export class MovementCategoriesService extends RequestHelperService{
    * @returns {any}
    */
   
+  private getFilter(term) {
+    return {   
+      filter: term
+    };
+  }
 
 }

@@ -15,53 +15,28 @@
                 Exportar listado completo a Excel
             </button>       
         </div>
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-        </mat-form-field>
 
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort #table>
-                <!-- lastName Column -->
-                <ng-container matColumnDef="last_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
-                    <td nowrap class="w20" mat-cell *matCellDef="let row"> {{row.last_name}} </td>
-                </ng-container>
-                <!-- Name Column -->
-                <ng-container matColumnDef="first_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-                    <td nowrap class="w20" mat-cell *matCellDef="let row"> {{row.first_name}} </td>
-                </ng-container>
-
-                <!-- ID Column -->
-                <ng-container matColumnDef="identification_number">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> DNI </th>
-                    <td nowrap class="w10" mat-cell *matCellDef="let row"> {{row.identification_number}} </td>
-                </ng-container>
-                
-                
-                <ng-container matColumnDef="city">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad </th>
-                    <td mat-cell *matCellDef="let row"> {{row.city}} </td>
-                </ng-container>
-
-                <!-- balance Column -->
-                <ng-container matColumnDef="balance">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </th>
-                    <td mat-cell *matCellDef="let row"> {{row.balance}} </td>
-                </ng-container>
-
-                <!-- Balance Column -->
-                <!-- <ng-container matColumnDef="saldo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </th>
-                    <td mat-cell *matCellDef="let row"> {{row.balance}} </td>
-                </ng-container> -->
-
-
-
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                    <td mat-cell *matCellDef="let row; let i = index" [style.color]="row.color">
-                        <div class="clickeable">
+        <table datatable [dtOptions]="dtOptions" class="row-border hover" #table>
+            <thead>
+            <tr>
+                <th class="w20">Apellido</th>
+                <th class="w20">Nombre</th>
+                <th class="w15">DNI</th>
+                <th class="w15">Ciudad</th>
+                <th class="w15">Saldo</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="tableData?.length != 0">
+            <tr *ngFor="let row of tableData, let i = index">
+                <td>{{row.last_name}}</td>
+                <td>{{row.first_name}}</td>
+                <td>{{row.identification_number}}</td>
+                <td>{{row.city}}</td>
+                <td>{{row.balance}}</td>                
+                <td>
+                    <ng-container matColumnDef="actions">
+                        <div class="clickeable"> 
 
                             <!-- activate/deactivate -->
                             <mat-icon matSuffix class="secondary-text"
@@ -70,26 +45,26 @@
                             <mat-icon matSuffix class="secondary-text"
                             color="warn" *ngIf="row.active === 0"
                             (click)="activate(row.id, i)">highlight_off</mat-icon>
-
+    
                             <!-- edit -->
                             <mat-icon matSuffix class="secondary-text" color="primary"
-                            [routerLink]="['/clients/update', row.id]">edit</mat-icon>
+                                      [routerLink]="['/clients/update', row.id]">edit
+                            </mat-icon>
 
                             <!-- delete -->
                             <mat-icon matSuffix class="secondary-text" color="warn"
-                             (click)="openDeleteDialog(i, row)">delete</mat-icon>
+                                      (click)="openDeleteDialog(row)">delete
+                            </mat-icon>
                         </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index">
-                </tr>
-            </table>
-
-            <mat-paginator 
-            [pageSize] = "pageSize"
-            [pageSizeOptions]="[5, 10, 25, 100, 250]"></mat-paginator>
-        </div>
+                    </ng-container>
+                </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="tableData?.length == 0">
+            <tr>
+                <td colspan="3" class="no-data-available"> No se encontraron Registros.</td>
+            </tr>
+            <tbody>
+        </table>
     </div>
 </div>

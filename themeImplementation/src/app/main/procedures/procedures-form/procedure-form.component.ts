@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {FuseConfigService} from "../../../../@fuse/services/config.service";
 import {Router, ActivatedRoute} from '@angular/router';
@@ -18,6 +17,10 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
+
+import { Subject, Observable, of, concat } from 'rxjs';
+import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 const moment = _moment;
 
@@ -49,12 +52,16 @@ class ProcedureCategory {
     viewValue: string[];
 }
 
+
+
 @Component({
     selector: 'procedure-form',
+    changeDetection: ChangeDetectionStrategy.Default,
     templateUrl: './procedure-form.component.html',
     styleUrls: ['./procedure-form.component.scss'],
     providers: [{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
   ],
 
 })
@@ -75,6 +82,14 @@ export class ProcedureFormComponent implements OnInit {
     procedureCategory:any = [];
     last_name:string;    
 
+    people3$: any;
+    people3Loading = false;
+    people3input$ = new Subject<string>();
+
+    procedureCat: any;
+    procedureCatLoading = false;
+    procedureCatInput = new Subject<string>();
+
     //forkJoinResponse    
     public responseClients: any;
     public responseProcedureCategories: any;
@@ -87,9 +102,17 @@ export class ProcedureFormComponent implements OnInit {
         private _snackBar:MatSnackBar,
         private _router: Router,
         private _clientsService:ClientsService,
-        private _procedureCategoryService:ProcedureCategoriesService
+        private _procedureCategoryService:ProcedureCategoriesService,
+        private config:NgSelectConfig,
 
     ) {
+
+        this.config.typeToSearchText = 'Escriba para buscar';
+        this.config.notFoundText = 'No se encontraron coincidencias';
+        this.config.loadingText = 'Cargando...';
+        this.config.addTagText = 'Agregue letras';
+        this.config.clearAllText = 'Borrar todo';
+
         this._fuseConfigService.config = {
             layout: {
                 navbar: {
@@ -115,57 +138,19 @@ export class ProcedureFormComponent implements OnInit {
 
         this.loading = true;
 
+        this.loadPeople3();
+        this.loadProcedureCategories();
+
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
        
-        let clients = this._clientsService.getClientsActiveList();
-        let procCategories = this._procedureCategoryService.getCategoriesList();
+        if (this.action === 2) {
+            this.res = this._activatedRoute.snapshot.paramMap.get('id');
+            return this.initUpdate(this.res);
+        }
 
-        forkJoin([ clients, procCategories]).subscribe((responseList)=>{
-            
-            this.responseClients = responseList[0];
-            this.responseProcedureCategories = responseList[1];
-
-            console.log("Done");   
-
-
-            for(var i=0;i<this.responseClients.length;i++){
-                this.client[i] = new Clients();
-
-                this.client[i].value = this.responseClients[i].id;
-                if(this.responseClients[i].last_name === null){
-                    this.last_name = '';
-                }
-                else{
-                    this.last_name = this.responseClients[i].last_name;
-                }
-                this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
-            }
-
-            for(var i=0;i<this.responseProcedureCategories.length;i++){
-                this.procedureCategory[i] = new ProcedureCategory();
-
-                this.procedureCategory[i].value = this.responseProcedureCategories[i].id;
-                this.procedureCategory[i].viewValue = this.responseProcedureCategories[i].name;
-            }
-
-            if (this.action === 2) {
-                this.res = this._activatedRoute.snapshot.paramMap.get('id');
-                return this.initUpdate(this.res);
-            }
-    
-            return this.initCreate();
-            
-        }, (error)=>{
-            console.log(error);            
-        });
-
-        // if (this.action === 2) {
-        //     this.res = this._activatedRoute.snapshot.paramMap.get('id');
-        //     return this.initUpdate(this.res);
-        // }
-
-        // return this.initCreate();
+        return this.initCreate();
+        
     }
 
     /**
@@ -183,6 +168,7 @@ export class ProcedureFormComponent implements OnInit {
     initUpdate(resourceId) {
         this.resourceId = this.resourceId;
         this._procedureService.getOne(resourceId).subscribe(response => {
+            
             this.resource = response;
             this.createForm(response);
             this.loading = false;
@@ -211,6 +197,13 @@ export class ProcedureFormComponent implements OnInit {
             'client_id': new FormControl(formData.client_id),
             
         });
+
+        if (this.action === 2){
+            let client = { id: data.client.id, text: data.client.first_name + ' ' + data.client.last_name };
+            this.form.get('client_id').setValue(client);
+            let procedure = {id: data.procedure_category.id, text: data.procedure_category.name}
+            this.form.get('procedure_category_id').setValue(procedure);
+        }
     }
 
     /**
@@ -271,7 +264,9 @@ export class ProcedureFormComponent implements OnInit {
         }            
         
 
+        console.log(data);
         this._procedureService.update(this.res, data).subscribe((response) => {
+            
             this.handleSubmitSuccess(response); 
         }, (error) => {
             this.handleSubmitError(error);   
@@ -336,6 +331,42 @@ export class ProcedureFormComponent implements OnInit {
                 panelClass: ['warn']
             });
         }   
+    }
+
+    private loadPeople3() {
+        this.people3$ = concat(
+            of([]), // default items
+            this.people3input$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.people3Loading = true),
+                switchMap(term => this._clientsService.getClientsActiveListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.people3Loading = false)
+                ))
+            )
+        );
+
+    }
+
+    private loadProcedureCategories() {
+        this.procedureCat = concat(
+            of([]), // default items
+            this.procedureCatInput.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.procedureCatLoading = true),
+                switchMap(term => this._procedureCategoryService.getProcCatListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.procedureCatLoading = false)
+                ))
+            )
+        );
+
     }
 
   

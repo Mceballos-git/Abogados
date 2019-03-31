@@ -27,12 +27,17 @@ export class ProceduresService extends RequestHelperService {
     };
 
 
-    getList() {
+    getList(parameters) {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
+        const headers = this.getRequestOptions(true);
+        return this.http.post(url, parameters, headers);
+    }
+
+    getListForExport() {
+        const url = this.getURL(this.constants.REQUEST_MODULE, 'GET_LIST_EXCEL');
         const headers = this.getRequestOptions(true);
         return this.http.get(url, headers);
     }
-
 
     getOne(id) {
         let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_GET_ONE);
@@ -52,16 +57,37 @@ export class ProceduresService extends RequestHelperService {
     }
 
     create(formData) {
+        let dataToSend = {
+            procedure_category_id: formData.procedure_category_id.id,
+            inicio_demanda: formData.inicio_demanda,
+            sentencia_primera_instancia:formData.sentencia_primera_instancia,
+            sentencia_segunda_instancia:formData.sentencia_segunda_instancia,
+            sentencia_corte_suprema:formData.sentencia_corte_suprema,
+            inicio_de_ejecucion:formData.inicio_de_ejecucion,   
+            observaciones: formData.observaciones,   
+            client_id:formData.client_id.id      
+        }
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_CREATE);
         const headers = this.getRequestOptions(true);
-        let requestBody = this.getFormRequestBody(formData);
+        let requestBody = this.getFormRequestBody(dataToSend);
         return this.http.post(url, requestBody, headers);
     }
 
     update(id, data) {
+        let dataToSend = {
+            procedure_category_id: data.procedure_category_id.id,
+            inicio_demanda: data.inicio_demanda,
+            sentencia_primera_instancia:data.sentencia_primera_instancia,
+            sentencia_segunda_instancia:data.sentencia_segunda_instancia,
+            sentencia_corte_suprema:data.sentencia_corte_suprema,
+            inicio_de_ejecucion:data.inicio_de_ejecucion,   
+            observaciones: data.observaciones,   
+            client_id:data.client_id.id      
+        }
+
         let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_UPDATE);
         const headers = this.getRequestOptions(true);
-        let requestBody = this.getFormRequestBody(data);
+        let requestBody = this.getFormRequestBody(dataToSend);
         url = url.replace(':id', id);
 
         return this.http.put(url, requestBody, headers);

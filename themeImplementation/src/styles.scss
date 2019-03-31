@@ -4,3 +4,26 @@
 // Import app.theme.scss
 @import "app/app.theme";
 
+@import "~@ng-select/ng-select/themes/material.theme.css";
+
+.ng-select.custom {
+    border-style: solid;
+    min-height: 0px;
+    border: 1px;
+    border-radius: 5px;    
+}
+
+ng-select.ng-invalid.ng-touched .ng-select-container {
+    border-color: #dc3545;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+}
+
+ng-select.ng-select-focused{
+   color: black;
+}
+
+cal-event ng-star-inserted{
+    min-width: 500px;
+    min-height: 50px;
+}

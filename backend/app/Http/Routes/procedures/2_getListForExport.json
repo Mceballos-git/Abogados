@@ -1,0 +1,10 @@
+{
+    "identifier": "getListForExport",
+    "requestType": "GET",
+    "endpoint": "/getListForExport",
+    "controller": "App\\Http\\Controllers\\ProcedureController",
+    "action": "getListForExport",
+    "authorizationMiddleware": "false",
+    "authenticationMiddleware": "true",
+    "validationMiddleware": "false"
+  }

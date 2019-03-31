@@ -1,8 +1,8 @@
 {
   "identifier": "getList",
-  "requestType": "GET",
-  "endpoint": "/",
-  "controller": "App\\Http\\Controllers\\MovementCategoryController",
+  "requestType": "POST",
+  "endpoint": "/getList",
+  "controller": "App\\Http\\Controllers\\MovementController",
   "action": "getList",
   "authorizationMiddleware": "false",
   "authenticationMiddleware": "true",

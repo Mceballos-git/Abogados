@@ -20,11 +20,18 @@ export class ProcedureCategoriesService extends RequestHelperService{
     ENDPOINT_DELETE : 'DELETE',
   };
 
-  getCategoriesList() {
+  getCategoriesList(parameters) {
     const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
     
     const headers = this.getRequestOptions(true);
-    return this.http.get(url, headers);
+    return this.http.post(url, parameters, headers);
+  }
+
+  getProcCatListSelectSearch(term){
+    const url = this.getURL(this.constants.REQUEST_MODULE, 'GET_LIST_SELECT_SEARCH');
+      const headers = this.getRequestOptions(true);
+      let requestBody = this.getFilter(term);
+      return this.http.post(url, requestBody, headers);
   }
 
   getOne(id){
@@ -75,5 +82,10 @@ export class ProcedureCategoriesService extends RequestHelperService{
    * @returns {any}
    */
   
+  private getFilter(term) {
+    return {   
+      filter: term
+    };
+  }
 
 }

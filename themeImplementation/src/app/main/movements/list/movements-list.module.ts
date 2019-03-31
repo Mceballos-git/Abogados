@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
+import { DataTablesModule } from 'angular-datatables';
 
 import {
     MatProgressSpinnerModule,
@@ -25,6 +26,8 @@ import { MovementsListComponent } from './movements-list.component';
     ],
     imports: [
         RouterModule,
+        DataTablesModule,
+
         MatCardModule,
         MatButtonModule,
         MatGridListModule,

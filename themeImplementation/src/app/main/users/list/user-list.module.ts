@@ -17,6 +17,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GenericDialogComponent} from "../../common/generic-dialog/generic-dialog.component";
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component";
+import { DataTablesModule } from 'angular-datatables';
 
 // import {Mat}
 @NgModule({
@@ -26,6 +27,7 @@ import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog
     ],
     imports: [
         RouterModule,
+        DataTablesModule,
         MatCardModule,
         MatButtonModule,
         MatGridListModule,

@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {FuseConfigService} from "../../../../@fuse/services/config.service";
 import {Router, ActivatedRoute} from '@angular/router';
@@ -7,18 +6,21 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {LoadingDialogComponent} from "../../common/loading-dialog/loading-dialog.component"
 import {MatDialog, MatDialogConfig, MatSnackBar} from '@angular/material';
 import { MovementsService } from 'app/main/services/movements.service';
-import { OfficesService } from 'app/main/services/offices.service';
 import { ClientsService } from 'app/main/services/clients.service';
 import { MovementCategoriesService } from 'app/main/services/movement-categories.service';
 
 
-import {Observable} from 'rxjs';
+
 import { forkJoin } from "rxjs/observable/forkJoin";
 
 //para dar formato a la fecha
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
+
+import { Subject, Observable, of, concat } from 'rxjs';
+import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 const moment = _moment;
 
@@ -56,6 +58,7 @@ class MovCategory {
 
 @Component({
     selector: 'movement-form',
+    changeDetection: ChangeDetectionStrategy.Default,
     templateUrl: './movement-form.component.html',
     styleUrls: ['./movement-form.component.scss'],
     providers: [{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
@@ -90,6 +93,14 @@ export class MovementFormComponent implements OnInit {
     public responseOffices: any;
     public responseClients: any;
     public responseMovCategories: any;
+
+    people3$: any;
+    people3Loading = false;
+    people3input$ = new Subject<string>();
+
+    movCat: any;
+    movCatLoading = false;
+    movCatInput = new Subject<string>();
     
     constructor(
         private _fuseConfigService: FuseConfigService,
@@ -98,11 +109,18 @@ export class MovementFormComponent implements OnInit {
         private _dialog: MatDialog,
         private _snackBar:MatSnackBar,
         private _router: Router,
-        private _officesService:OfficesService,
         private _clientsService:ClientsService,
-        private _movCategoryService:MovementCategoriesService
+        private _movCategoryService:MovementCategoriesService,
+        private config:NgSelectConfig
 
     ) {
+        this.config.typeToSearchText = 'Escriba para buscar';
+        this.config.notFoundText = 'No se encontraron coincidencias';
+        this.config.loadingText = 'Cargando...';
+        this.config.addTagText = 'Agregue letras';
+        this.config.clearAllText = 'Borrar todo';
+
+
         this._fuseConfigService.config = {
             layout: {
                 navbar: {
@@ -128,65 +146,20 @@ export class MovementFormComponent implements OnInit {
 
         this.loading = true;
 
+        this.loadPeople3();
+        this.loadMovCategories();
+
         this.actionString = this._activatedRoute.snapshot.url[1].path;
         this.action = this.actionString === 'create' ? 1 : 2;
        
+        
+        if (this.action === 2) {
+            this.res = this._activatedRoute.snapshot.paramMap.get('id');
+            return this.initUpdate(this.res);
+        }
 
-        //let offices = this._officesService.getList();
-        let clients = this._clientsService.getClientsActiveList();
-        let movCategories = this._movCategoryService.getMovCategoriesList();
-
-        forkJoin([ clients, movCategories]).subscribe((responseList)=>{
-            //this.responseOffices = responseList[0]; 
-            this.responseClients = responseList[0];
-            this.responseMovCategories = responseList[1];
-
-            console.log("Done");   
-
-            // for(var i=0;i<this.responseOffices.length;i++){
-            //     this.office[i] = new Offices();
-
-            //     this.office[i].value = this.responseOffices[i].id;
-            //     this.office[i].viewValue = this.responseOffices[i].name;
-            // }
-
-            for(var i=0;i<this.responseClients.length;i++){
-                this.client[i] = new Clients();
-
-                this.client[i].value = this.responseClients[i].id;
-                if(this.responseClients[i].last_name === null){
-                    this.last_name = '';
-                }
-                else{
-                    this.last_name = this.responseClients[i].last_name;
-                }
-                this.client[i].viewValue =  this.last_name + ' ' + this.responseClients[i].first_name;
-            }
-
-            for(var i=0;i<this.responseMovCategories.length;i++){
-                this.movCategory[i] = new MovCategory();
-
-                this.movCategory[i].value = this.responseMovCategories[i].id;
-                this.movCategory[i].viewValue = this.responseMovCategories[i].name;
-            }
-
-            if (this.action === 2) {
-                this.res = this._activatedRoute.snapshot.paramMap.get('id');
-                return this.initUpdate(this.res);
-            }
-    
-            return this.initCreate();
-            
-        }, (error)=>{
-            console.log(error);            
-        });
-
-        // if (this.action === 2) {
-        //     this.res = this._activatedRoute.snapshot.paramMap.get('id');
-        //     return this.initUpdate(this.res);
-        // }
-
-        // return this.initCreate();
+        return this.initCreate();
+        
     }
 
     /**
@@ -204,8 +177,12 @@ export class MovementFormComponent implements OnInit {
     initUpdate(resourceId) {
         this.resourceId = this.resourceId;
         this._movementService.getOne(resourceId).subscribe(response => {
+            console.log(response);
+            
             this.resource = response;
             this.createForm(response);
+            console.log(response);
+            
             this.loading = false;
             this.dtTrigger.next();
         }, (error) => {
@@ -221,8 +198,9 @@ export class MovementFormComponent implements OnInit {
     private createForm(data) {
         const formData = this.getInitialFormData(data);
 
+        
         this.form = new FormGroup({
-            'datetime': new FormControl(moment()),     
+            'datetime': new FormControl(formData.datetime),     
             'amount': new FormControl(formData.amount, Validators.required),
             'concept': new FormControl(formData.concept, Validators.required),
             'movement_type_id': new FormControl(formData.movement_type_id, Validators.required),
@@ -230,6 +208,19 @@ export class MovementFormComponent implements OnInit {
             'client_id': new FormControl(formData.client_id),
             
         });
+
+        if (this.action === 2) {
+            
+            if(data.client){
+                let dataClient = {id: data.client.id, text: data.client.first_name + ' ' + data.client.last_name};
+                this.form.get('client_id').setValue(dataClient);
+            }
+           
+            if(data.movement_category){
+                let movCatName = {id: data.movement_category.id, text: data.movement_category.name};
+                this.form.get('movement_category_id').setValue(movCatName);           
+            }
+        }        
     }
 
     /**
@@ -241,13 +232,15 @@ export class MovementFormComponent implements OnInit {
     private getInitialFormData(data) {
         return {
 
-            'datetime':  data ? data.datetime : '',
+            'datetime':  data ? data.created_at : '',
             'amount': data ? data.amount : 0,
             'concept': data ? data.concept : '',
             'movement_type_id': data ? data.movement_type_id : '',
-            'movement_category_id': data ? data.movement_category_id : '',   
-            'client_id':  data ? data.client_id : '',    
+            'movement_category_id': data ? data.movement_category_id : '',                
+            'client_id':  data ? data.client_id : '',                    
         }
+
+        
     }
 
     /**
@@ -339,6 +332,42 @@ export class MovementFormComponent implements OnInit {
                 panelClass: ['warn']
             });
         }   
+    }
+
+    private loadPeople3() {
+        this.people3$ = concat(
+            of([]), // default items
+            this.people3input$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.people3Loading = true),
+                switchMap(term => this._clientsService.getClientsActiveListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.people3Loading = false)
+                ))
+            )
+        );
+
+    }
+
+    private loadMovCategories() {
+        this.movCat = concat(
+            of([]), // default items
+            this.movCatInput.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.movCatLoading = true),
+                switchMap(term => this._movCategoryService.getMovCatListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.movCatLoading = false)
+                ))
+            )
+        );
+
     }
 
 }
