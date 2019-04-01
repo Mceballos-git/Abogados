@@ -118,6 +118,7 @@ class TableSeeder extends Command
             if ($date === '0000-00-00') {
                 $date = '1990-10-10';
             }
+
             $newTurn = [];
             $newTurn['id'] = $turn->id_turno;
             $newTurn['client_id'] = $turn->id_cliente;
@@ -129,7 +130,7 @@ class TableSeeder extends Command
             $newTurn['turn_time_start'] = $turn->hora_desde;
             $newTurn['turn_time_end'] = $turn->hora_hasta;
             $newTurn['phone_number_ref'] = $turn->telefono_ref;
-            $newTurn['priority'] = $turn->prioridad;
+            $newTurn['priority'] = strtoupper($turn->prioridad) ;
             $newTurn['title'] = $turn->titulo;
             $newTurn['active'] = $turn->activo;
             $newTurn['comments'] = mb_convert_encoding($turn->comentarios, 'utf-8');
