@@ -21,19 +21,22 @@ class UserController extends Controller
      * @var DataTableService
      */
     protected $dataTableService;
+    protected $userService;
 
     /**
      * Add Responses methods
      */
     use ResponseHandlerTrait;
 
+
     /**
      * UserController constructor.
      * @param DataTableService $dataTableService
      */
-    public function __construct(DataTableService $dataTableService)
+    public function __construct(DataTableService $dataTableService, UserService $userService)
     {
         $this->dataTableService = $dataTableService;
+        $this->userService = $userService;
     }
 
     public function getProfile()

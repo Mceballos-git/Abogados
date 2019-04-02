@@ -118,6 +118,11 @@ class TableSeeder extends Command
             if ($date === '0000-00-00') {
                 $date = '1990-10-10';
             }
+            $register = $turn->fecha_registro;
+            $active = $turn->activo;
+            if ($register <= '2018-00-00') {
+                $active = '0';
+            }
 
             $newTurn = [];
             $newTurn['id'] = $turn->id_turno;
@@ -132,7 +137,7 @@ class TableSeeder extends Command
             $newTurn['phone_number_ref'] = $turn->telefono_ref;
             $newTurn['priority'] = strtoupper($turn->prioridad) ;
             $newTurn['title'] = $turn->titulo;
-            $newTurn['active'] = $turn->activo;
+            $newTurn['active'] = $active;
             $newTurn['comments'] = mb_convert_encoding($turn->comentarios, 'utf-8');
             TurnModel::updateorcreate($newTurn);
         }
