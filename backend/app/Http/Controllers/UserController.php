@@ -60,6 +60,7 @@ class UserController extends Controller
             return $this->successResponse([]);
         }
 
+
         $filterValue = $filter . '%';
         $fieldsToFilter = ['first_name', 'last_name'];
         $query = UserModel::select('id', 'first_name', 'last_name')
