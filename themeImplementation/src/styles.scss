@@ -23,7 +23,18 @@ ng-select.ng-select-focused{
    color: black;
 }
 
-cal-event ng-star-inserted{
-    min-width: 500px;
-    min-height: 50px;
+.cal-event.ng-star-inserted{
+    min-width: 400px;
+    min-height: 30px;
 }
+
+.cal-event.cal-draggable{
+    min-width: 10px;
+    min-height:10px;
+}
+// .cal-header{
+//     min-width: 400px;
+// }
+// .cal-day-column{
+//     min-width: 400px;
+// }
