@@ -18,7 +18,7 @@
     "phone_number": "string|nullable",
     "email": "sometimes|string|nullable",
     "street_address": "string|nullable",
-    "number_address": "integer|nullable",
+    "number_address": "string|nullable",
     "floor_address": "string|nullable",
     "department_address": "string|nullable",
     "country": "string|nullable",

@@ -18,7 +18,7 @@
     "phone_number": "string",
     "email": "string",
     "street_address": "string",
-    "number_address": "integer",
+    "number_address": "string",
     "floor_address": "string",
     "department_address": "string",
     "country": "string",
