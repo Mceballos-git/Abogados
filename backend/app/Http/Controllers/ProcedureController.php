@@ -104,11 +104,14 @@ class ProcedureController extends Controller
     }
 
     //para obtener listado filtrado por cliente
-    public function getProceduresByClient($id)
+    public function getProceduresByClient(Request $request, $id)
     {
-        return ProcedureModel::where('client_id', $id)
-            ->with(['client', 'procedureCategory'])
-            ->orderBy('id', 'desc')->get();
+        $params = $request->all();
+
+        return $this->successResponse(
+            $this->dataTableService->getProceduresByClientDataTableList(
+                $params, $id));
+
     }
 
 

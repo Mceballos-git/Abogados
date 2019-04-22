@@ -99,13 +99,13 @@ export class ProceduresListByClientComponent implements OnInit {
             serverSide: true,
             processing: true,
             bAutoWidth: false,
-            order:[0, 'desc'],
+            order: [0, 'desc'],
 
             ajax: (dataTablesParameters: any, callback) => {
                 console.log(dataTablesParameters);
                 
-                that._proceduresService.getListByClient(this.id_client).subscribe((resp : any) => {
-                    //console.log(resp);
+                that._proceduresService.getListByClient(this.id_client, dataTablesParameters).subscribe((resp: any) => {
+                    console.log(resp);
                         this.procedures = resp;
                         this.loaded = true;
 

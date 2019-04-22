@@ -160,6 +160,59 @@ WHERE;
      * @param $requestParams
      * @return array
      */
+    public function getProceduresByClientDataTableList($requestParams, $id)
+    {
+        $dataTableParams = $this->getData($requestParams);
+        $this->setDataTableDefaults($dataTableParams);
+
+
+        $this->searchFields = [
+            'pc.name', 'p.inicio_demanda', 'p.inicio_de_ejecucion', 'p.observaciones', 'p.sentencia_corte_suprema',
+            'p.sentencia_primera_instancia', 'p.sentencia_segunda_instancia'
+        ];
+
+        $this->orderFields = [
+            'p.id', 'c.id', 'client_name'
+        ];
+
+        $this->select = <<<SELECT
+SELECT p.id as id,
+pc.name as procedure_name,
+p.inicio_demanda,
+p.inicio_de_ejecucion,
+p.observaciones,
+pc.id as procedure_category_id,
+p.sentencia_corte_suprema,
+p.sentencia_primera_instancia,
+p.sentencia_segunda_instancia,
+c.id as client_id,
+ CONCAT(
+    COALESCE(c.first_name, ''), ' ',
+    COALESCE(c.last_name, ''), ' '
+) as client_name
+
+SELECT;
+
+        $this->from = <<<FROM
+FROM procedures p
+LEFT JOIN procedure_categories pc ON pc.id = p.procedure_category_id
+LEFT JOIN clients c ON c.id = p.client_id
+FROM;
+
+        $this->where = <<<WHERE
+WHERE client_id = $id
+WHERE;
+
+        $this->setSearch($dataTableParams->searchTerm);
+        $this->setOrder($dataTableParams->sortField, $dataTableParams->sortDir);
+        $query = $this->getQuery(true);
+        return $this->getResultForDatatable($query);
+    }
+
+    /**
+     * @param $requestParams
+     * @return array
+     */
     public function getProcedureDataTableList($requestParams)
     {
         $dataTableParams = $this->getData($requestParams);

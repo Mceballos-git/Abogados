@@ -1,7 +1,7 @@
 {
   "identifier": "getProceduresByClient",
-  "requestType": "GET",
-  "endpoint": "/client/{id}",
+  "requestType": "POST",
+  "endpoint": "/client/{id}/",
   "controller": "App\\Http\\Controllers\\ProcedureController",
   "action": "getProceduresByClient",
   "authorizationMiddleware": "false",

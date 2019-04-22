@@ -34,11 +34,11 @@ export class ProceduresService extends RequestHelperService {
         return this.http.post(url, parameters, headers);
     }
 
-    getListByClient  (id) {
+    getListByClient(id, parameters) {
         let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST_BY_CLIENT);
         const headers = this.getRequestOptions(true);
         url = url.replace(':id', id);
-        return this.http.get(url, headers);
+        return this.http.post(url, parameters, headers);
     }
 
     getListForExport() {
