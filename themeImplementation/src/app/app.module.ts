@@ -70,6 +70,8 @@ import { ProceduresListModule } from './main/procedures/list/procedures-list.mod
 import { ProceduresListComponent } from './main/procedures/list/procedures-list.component';
 import { ProcedureFormModule } from './main/procedures/procedures-form/procedure-form.module';
 import { ProcedureFormComponent } from './main/procedures/procedures-form/procedure-form.component';
+import { ProceduresListByClientComponent } from './main/procedures/list-by-client/procedures-list-by-client.component';
+import { ProceduresListByClientModule } from './main/procedures/list-by-client/procedures-list-by-client.module';
 
 
 const appRoutes: Routes = [
@@ -244,6 +246,14 @@ const appRoutes: Routes = [
         canActivate: [AuthenticationGuardService],        
     },
 
+    {
+        // User must be logged in to see this route.
+        path: 'procedures/client/:id',
+        component: ProceduresListByClientComponent,
+        canActivate: [AuthenticationGuardService],        
+    },
+
+
 ];
 
 @NgModule({
@@ -310,6 +320,7 @@ const appRoutes: Routes = [
         //procedures
         ProceduresListModule,
         ProcedureFormModule,
+        ProceduresListByClientModule,
     ],
     providers: [
         AuthenticationGuardService,

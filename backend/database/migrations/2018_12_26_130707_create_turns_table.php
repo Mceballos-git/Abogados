@@ -26,6 +26,7 @@ class CreateTurnsTable extends Migration
             $table->string('phone_number_ref');
             $table->text('priority');
             $table->text('comments')->nullable();
+            $table->integer('procedure_category_id')->nullable();
             $table->char('title',100)->nullable();
             $table->boolean('active');
             $table->timestamps();

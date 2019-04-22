@@ -22,33 +22,16 @@
             <thead>
             <tr>
                 <th >Trámite</th>
-                <th >Cliente</th>
-                <th >Inicio demanda</th>
-                <th >Sentencia primera instancia</th>
-                <th >Sentencia segunda instancia</th>
-                <th >Sentencia Corte Suprema</th>
-                <th >Inicio de ejecución</th>
-                <th >Observaciones</th>
-                <th >Perfil Cliente</th>
+                <th >Cliente</th>                
+                <th >Observaciones</th>               
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody *ngIf="tableData?.length != 0">
             <tr *ngFor="let row of tableData">
                 <td>{{row.procedure_name}}</td>
-                <td>{{row.client_name}}</td>
-                <td>{{row.inicio_demanda}}</td>
-                <td>{{row.sentencia_primera_instancia}}</td>
-                <td>{{row.sentencia_segunda_instancia}}</td>
-                <td>{{row.sentencia_corte_suprema}}</td>
-                <td>{{row.inicio_de_ejecucion}}</td>
-                <td>{{row.observaciones}}</td>
-                <td>
-                    <button mat-raised-button color="accent" 
-                        class="submit-button m-4" [routerLink]="['/clients/update', row.client_id]">
-                        Ver perfil
-                    </button> 
-                </td>
+                <td>{{row.client_name}}</td>                
+                <td>{{row.observaciones}}</td>                
                 <td>
                     <ng-container matColumnDef="actions">
                         <div class="clickeable">

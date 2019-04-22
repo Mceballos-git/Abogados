@@ -23,6 +23,7 @@ export class ProceduresService extends RequestHelperService {
         ENDPOINT_UPDATE: 'UPDATE',
         ENDPOINT_LIST: 'LIST',
         ENDPOINT_GET_ONE: 'GET_ONE',
+        ENDPOINT_LIST_BY_CLIENT: 'GET_BY_CLIENT',
         ENDPOINT_DELETE: 'DELETE',
     };
 
@@ -31,6 +32,13 @@ export class ProceduresService extends RequestHelperService {
         const url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST);
         const headers = this.getRequestOptions(true);
         return this.http.post(url, parameters, headers);
+    }
+
+    getListByClient  (id) {
+        let url = this.getURL(this.constants.REQUEST_MODULE, this.constants.ENDPOINT_LIST_BY_CLIENT);
+        const headers = this.getRequestOptions(true);
+        url = url.replace(':id', id);
+        return this.http.get(url, headers);
     }
 
     getListForExport() {

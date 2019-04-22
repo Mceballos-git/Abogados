@@ -320,7 +320,7 @@ export class CalendarComponent implements OnInit {
      * @returns {CalendarEventModel}
      */
     getEventFromTurn(turn) {
-
+                
         let dataClient;
         if (turn.client) {
             dataClient = turn.client.first_name + ' ' + turn.client.last_name;
@@ -328,10 +328,20 @@ export class CalendarComponent implements OnInit {
         else {
             dataClient = '';
         }
+
+        let dataProcedure;
+        if (turn.procedure_category) {
+            dataProcedure = turn.procedure_category.name;
+        }
+        else {
+            dataProcedure = '';
+        }
+
+
         let itemData = {
             start: moment(turn.turn_date + ' ' + turn.turn_time_start),
             end: moment(turn.turn_date + ' ' + turn.turn_time_end),
-            title: turn.turn_time_start + ' a ' + turn.turn_time_end + ' - ' + dataClient,
+            title: turn.turn_time_start + ' a ' + turn.turn_time_end + ' - ' + dataClient + ' - ' + dataProcedure,
             color: {
                 primary: null,
                 secondary: null

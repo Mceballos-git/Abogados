@@ -21,6 +21,7 @@ class TurnModel extends Model
         'phone_number_ref',
         'priority',
         'comments',
+        'procedure_category_id',
         'title',
         'active'
     ];
@@ -35,6 +36,10 @@ class TurnModel extends Model
 
     public function attentionUser(){
         return $this->belongsTo(UserModel::class, 'attention_user_id', 'id');
+    }
+
+    public function procedureCategory(){
+        return $this->belongsTo(ProcedureCategoryModel::class, 'procedure_category_id', 'id');
     }
 }
 

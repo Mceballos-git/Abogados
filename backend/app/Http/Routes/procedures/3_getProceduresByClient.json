@@ -1,0 +1,10 @@
+{
+  "identifier": "getProceduresByClient",
+  "requestType": "GET",
+  "endpoint": "/client/{id}",
+  "controller": "App\\Http\\Controllers\\ProcedureController",
+  "action": "getProceduresByClient",
+  "authorizationMiddleware": "false",
+  "authenticationMiddleware": "true",
+  "validationMiddleware": "false"
+}

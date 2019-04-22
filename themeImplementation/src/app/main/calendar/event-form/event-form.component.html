@@ -124,6 +124,21 @@
 
             </div>
 
+            <div>
+                <ng-select class="custom"
+                    [items]="procedureCat | async"
+                    bindLabel="text"
+                    placeholder="Trámite:"
+                    [addTag]="false"
+                    [multiple]="false"
+                    [hideSelected]="true"
+                    [loading]="procedureCatLoading"
+                    [typeahead]="procedureCatInput"                              
+                    formControlName="procedure_category_id">                              
+                </ng-select>
+                 
+            </div>
+
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Comentarios</mat-label>
                 <textarea matInput

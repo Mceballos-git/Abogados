@@ -136,6 +136,7 @@ class TableSeeder extends Command
             $newTurn['turn_time_end'] = $turn->hora_hasta;
             $newTurn['phone_number_ref'] = $turn->telefono_ref;
             $newTurn['priority'] = strtoupper($turn->prioridad) ;
+            $newTurn['procedure_category_id'] = $turn->id_tramite;
             $newTurn['title'] = $turn->titulo;
             $newTurn['active'] = $active;
             $newTurn['comments'] = mb_convert_encoding($turn->comentarios, 'utf-8');

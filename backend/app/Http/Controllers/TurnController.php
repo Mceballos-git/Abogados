@@ -31,6 +31,7 @@ class TurnController extends Controller
             'turn_time_end',
             'phone_number_ref',
             'priority',
+            'procedure_category_id',
             'comments',
             'title',
             'active'
@@ -49,13 +50,14 @@ class TurnController extends Controller
             'phone_number_ref' => $requestData['phone_number_ref'],
             'priority' => $requestData['priority'],
             'comments' => $requestData['comments'],
+            'procedure_category_id' =>$requestData['procedure_category_id'],
             'title' => $requestData['title'],
             'active' => $requestData['active'],
             'office_id' => 1
         ]);
 
         return $this->successResponse( 
-            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $result->id)->first()
+            TurnModel::with(['client', 'attentionUser', 'givenUser', 'procedureCategory'])->where('id', $result->id)->first()
         );
     }
 
@@ -66,7 +68,7 @@ class TurnController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('active', '1')->get()
+            TurnModel::with(['client', 'attentionUser', 'givenUser', 'procedureCategory'])->where('active', '1')->get()
         );
     }
 
@@ -77,7 +79,7 @@ class TurnController extends Controller
      */
     public function getOne($id)
     {
-        $entry = TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $id)->first();
+        $entry = TurnModel::with(['client', 'attentionUser', 'givenUser', 'procedureCategory'])->where('id', $id)->first();
         return $this->successResponse($entry);        
     }
 
@@ -100,13 +102,14 @@ class TurnController extends Controller
             'shift_end',
             'phone_number_ref',
             'priority',
+            'procedure_category_id',
             'comments',
             'title',
             'active'
         ));
         TurnModel::where('id', $id)->update($requestData);
         return $this->successResponse( 
-            TurnModel::with(['client', 'attentionUser', 'givenUser'])->where('id', $id)->first()
+            TurnModel::with(['client', 'attentionUser', 'givenUser', 'procedureCategory'])->where('id', $id)->first()
         );
     }
 

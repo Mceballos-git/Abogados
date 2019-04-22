@@ -85,5 +85,6 @@ export class EndpointsConfig {
         GET_ONE: '/procedures/:id',
         DELETE: '/procedures/:id',
         GET_LIST_EXCEL : '/procedures/getListForExport',
+        GET_BY_CLIENT : '/procedures/client/:id',
     };
 }

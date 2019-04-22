@@ -18,6 +18,7 @@
     "turn_time_end": "required|date_format:H:i:s",
     "phone_number_ref": "required|integer",
     "priority": "required|string",
+    "procedure_category_id":"sometimes",
     "comments": "required|string",
     "title": "required|string",
     "active": "required|integer"

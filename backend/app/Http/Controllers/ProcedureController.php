@@ -103,6 +103,15 @@ class ProcedureController extends Controller
         return $this->successResponse($entry);
     }
 
+    //para obtener listado filtrado por cliente
+    public function getProceduresByClient($id)
+    {
+        return ProcedureModel::where('client_id', $id)
+            ->with(['client', 'procedureCategory'])
+            ->orderBy('id', 'desc')->get();
+    }
+
+
     //Para exportar a excel
     public function getListForExport()
     {

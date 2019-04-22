@@ -20,6 +20,7 @@ import { LoadingDialogComponent } from "../../common/loading-dialog/loading-dial
 import { Subject, Observable, of, concat } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap, tap, catchError } from 'rxjs/operators'
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { ProcedureCategoriesService } from '../../services/procedure-categories.service';
 
 const moment = _moment;
 
@@ -62,6 +63,10 @@ export class CalendarEventFormDialogComponent implements OnInit {
     users: any;
     usersLoading = false;
     userInput = new Subject<string>();
+
+    procedureCat: any;
+    procedureCatLoading = false;
+    procedureCatInput = new Subject<string>();
 
 
     action: string;
@@ -122,6 +127,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
         private _clientsService: ClientsService,
         private _usersService: UsersService,
         private config: NgSelectConfig,
+        private _procedureCategoryService:ProcedureCategoriesService,
     ) {
         this.config.typeToSearchText = 'Escriba para buscar';
         this.config.notFoundText = 'No se encontraron coincidencias';
@@ -150,7 +156,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
         this.loadPeople3();
         this.loadUsers();        
-       
+        this.loadProcedureCategories();
 
         if (this.action === 'edit') {
             console.log(event);
@@ -183,6 +189,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
             turn_time_end: '',
             phone_number_ref: '',
             priority: null,
+            procedure_category_id:'',
             comments: '',
             title: ''
         };
@@ -218,6 +225,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
             'turn_time_start': new FormControl(data.turn_time_start, Validators.required),
             'turn_time_end': new FormControl(data.turn_time_end, Validators.required),
             'phone_number_ref': new FormControl(data.phone_number_ref, Validators.required),
+            'procedure_category_id': new FormControl(data.procedure_category_id,Validators.required),
             'priority': new FormControl(data.priority, Validators.required),
             'comments': new FormControl(data.comments),
             'title': new FormControl()
@@ -235,6 +243,9 @@ export class CalendarEventFormDialogComponent implements OnInit {
             this.eventForm.get('given_user_id').setValue(givenUser);
             let attentionUser = { id: data.attention_user.id, text: data.attention_user.first_name + ' ' + data.attention_user.last_name };
             this.eventForm.get('attention_user_id').setValue(attentionUser);
+
+            let procedure = {id: data.procedure_category.id, text: data.procedure_category.name}
+            this.eventForm.get('procedure_category_id').setValue(procedure);
 
             this.eventForm.get('priority').setValue(data.priority);
             this.eventForm.get('turn_time_start').setValue(data.turn_time_start);
@@ -282,6 +293,24 @@ export class CalendarEventFormDialogComponent implements OnInit {
 
                     catchError(() => of([])), // empty list on error
                     tap(() => this.usersLoading = false)
+                ))
+            )
+        );
+
+    }
+
+    private loadProcedureCategories() {
+        this.procedureCat = concat(
+            of([]), // default items
+            this.procedureCatInput.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => this.procedureCatLoading = true),
+                switchMap(term => this._procedureCategoryService.getProcCatListSelectSearch(term).pipe(
+
+
+                    catchError(() => of([])), // empty list on error
+                    tap(() => this.procedureCatLoading = false)
                 ))
             )
         );

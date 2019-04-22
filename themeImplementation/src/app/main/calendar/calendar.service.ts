@@ -38,6 +38,7 @@ export class CalendarService extends RequestHelperService {
             turn_time_end:turnData.turn_time_end,
             phone_number_ref:turnData.phone_number_ref,
             priority: turnData.priority,
+            procedure_category_id:turnData.procedure_category_id.id,
             comments:turnData.comments,
             title: turnData.title
         };
@@ -59,6 +60,7 @@ export class CalendarService extends RequestHelperService {
             turn_time_end:turnData.turn_time_end,
             phone_number_ref:turnData.phone_number_ref,
             priority: turnData.priority,
+            procedure_category_id:turnData.procedure_category_id.id,
             comments:turnData.comments,
             title: turnData.title
         };

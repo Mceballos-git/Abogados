@@ -4,7 +4,14 @@
     </div>
     <div *ngIf="!loading">
         <h1 *ngIf="actionString === 'create'">Nuevo Cliente.</h1>
-        <h1 *ngIf="actionString === 'update'">Editar Cliente {{resource.first_name}}.</h1>
+        <h1 *ngIf="actionString === 'update'">Editar Cliente {{resource.first_name}} {{resource.last_name}}</h1>
+        <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center" >
+               
+            <button mat-raised-button color="accent" 
+                class="submit-button m-4"  [routerLink]="['/procedures/client/', res]">
+                Ver trámites asociados
+            </button>       
+        </div>
         <div>
 
             <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
@@ -107,25 +114,25 @@
                 </mat-form-field>
 
                  <!-- country -->
-                 <mat-form-field appearance="outline">
+                 <mat-form-field appearance="outline" class="w-50-p mr-16">
                     <mat-label>Pais</mat-label>
                     <input matInput formControlName="country">
                 </mat-form-field>
 
                  <!-- state -->
-                 <mat-form-field appearance="outline">
+                 <mat-form-field appearance="outline" class="w-45-p">
                     <mat-label>Provincia</mat-label>
                     <input matInput formControlName="state">
                 </mat-form-field>
 
                  <!-- city -->
-                 <mat-form-field appearance="outline">
+                 <mat-form-field appearance="outline" class="w-50-p mr-16">
                     <mat-label>Ciudad</mat-label>
                     <input matInput formControlName="city">
                 </mat-form-field>
 
                  <!-- nationality -->
-                 <mat-form-field appearance="outline">
+                 <mat-form-field appearance="outline" class="w-45-p">
                     <mat-label>Nacionalidad</mat-label>
                     <input matInput formControlName="nationality">
                 </mat-form-field>
