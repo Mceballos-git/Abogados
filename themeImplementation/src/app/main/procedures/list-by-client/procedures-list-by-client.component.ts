@@ -14,6 +14,7 @@ import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { DataTablesModule } from 'angular-datatables';
 
 const moment = _moment;
 
@@ -56,6 +57,7 @@ export class ProceduresListByClientComponent implements OnInit {
     outcomes: number;
     pageSize=10;
     id_client:any;
+    client_name:string;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -89,7 +91,7 @@ export class ProceduresListByClientComponent implements OnInit {
     ngOnInit() {
 
         this.id_client = this._activatedRoute.snapshot.paramMap.get('id');  
-        console.log(this.id_client);
+        //console.log(this.id_client);
         
 
         let that = this;
@@ -108,7 +110,7 @@ export class ProceduresListByClientComponent implements OnInit {
                     console.log(resp);
                         this.procedures = resp;
                         this.loaded = true;
-
+                        this.client_name = resp.data[0].client_name;
                         // for(let i = 0, len = this.procedures.length; i < len; i++){
                         //     if(this.procedures[i].inicio_demanda){
                         //         this.procedures[i].inicio_demanda= moment(this.procedures[i].inicio_demanda).format('DD-MM-Y');

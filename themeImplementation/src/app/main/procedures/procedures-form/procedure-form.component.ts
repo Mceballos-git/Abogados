@@ -169,6 +169,7 @@ export class ProcedureFormComponent implements OnInit {
     initUpdate(resourceId) {
         this.resourceId = this.resourceId;
         this._procedureService.getOne(resourceId).subscribe(response => {
+            //console.log(response);
             
             this.resource = response;
             this.createForm(response);

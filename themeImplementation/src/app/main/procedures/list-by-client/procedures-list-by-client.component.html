@@ -1,12 +1,12 @@
 
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
-    <h1 class="mat-headline">Listado de Trámites</h1>
+    <h1 class="mat-headline">Listado de Trámites de {{client_name}}</h1>
     <div *ngIf="!loaded">
         cargando....
     </div>
 
     <div [hidden]="!loaded" #TABLE>
-        <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center" >
+        <!-- <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center" >
             <button mat-raised-button color="accent" class="mr-8"
                 class="submit-button m-4" (click)="exportAsXLSX()">
                 Exportar vista a Excel
@@ -15,23 +15,30 @@
                 class="submit-button m-4" (click)="exportFullListAsXLSX()">
                 Exportar listado completo a Excel
             </button>       
-        </div>
+        </div> -->
         
 
-        <table datatable [dtOptions]="dtOptions" class="row-border hover design">
+        <table datatable [dtOptions]="dtOptions" class="row-border hover design p-16">
             <thead>
             <tr>
                 <th >Trámite</th>
                 <th >Cliente</th>                
                 <th >Observaciones</th>               
-                <th>Acciones</th>
+                <th class="w10">Perfil Cliente</th>               
+                <th class="w5">Acciones</th>
             </tr>
             </thead>
             <tbody *ngIf="tableData?.length != 0">
             <tr *ngFor="let row of tableData">
                 <td>{{row.procedure_name}}</td>
                 <td>{{row.client_name}}</td>                
-                <td>{{row.observaciones}}</td>                
+                <td>{{row.observaciones}}</td>   
+                <td>
+                    <button mat-raised-button color="accent" 
+                        class="submit-button m-4" [routerLink]="['/clients/update', row.client_id]">
+                        Ver perfil
+                    </button> 
+                </td>             
                 <td>
                     <ng-container matColumnDef="actions">
                         <div class="clickeable">

@@ -220,7 +220,7 @@ WHERE;
 
 
         $this->searchFields = [
-            'pc.name', 'p.inicio_demanda', 'p.inicio_de_ejecucion', 'p.observaciones', 'p.sentencia_corte_suprema',
+            'pc.name', 'c.last_name', 'c.first_name','p.inicio_demanda', 'p.inicio_de_ejecucion', 'p.observaciones', 'p.sentencia_corte_suprema',
             'p.sentencia_primera_instancia', 'p.sentencia_segunda_instancia'
         ];
 

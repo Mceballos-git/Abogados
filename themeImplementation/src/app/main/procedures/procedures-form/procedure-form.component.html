@@ -4,7 +4,13 @@
     </div>
     <div *ngIf="!loading">
         <h1 *ngIf="actionString === 'create'">Nuevo Trámite.</h1>
-        <h1 *ngIf="actionString === 'update'">Editar Trámite {{resource.concept}}.</h1>
+        <h1 *ngIf="actionString === 'update'">Editar Trámite: {{resource.procedure_category.name}} de {{resource.client.first_name + ' ' + resource.client.last_name}}</h1>
+        <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center" >               
+            <button mat-raised-button color="accent" 
+                class="submit-button m-4"  [routerLink]="['/procedures/client/', resource.client_id]">
+                Ver trámites del cliente
+            </button>       
+        </div>
         <div>
 
             <form name="form" [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
@@ -89,7 +95,7 @@
                 <!-- concept -->
                 <mat-form-field appearance="outline">
                     <mat-label>Observaciones</mat-label>
-                    <textarea matInput formControlName="observaciones"></textarea>                   
+                    <textarea matInput matTextareaAutosize formControlName="observaciones"></textarea>                   
                 </mat-form-field>
 
 
