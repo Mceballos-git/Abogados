@@ -68,7 +68,10 @@ class TurnController extends Controller
     public function getList()
     {
         return $this->successResponse(
-            TurnModel::with(['client', 'attentionUser', 'givenUser', 'procedureCategory'])->where('active', '1')->get()
+            TurnModel::with(['client', 'attentionUser', 'givenUser', 'procedureCategory'])
+                ->where('active', '1')
+                ->orderBy('turn_time_start')
+                ->get()
         );
     }
 
