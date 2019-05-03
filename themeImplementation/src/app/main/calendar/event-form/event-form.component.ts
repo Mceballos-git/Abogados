@@ -225,7 +225,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
             'turn_time_start': new FormControl(data.turn_time_start, Validators.required),
             'turn_time_end': new FormControl(data.turn_time_end, Validators.required),
             'phone_number_ref': new FormControl(data.phone_number_ref, Validators.required),
-            'procedure_category_id': new FormControl(data.procedure_category_id,Validators.required),
+            'procedure_category_id': new FormControl(data.procedure_category_id, Validators.required),
             'priority': new FormControl(data.priority, Validators.required),
             'comments': new FormControl(data.comments),
             'title': new FormControl()

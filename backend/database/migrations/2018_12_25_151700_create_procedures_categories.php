@@ -32,6 +32,7 @@ class CreateProceduresCategories extends Migration
             ['name' => 'Daños y perjuicios'],
             ['name' => 'Salud'],
             ['name' => 'Otros'],
+            ['name' => 'Sin trámite asociado'],
         ];
 
         \App\Models\ProcedureCategoryModel::insert($procedureCategories);
