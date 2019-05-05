@@ -27,21 +27,43 @@ export class CalendarService extends RequestHelperService {
     }
 
     createEvent(turnData) {
-        let dataToSend ={
-            active: 1,
-            client_id: turnData.client_id.id,
-            given_user_id: turnData.given_user_id.id,
-            attention_user_id:turnData.attention_user_id.id,
-            register_date:turnData.register_date,
-            turn_date:turnData.turn_date,
-            turn_time_start:turnData.turn_time_start,
-            turn_time_end:turnData.turn_time_end,
-            phone_number_ref:turnData.phone_number_ref,
-            priority: turnData.priority,
-            procedure_category_id:turnData.procedure_category_id.id,
-            comments:turnData.comments,
-            title: turnData.title
-        };
+
+        let dataToSend;
+
+        if(turnData.procedure_category_id){
+            dataToSend ={
+                active: 1,
+                client_id: turnData.client_id.id,
+                given_user_id: turnData.given_user_id.id,
+                attention_user_id:turnData.attention_user_id.id,
+                register_date:turnData.register_date,
+                turn_date:turnData.turn_date,
+                turn_time_start:turnData.turn_time_start,
+                turn_time_end:turnData.turn_time_end,
+                phone_number_ref:turnData.phone_number_ref,
+                priority: turnData.priority,
+                procedure_category_id:turnData.procedure_category_id.id,
+                comments:turnData.comments,
+                title: turnData.title
+            };
+        }
+        else{
+            dataToSend ={
+                active: 1,
+                client_id: turnData.client_id.id,
+                given_user_id: turnData.given_user_id.id,
+                attention_user_id:turnData.attention_user_id.id,
+                register_date:turnData.register_date,
+                turn_date:turnData.turn_date,
+                turn_time_start:turnData.turn_time_start,
+                turn_time_end:turnData.turn_time_end,
+                phone_number_ref:turnData.phone_number_ref,
+                priority: turnData.priority,
+                procedure_category_id:'',
+                comments:turnData.comments,
+                title: turnData.title
+            };
+        }        
         
         const url = this.getURL('TURNS', 'CREATE');
         const options = this.getRequestOptions(true);
@@ -49,21 +71,42 @@ export class CalendarService extends RequestHelperService {
     }
 
     updateEvent(id, turnData) {
-        let dataToSend ={ 
-            active: 1,
-            client_id: turnData.client_id.id,
-            given_user_id: turnData.given_user_id.id,
-            attention_user_id:turnData. attention_user_id.id,
-            register_date: turnData.register_date,
-            turn_date:turnData.turn_date,
-            turn_time_start: turnData.turn_time_start,
-            turn_time_end:turnData.turn_time_end,
-            phone_number_ref:turnData.phone_number_ref,
-            priority: turnData.priority,
-            procedure_category_id:turnData.procedure_category_id.id,
-            comments:turnData.comments,
-            title: turnData.title
-        };
+        let dataToSend;
+
+        if(turnData.procedure_category_id){
+            dataToSend ={
+                active: 1,
+                client_id: turnData.client_id.id,
+                given_user_id: turnData.given_user_id.id,
+                attention_user_id:turnData.attention_user_id.id,
+                register_date:turnData.register_date,
+                turn_date:turnData.turn_date,
+                turn_time_start:turnData.turn_time_start,
+                turn_time_end:turnData.turn_time_end,
+                phone_number_ref:turnData.phone_number_ref,
+                priority: turnData.priority,
+                procedure_category_id:turnData.procedure_category_id.id,
+                comments:turnData.comments,
+                title: turnData.title
+            };
+        }
+        else{
+            dataToSend ={
+                active: 1,
+                client_id: turnData.client_id.id,
+                given_user_id: turnData.given_user_id.id,
+                attention_user_id:turnData.attention_user_id.id,
+                register_date:turnData.register_date,
+                turn_date:turnData.turn_date,
+                turn_time_start:turnData.turn_time_start,
+                turn_time_end:turnData.turn_time_end,
+                phone_number_ref:turnData.phone_number_ref,
+                priority: turnData.priority,
+                procedure_category_id:'',
+                comments:turnData.comments,
+                title: turnData.title
+            };
+        }
         let url = this.getURL('TURNS', 'UPDATE');
         url = url.replace(':id', id);
         const options = this.getRequestOptions(true);

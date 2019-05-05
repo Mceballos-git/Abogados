@@ -225,7 +225,7 @@ export class CalendarEventFormDialogComponent implements OnInit {
             'turn_time_start': new FormControl(data.turn_time_start, Validators.required),
             'turn_time_end': new FormControl(data.turn_time_end, Validators.required),
             'phone_number_ref': new FormControl(data.phone_number_ref, Validators.required),
-            'procedure_category_id': new FormControl(data.procedure_category_id, Validators.required),
+            'procedure_category_id': new FormControl(data.procedure_category_id),
             'priority': new FormControl(data.priority, Validators.required),
             'comments': new FormControl(data.comments),
             'title': new FormControl()
@@ -244,8 +244,10 @@ export class CalendarEventFormDialogComponent implements OnInit {
             let attentionUser = { id: data.attention_user.id, text: data.attention_user.first_name + ' ' + data.attention_user.last_name };
             this.eventForm.get('attention_user_id').setValue(attentionUser);
 
-            let procedure = {id: data.procedure_category.id, text: data.procedure_category.name}
-            this.eventForm.get('procedure_category_id').setValue(procedure);
+            if(data.procedure_category){
+                let procedure = {id: data.procedure_category.id, text: data.procedure_category.name}                
+                this.eventForm.get('procedure_category_id').setValue(procedure);
+            }
 
             this.eventForm.get('priority').setValue(data.priority);
             this.eventForm.get('turn_time_start').setValue(data.turn_time_start);
