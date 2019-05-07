@@ -1,6 +1,6 @@
 
 <div id="user-list" class="page-layout blank p-24" fusePerfectScrollbar>
-    <h1 class="mat-headline">Listado de Trámites de {{client_name}}</h1>
+    <h1 *ngIf="tableData?.length != 0" class="mat-headline">Listado de Trámites de {{client_name}}</h1>
     <div *ngIf="!loaded">
         cargando....
     </div>

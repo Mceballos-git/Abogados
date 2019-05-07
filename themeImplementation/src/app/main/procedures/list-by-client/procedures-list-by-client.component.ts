@@ -57,7 +57,7 @@ export class ProceduresListByClientComponent implements OnInit {
     outcomes: number;
     pageSize=10;
     id_client:any;
-    client_name:string;
+    client_name:string = '';
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -107,10 +107,13 @@ export class ProceduresListByClientComponent implements OnInit {
                 console.log(dataTablesParameters);
                 
                 that._proceduresService.getListByClient(this.id_client, dataTablesParameters).subscribe((resp: any) => {
-                    console.log(resp);
+                    console.log(resp.data.length);
                         this.procedures = resp;
                         this.loaded = true;
-                        this.client_name = resp.data[0].client_name;
+                        if(resp.data.length != 0){
+                            this.client_name = resp.data[0].client_name;
+                        }
+                        
                         // for(let i = 0, len = this.procedures.length; i < len; i++){
                         //     if(this.procedures[i].inicio_demanda){
                         //         this.procedures[i].inicio_demanda= moment(this.procedures[i].inicio_demanda).format('DD-MM-Y');
